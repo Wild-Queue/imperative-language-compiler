@@ -247,3 +247,134 @@ The `ModifiablePrimary` grammar rule defines possible constructs in the left par
 ```
 
 ### *Formal Language Grammar*
+
+```c
+*Program : { SimpleDeclaration | RoutineDeclaration }*
+```
+
+```c
+*SimpleDeclaration
+: VariableDeclaration | TypeDeclaration*
+```
+
+```c
+*VariableDeclaration
+: **var** Identifier : Type [ **is** Expression ]
+| **var** Identifier **is** Expression*
+```
+
+```c
+*TypeDeclaration
+: **type** Identifier is Type*
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ca608790-afd1-4c09-b5ff-168c24e43746/Untitled.png)
+
+```c
+*RoutineDeclaration : **routine** Identifier ( Parameters ) [ : Type ] **is**
+												Body
+										**end***
+```
+
+```c
+*Parameters : ParameterDeclaration { , ParameterDeclaration }*
+```
+
+```c
+*ParameterDeclaration 
+		: Identifier : Identifier*
+```
+
+```c
+*Type : PrimitiveType | ArrayType | RecordType | Identifier*
+```
+
+```c
+*PrimitiveType: **integer** | **real** | **boolean***
+```
+
+```c
+*RecordType : **record** { VariableDeclaration } **end***
+```
+
+```c
+*ArrayType : **array** [ Expression ] Type*
+```
+
+```c
+*Body : { SimpleDeclaration | Statement }*
+```
+
+```c
+*Statement : Assignment | RoutineCall
+| WhileLoop | ForLoop | /** ForeachLoop **/
+| IfStatement*
+```
+
+```c
+*Assignment : ModifiablePrimary := Expression*
+```
+
+```c
+*RoutineCall : Identifier [ ( Expression { , Expression } ) ]*
+```
+
+```c
+*WhileLoop : **while** Expression **loop** Body **end***
+```
+
+```c
+*ForLoop : **for** Identifier Range **loop** Body **end***
+```
+
+```c
+*Range : **in** [ **reverse** ] Expression .. Expression*
+```
+
+```c
+*/**
+ForeachLoop : **foreach** Identifier **from** ModifiablePrimary **loop**
+								Body
+							**end**
+*/
+```
+
+```c
+IfStatement : **if** Expression **then** Body [ **else** Body ] **end**
+```
+
+```c
+Expression : Relation { ( **and** | **or** | **xor** ) Relation }
+```
+
+```c
+Relation : Simple [ ( **<** | **<=** | **>** | **>=** | **=** | **/=** ) Simple ]
+```
+
+```c
+Simple : Factor { ( ***** | **/** | **%** ) Factor }
+```
+
+```c
+Factor : Summand { ( + | - ) Summand }
+```
+
+```c
+Summand : Primary | ( Expression )
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc6ed075-678f-4ffa-88af-37e57f52f4d6/Untitled.png)
+
+```c
+Primary : IntegralLiteral
+| RealLiteral
+| **true** | **false**
+| ModifiablePrimary
+```
+
+```c
+ModifiablePrimary
+: Identifier { . Identifier | [ Expression ] }
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d270554b-8798-42aa-b9a8-d6612c1c396f/Untitled.png)
