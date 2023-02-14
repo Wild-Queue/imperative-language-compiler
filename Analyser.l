@@ -64,10 +64,6 @@ Decimal_Float_Lit   ({Decimal_Digits}("."){Decimal_Digits}?{Decimal_Exponent}?)|
 
 Float_Lit       ({Decimal_Float_Lit}|{Hex_Float_Lit})
 
-/* Imaginary literals*/
-
-Imaginary_Lit   ({Decimal_Digits}|{Int_Lit}|{Float_Lit})(i)
-
 /*Rune literals*/
 
 Escaped_Char    (\\)(a|b|f|n|r|t|v|(\\)|(')|(')|(\42))
@@ -106,21 +102,39 @@ SPEC [NnFfTtVvBbRr]
 
 %%
 
-"else"          { printf( " T_ELSE" );}
 "for"           { printf( " T_FOR" );}
+"while"         { printf( "T_WHILE" );}
+"loop"          { printf( "T_LOOP" );}
+"in"            { printf( "T_IN" );}
+"reverse"       { printf( "T_REVERSE" );}
 "if"            { printf( " T_IF" );}
+"then"          { printf( "T_THEN" );}
+"else"          { printf( " T_ELSE" );}
+"end"           { printf( "T_END" );}
 "type"          { printf( " T_TYPE" );}
 "var"           { printf( " T_VAR" );}
+"is"            { printf( "T_IS" );}
 
 
-"real"          { printf( " T_REAL" );}
+"real"              { printf( " T_REAL" );}
+"integer"           { printf( " T_INTEGER" );}
+"boolean"           { printf( " T_BOOLEAN" );}
+"routine"           { printf( " T_ROUTINE " );}
+"array"             { printf( "T_ARRAY" );}
+"record"            { printf( "T_RECORD" );}
+
+"and"               { printf( " T_AND " );}
+"or"                { printf( " T_OR " );}
+"xor"               { printf( " T_XOR " );}
+"not"               { printf( "T_NOT" );}
 
 "<"     { printf(" T_LESS");}
 ">"     { printf(" T_GREAT");}
 "<="    { printf(" T_LESSOREQU");}
 ">="    { printf(" T_GREATOREQU");}
 "/="    { printf(" T_NOTEQU");}
-"=="    { printf(" T_EQU");}
+"="     { printf(" T_EQU");}
+":="    { printf(" T_COLONEQU ") }
 
 
 "+"     { printf( " T_ADDOP" );}
@@ -129,8 +143,8 @@ SPEC [NnFfTtVvBbRr]
 "/"     { printf( " T_DIVOP" );}
 "%"     { printf( " T_MOD" );}
 
-"\n"    {line_no++; /*printf("Line is right %d \n", line_no); return( T_NL);*/}
-"\t"    ;
+"\n"    {line_no++; printf( " T_NL" ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
+"\t"    { printf( " T_TAB" ); }
 
 
 "("     { printf( " T_LPAREN" );}
@@ -150,9 +164,10 @@ SPEC [NnFfTtVvBbRr]
 
 {Int_Lit}           {/*yylval.integer = atoi(yytext); */        printf(" T_ICONST");}
 {Float_Lit}         {/*yylval.real = decRealHandler(yytext);*/  printf(" T_RCONST");}
-{Imaginary_Lit}     {/*yylval.string = strdup(yytext);*/        printf(" T_IMCONST");}
 {Rune_Lit}          {/*yylval.character=yytext[1];*/            printf(" T_CCONST");}
 {String_Lit}        {/*yylval.string = yytext.substr(1, yytext.size() - 2);*/ printf(" T_SCONST");}
+
+<<EOF>>     { printf( " T_EOF " );}
 
 {W}         {}
 .           {ECHO; printf ("unexpected character");}
