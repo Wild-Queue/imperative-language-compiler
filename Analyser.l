@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Analyser.tab.h"
 //void yyerror (char *s);
 //int yylex();
 
@@ -102,72 +103,70 @@ SPEC [NnFfTtVvBbRr]
 
 %%
 
-"for"           { printf( " T_FOR" );}
-"while"         { printf( "T_WHILE" );}
-"loop"          { printf( "T_LOOP" );}
-"in"            { printf( "T_IN" );}
-"reverse"       { printf( "T_REVERSE" );}
-"if"            { printf( " T_IF" );}
-"then"          { printf( "T_THEN" );}
-"else"          { printf( " T_ELSE" );}
-"end"           { printf( "T_END" );}
-"type"          { printf( " T_TYPE" );}
-"var"           { printf( " T_VAR" );}
-"is"            { printf( "T_IS" );}
+"for"           { return( T_FOR );}
+"while"         { return( T_WHILE );}
+"loop"          { return( T_LOOP );}
+"in"            { return( T_IN );}
+"reverse"       { return( T_REVERSE );}
+"if"            { return( T_IF );}
+"then"          { return( T_THEN );}
+"else"          { return( T_ELSE );}
+"end"           { return( T_END );}
+"type"          { return( T_TYPE );}
+"var"           { return( T_VAR );}
+"is"            { return( T_IS );}
 
 
-"real"              { printf( " T_REAL" );}
-"integer"           { printf( " T_INTEGER" );}
-"boolean"           { printf( " T_BOOLEAN" );}
-"routine"           { printf( " T_ROUTINE " );}
-"array"             { printf( "T_ARRAY" );}
-"record"            { printf( "T_RECORD" );}
+"real"              { return( T_REAL );}
+"integer"           { return( T_INTEGER );}
+"boolean"           { return( T_BOOLEAN );}
+"routine"           { return( T_ROUTINE );}
+"array"             { return(T_ARRAY );}
+"record"            { return(T_RECORD );}
 
-"and"               { printf( " T_AND " );}
-"or"                { printf( " T_OR " );}
-"xor"               { printf( " T_XOR " );}
-"not"               { printf( "T_NOT" );}
+"and"               { return( T_AND );}
+"or"                { return( T_OR );}
+"xor"               { return( T_XOR );}
+"not"               { return(T_NOT);}
 
-"<"     { printf(" T_LESS");}
-">"     { printf(" T_GREAT");}
-"<="    { printf(" T_LESSOREQU");}
-">="    { printf(" T_GREATOREQU");}
-"/="    { printf(" T_NOTEQU");}
-"="     { printf(" T_EQU");}
-":="    { printf(" T_COLONEQU ") }
-
-
-"+"     { printf( " T_ADDOP" );}
-"*"     { printf( " T_MULTOP" );}
-"-"     { printf( " T_SUBTROP" );}
-"/"     { printf( " T_DIVOP" );}
-"%"     { printf( " T_MOD" );}
-
-"\n"    {line_no++; printf( " T_NL" ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
-"\t"    { printf( " T_TAB" ); }
+"<"     { return( T_LESS );}
+">"     { return( T_GREAT );}
+"<="    { return( T_LESSOREQU );}
+">="    { return( T_GREATOREQU );}
+"/="    { return( T_NOTEQU );}
+"="     { return( T_EQU );}
+":="    { return( T_COLONEQU ); }
 
 
-"("     { printf( " T_LPAREN" );}
-")"     { printf( " T_RPAREN" );}
-"["     { printf( " T_LBRACK" );}
-"]"     { printf( " T_RBRACK" );}
+"+"     { return( T_ADDOP );}
+"*"     { return( T_MULTOP );}
+"-"     { return( T_SUBTROP );}
+"/"     { return( T_DIVOP );}
+"%"     { return( T_MOD );}
 
-".."    { printf( " T_DOTDOT" );}
-"."     { printf( " T_DOT" );}
-","     { printf( " T_COMMA" );}
-":"     { printf( " T_COLON" );}
-":="    { printf( " T_ASSIGN" );}
-"="     { printf( " T_ASSIGNOP" );}
+"\n"    {line_no++; return( T_NL ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
+"\t"    { return( T_TAB ); }
 
 
-(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* { /*yylval.string = strdup(yytext);*/ printf(" T_ID");} 
+"("     { return( T_LPAREN );}
+")"     { return( T_RPAREN );}
+"["     { return( T_LBRACK );}
+"]"     { return( T_RBRACK );}
 
-{Int_Lit}           {/*yylval.integer = atoi(yytext); */        printf(" T_ICONST");}
-{Float_Lit}         {/*yylval.real = decRealHandler(yytext);*/  printf(" T_RCONST");}
-{Rune_Lit}          {/*yylval.character=yytext[1];*/            printf(" T_CCONST");}
-{String_Lit}        {/*yylval.string = yytext.substr(1, yytext.size() - 2);*/ printf(" T_SCONST");}
+".."    { return( T_DOTDOT );}
+"."     { return( T_DOT );}
+","     { return( T_COMMA );}
+":"     { return( T_COLON );}
 
-<<EOF>>     { printf( " T_EOF " );}
+
+(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* { /*yylval.string = strdup(yytext);*/ return( T_ID );} 
+
+{Int_Lit}           {/*yylval.integer = atoi(yytext); */        return(T_ICONST );}
+{Float_Lit}         {/*yylval.real = decRealHandler(yytext);*/  return( T_RCONST );}
+{Rune_Lit}          {/*yylval.character=yytext[1];*/            return( T_CCONST );}
+{String_Lit}        {/*yylval.string = yytext.substr(1, yytext.size() - 2);*/ return( T_SCONST );}
+
+<<EOF>>     { return( T_EOF );}
 
 {W}         {}
 .           {ECHO; printf ("unexpected character");}

@@ -3,10 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-int yywrap (void);
-void yyerror (char *s);
+
+int yyerror (char *s);
 int yylex();
-FILE *yyin;
 %}
 
 %union {
@@ -19,7 +18,7 @@ FILE *yyin;
 
 //keywords
 %token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS 
-%token <string> T_INTEGER T_REAL T_BOOLEAN T_ROUTINE
+%token <string> T_INTEGER T_REAL T_BOOLEAN T_ROUTINE T_ARRAY T_RECORD
 
 //identifier
 %token<string> T_ID
@@ -51,7 +50,8 @@ T_GREAT // >
 T_LESSOREQU // <=
 T_GREATOREQU // >= 
 T_NOTEQU // !=
-T_EQU // ==
+T_EQU // =
+T_COLONEQU // :=
 
 T_AND // and
 T_OR // or
@@ -79,8 +79,6 @@ T_DOTDOT // ..
 T_DOT //.
 T_COMMA // ,
 T_COLON // :
-T_ASSIGN //":=" 
-T_ASSIGNOP // "="
 
 %start Program;
 
@@ -90,11 +88,12 @@ Program         : T_VAR T_ID T_EQU T_ID T_EOF;
 
 %%
 
-int main (void) {
-        yyin = fopen("input.go", "r");
-        yyparse();
-        fclose(yyin);
-        return 0;
+int yyerror(char *s){
+  printf("Syntax Error on Line %s\n", s);
+  return 0;
 }
 
-void yyerror (char *s) {fprintf (stderr, "%s\n", s);} 
+int main (void) {
+        yyparse();
+        return 0;
+}
