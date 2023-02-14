@@ -18,7 +18,7 @@ int yylex();
 
 //keywords
 %token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS 
-%token <string> T_INTEGER T_REAL T_BOOLEAN T_ROUTINE T_ARRAY T_RECORD
+%token <string> T_INTEGER T_REAL T_BOOLEAN T_ROUTINE T_ARRAY T_RECORD T_TRUE T_FALSE
 
 //identifier
 %token<string> T_ID
@@ -84,7 +84,7 @@ T_COLON // :
 
 %%
 
-Program         : T_VAR T_ID T_EQU T_ID T_EOF;
+Program : T_VAR T_EOF;
 
 %%
 
@@ -94,6 +94,6 @@ int yyerror(char *s){
 }
 
 int main (void) {
-        yyparse();
-        return 0;
+  yyparse();
+  return 0;
 }

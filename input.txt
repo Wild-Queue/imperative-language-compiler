@@ -1,1 +1,1 @@
-var abs = abs
+var

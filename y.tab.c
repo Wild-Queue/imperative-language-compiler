@@ -135,43 +135,43 @@ extern int yydebug;
     T_ROUTINE = 273,               /* T_ROUTINE  */
     T_ARRAY = 274,                 /* T_ARRAY  */
     T_RECORD = 275,                /* T_RECORD  */
-    T_ID = 276,                    /* T_ID  */
-    T_ICONST = 277,                /* T_ICONST  */
-    T_SCONST = 278,                /* T_SCONST  */
-    T_RCONST = 279,                /* T_RCONST  */
-    T_BCONST = 280,                /* T_BCONST  */
-    T_CCONST = 281,                /* T_CCONST  */
-    T_EOF = 282,                   /* T_EOF  */
-    T_LESS = 283,                  /* T_LESS  */
-    T_GREAT = 284,                 /* T_GREAT  */
-    T_LESSOREQU = 285,             /* T_LESSOREQU  */
-    T_GREATOREQU = 286,            /* T_GREATOREQU  */
-    T_NOTEQU = 287,                /* T_NOTEQU  */
-    T_EQU = 288,                   /* T_EQU  */
-    T_COLONEQU = 289,              /* T_COLONEQU  */
-    T_AND = 290,                   /* T_AND  */
-    T_OR = 291,                    /* T_OR  */
-    T_XOR = 292,                   /* T_XOR  */
-    T_NOT = 293,                   /* T_NOT  */
-    T_ADDOP = 294,                 /* T_ADDOP  */
-    T_MULTOP = 295,                /* T_MULTOP  */
-    T_SUBTROP = 296,               /* T_SUBTROP  */
-    T_DIVOP = 297,                 /* T_DIVOP  */
-    T_MOD = 298,                   /* T_MOD  */
-    T_TAB = 299,                   /* T_TAB  */
-    T_NL = 300,                    /* T_NL  */
-    T_POINTER = 301,               /* T_POINTER  */
-    T_REFERENCE = 302,             /* T_REFERENCE  */
-    T_LPAREN = 303,                /* T_LPAREN  */
-    T_RPAREN = 304,                /* T_RPAREN  */
-    T_LBRACK = 305,                /* T_LBRACK  */
-    T_RBRACK = 306,                /* T_RBRACK  */
-    T_DOTDOT = 307,                /* T_DOTDOT  */
-    T_DOT = 308,                   /* T_DOT  */
-    T_COMMA = 309,                 /* T_COMMA  */
-    T_COLON = 310,                 /* T_COLON  */
-    T_ASSIGN = 311,                /* T_ASSIGN  */
-    T_ASSIGNOP = 312               /* T_ASSIGNOP  */
+    T_TRUE = 276,                  /* T_TRUE  */
+    T_FALSE = 277,                 /* T_FALSE  */
+    T_ID = 278,                    /* T_ID  */
+    T_ICONST = 279,                /* T_ICONST  */
+    T_SCONST = 280,                /* T_SCONST  */
+    T_RCONST = 281,                /* T_RCONST  */
+    T_BCONST = 282,                /* T_BCONST  */
+    T_CCONST = 283,                /* T_CCONST  */
+    T_EOF = 284,                   /* T_EOF  */
+    T_LESS = 285,                  /* T_LESS  */
+    T_GREAT = 286,                 /* T_GREAT  */
+    T_LESSOREQU = 287,             /* T_LESSOREQU  */
+    T_GREATOREQU = 288,            /* T_GREATOREQU  */
+    T_NOTEQU = 289,                /* T_NOTEQU  */
+    T_EQU = 290,                   /* T_EQU  */
+    T_COLONEQU = 291,              /* T_COLONEQU  */
+    T_AND = 292,                   /* T_AND  */
+    T_OR = 293,                    /* T_OR  */
+    T_XOR = 294,                   /* T_XOR  */
+    T_NOT = 295,                   /* T_NOT  */
+    T_ADDOP = 296,                 /* T_ADDOP  */
+    T_MULTOP = 297,                /* T_MULTOP  */
+    T_SUBTROP = 298,               /* T_SUBTROP  */
+    T_DIVOP = 299,                 /* T_DIVOP  */
+    T_MOD = 300,                   /* T_MOD  */
+    T_TAB = 301,                   /* T_TAB  */
+    T_NL = 302,                    /* T_NL  */
+    T_POINTER = 303,               /* T_POINTER  */
+    T_REFERENCE = 304,             /* T_REFERENCE  */
+    T_LPAREN = 305,                /* T_LPAREN  */
+    T_RPAREN = 306,                /* T_RPAREN  */
+    T_LBRACK = 307,                /* T_LBRACK  */
+    T_RBRACK = 308,                /* T_RBRACK  */
+    T_DOTDOT = 309,                /* T_DOTDOT  */
+    T_DOT = 310,                   /* T_DOT  */
+    T_COMMA = 311,                 /* T_COMMA  */
+    T_COLON = 312                  /* T_COLON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -198,43 +198,43 @@ extern int yydebug;
 #define T_ROUTINE 273
 #define T_ARRAY 274
 #define T_RECORD 275
-#define T_ID 276
-#define T_ICONST 277
-#define T_SCONST 278
-#define T_RCONST 279
-#define T_BCONST 280
-#define T_CCONST 281
-#define T_EOF 282
-#define T_LESS 283
-#define T_GREAT 284
-#define T_LESSOREQU 285
-#define T_GREATOREQU 286
-#define T_NOTEQU 287
-#define T_EQU 288
-#define T_COLONEQU 289
-#define T_AND 290
-#define T_OR 291
-#define T_XOR 292
-#define T_NOT 293
-#define T_ADDOP 294
-#define T_MULTOP 295
-#define T_SUBTROP 296
-#define T_DIVOP 297
-#define T_MOD 298
-#define T_TAB 299
-#define T_NL 300
-#define T_POINTER 301
-#define T_REFERENCE 302
-#define T_LPAREN 303
-#define T_RPAREN 304
-#define T_LBRACK 305
-#define T_RBRACK 306
-#define T_DOTDOT 307
-#define T_DOT 308
-#define T_COMMA 309
-#define T_COLON 310
-#define T_ASSIGN 311
-#define T_ASSIGNOP 312
+#define T_TRUE 276
+#define T_FALSE 277
+#define T_ID 278
+#define T_ICONST 279
+#define T_SCONST 280
+#define T_RCONST 281
+#define T_BCONST 282
+#define T_CCONST 283
+#define T_EOF 284
+#define T_LESS 285
+#define T_GREAT 286
+#define T_LESSOREQU 287
+#define T_GREATOREQU 288
+#define T_NOTEQU 289
+#define T_EQU 290
+#define T_COLONEQU 291
+#define T_AND 292
+#define T_OR 293
+#define T_XOR 294
+#define T_NOT 295
+#define T_ADDOP 296
+#define T_MULTOP 297
+#define T_SUBTROP 298
+#define T_DIVOP 299
+#define T_MOD 300
+#define T_TAB 301
+#define T_NL 302
+#define T_POINTER 303
+#define T_REFERENCE 304
+#define T_LPAREN 305
+#define T_RPAREN 306
+#define T_LBRACK 307
+#define T_RBRACK 308
+#define T_DOTDOT 309
+#define T_DOT 310
+#define T_COMMA 311
+#define T_COLON 312
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -289,43 +289,43 @@ enum yysymbol_kind_t
   YYSYMBOL_T_ROUTINE = 18,                 /* T_ROUTINE  */
   YYSYMBOL_T_ARRAY = 19,                   /* T_ARRAY  */
   YYSYMBOL_T_RECORD = 20,                  /* T_RECORD  */
-  YYSYMBOL_T_ID = 21,                      /* T_ID  */
-  YYSYMBOL_T_ICONST = 22,                  /* T_ICONST  */
-  YYSYMBOL_T_SCONST = 23,                  /* T_SCONST  */
-  YYSYMBOL_T_RCONST = 24,                  /* T_RCONST  */
-  YYSYMBOL_T_BCONST = 25,                  /* T_BCONST  */
-  YYSYMBOL_T_CCONST = 26,                  /* T_CCONST  */
-  YYSYMBOL_T_EOF = 27,                     /* T_EOF  */
-  YYSYMBOL_T_LESS = 28,                    /* T_LESS  */
-  YYSYMBOL_T_GREAT = 29,                   /* T_GREAT  */
-  YYSYMBOL_T_LESSOREQU = 30,               /* T_LESSOREQU  */
-  YYSYMBOL_T_GREATOREQU = 31,              /* T_GREATOREQU  */
-  YYSYMBOL_T_NOTEQU = 32,                  /* T_NOTEQU  */
-  YYSYMBOL_T_EQU = 33,                     /* T_EQU  */
-  YYSYMBOL_T_COLONEQU = 34,                /* T_COLONEQU  */
-  YYSYMBOL_T_AND = 35,                     /* T_AND  */
-  YYSYMBOL_T_OR = 36,                      /* T_OR  */
-  YYSYMBOL_T_XOR = 37,                     /* T_XOR  */
-  YYSYMBOL_T_NOT = 38,                     /* T_NOT  */
-  YYSYMBOL_T_ADDOP = 39,                   /* T_ADDOP  */
-  YYSYMBOL_T_MULTOP = 40,                  /* T_MULTOP  */
-  YYSYMBOL_T_SUBTROP = 41,                 /* T_SUBTROP  */
-  YYSYMBOL_T_DIVOP = 42,                   /* T_DIVOP  */
-  YYSYMBOL_T_MOD = 43,                     /* T_MOD  */
-  YYSYMBOL_T_TAB = 44,                     /* T_TAB  */
-  YYSYMBOL_T_NL = 45,                      /* T_NL  */
-  YYSYMBOL_T_POINTER = 46,                 /* T_POINTER  */
-  YYSYMBOL_T_REFERENCE = 47,               /* T_REFERENCE  */
-  YYSYMBOL_T_LPAREN = 48,                  /* T_LPAREN  */
-  YYSYMBOL_T_RPAREN = 49,                  /* T_RPAREN  */
-  YYSYMBOL_T_LBRACK = 50,                  /* T_LBRACK  */
-  YYSYMBOL_T_RBRACK = 51,                  /* T_RBRACK  */
-  YYSYMBOL_T_DOTDOT = 52,                  /* T_DOTDOT  */
-  YYSYMBOL_T_DOT = 53,                     /* T_DOT  */
-  YYSYMBOL_T_COMMA = 54,                   /* T_COMMA  */
-  YYSYMBOL_T_COLON = 55,                   /* T_COLON  */
-  YYSYMBOL_T_ASSIGN = 56,                  /* T_ASSIGN  */
-  YYSYMBOL_T_ASSIGNOP = 57,                /* T_ASSIGNOP  */
+  YYSYMBOL_T_TRUE = 21,                    /* T_TRUE  */
+  YYSYMBOL_T_FALSE = 22,                   /* T_FALSE  */
+  YYSYMBOL_T_ID = 23,                      /* T_ID  */
+  YYSYMBOL_T_ICONST = 24,                  /* T_ICONST  */
+  YYSYMBOL_T_SCONST = 25,                  /* T_SCONST  */
+  YYSYMBOL_T_RCONST = 26,                  /* T_RCONST  */
+  YYSYMBOL_T_BCONST = 27,                  /* T_BCONST  */
+  YYSYMBOL_T_CCONST = 28,                  /* T_CCONST  */
+  YYSYMBOL_T_EOF = 29,                     /* T_EOF  */
+  YYSYMBOL_T_LESS = 30,                    /* T_LESS  */
+  YYSYMBOL_T_GREAT = 31,                   /* T_GREAT  */
+  YYSYMBOL_T_LESSOREQU = 32,               /* T_LESSOREQU  */
+  YYSYMBOL_T_GREATOREQU = 33,              /* T_GREATOREQU  */
+  YYSYMBOL_T_NOTEQU = 34,                  /* T_NOTEQU  */
+  YYSYMBOL_T_EQU = 35,                     /* T_EQU  */
+  YYSYMBOL_T_COLONEQU = 36,                /* T_COLONEQU  */
+  YYSYMBOL_T_AND = 37,                     /* T_AND  */
+  YYSYMBOL_T_OR = 38,                      /* T_OR  */
+  YYSYMBOL_T_XOR = 39,                     /* T_XOR  */
+  YYSYMBOL_T_NOT = 40,                     /* T_NOT  */
+  YYSYMBOL_T_ADDOP = 41,                   /* T_ADDOP  */
+  YYSYMBOL_T_MULTOP = 42,                  /* T_MULTOP  */
+  YYSYMBOL_T_SUBTROP = 43,                 /* T_SUBTROP  */
+  YYSYMBOL_T_DIVOP = 44,                   /* T_DIVOP  */
+  YYSYMBOL_T_MOD = 45,                     /* T_MOD  */
+  YYSYMBOL_T_TAB = 46,                     /* T_TAB  */
+  YYSYMBOL_T_NL = 47,                      /* T_NL  */
+  YYSYMBOL_T_POINTER = 48,                 /* T_POINTER  */
+  YYSYMBOL_T_REFERENCE = 49,               /* T_REFERENCE  */
+  YYSYMBOL_T_LPAREN = 50,                  /* T_LPAREN  */
+  YYSYMBOL_T_RPAREN = 51,                  /* T_RPAREN  */
+  YYSYMBOL_T_LBRACK = 52,                  /* T_LBRACK  */
+  YYSYMBOL_T_RBRACK = 53,                  /* T_RBRACK  */
+  YYSYMBOL_T_DOTDOT = 54,                  /* T_DOTDOT  */
+  YYSYMBOL_T_DOT = 55,                     /* T_DOT  */
+  YYSYMBOL_T_COMMA = 56,                   /* T_COMMA  */
+  YYSYMBOL_T_COLON = 57,                   /* T_COLON  */
   YYSYMBOL_YYACCEPT = 58,                  /* $accept  */
   YYSYMBOL_Program = 59                    /* Program  */
 };
@@ -655,7 +655,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   2
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  58
@@ -664,7 +664,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  2
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  8
+#define YYNSTATES  5
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   312
@@ -719,7 +719,7 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    89,    89
+       0,    87,    87
 };
 #endif
 
@@ -738,13 +738,13 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "T_FOR", "T_WHILE",
   "T_LOOP", "T_IN", "T_REVERSE", "T_IF", "T_THEN", "T_ELSE", "T_END",
   "T_TYPE", "T_VAR", "T_IS", "T_INTEGER", "T_REAL", "T_BOOLEAN",
-  "T_ROUTINE", "T_ARRAY", "T_RECORD", "T_ID", "T_ICONST", "T_SCONST",
-  "T_RCONST", "T_BCONST", "T_CCONST", "T_EOF", "T_LESS", "T_GREAT",
-  "T_LESSOREQU", "T_GREATOREQU", "T_NOTEQU", "T_EQU", "T_COLONEQU",
-  "T_AND", "T_OR", "T_XOR", "T_NOT", "T_ADDOP", "T_MULTOP", "T_SUBTROP",
-  "T_DIVOP", "T_MOD", "T_TAB", "T_NL", "T_POINTER", "T_REFERENCE",
-  "T_LPAREN", "T_RPAREN", "T_LBRACK", "T_RBRACK", "T_DOTDOT", "T_DOT",
-  "T_COMMA", "T_COLON", "T_ASSIGN", "T_ASSIGNOP", "$accept", "Program", YY_NULLPTR
+  "T_ROUTINE", "T_ARRAY", "T_RECORD", "T_TRUE", "T_FALSE", "T_ID",
+  "T_ICONST", "T_SCONST", "T_RCONST", "T_BCONST", "T_CCONST", "T_EOF",
+  "T_LESS", "T_GREAT", "T_LESSOREQU", "T_GREATOREQU", "T_NOTEQU", "T_EQU",
+  "T_COLONEQU", "T_AND", "T_OR", "T_XOR", "T_NOT", "T_ADDOP", "T_MULTOP",
+  "T_SUBTROP", "T_DIVOP", "T_MOD", "T_TAB", "T_NL", "T_POINTER",
+  "T_REFERENCE", "T_LPAREN", "T_RPAREN", "T_LBRACK", "T_RBRACK",
+  "T_DOTDOT", "T_DOT", "T_COMMA", "T_COLON", "$accept", "Program", YY_NULLPTR
 };
 
 static const char *
@@ -754,7 +754,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-31)
+#define YYPACT_NINF (-29)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -768,7 +768,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -13,   -20,     2,   -30,   -31,   -17,   -22,   -31
+     -13,   -28,     2,   -29,   -29
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -776,13 +776,13 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     1,     0,     0,     2
+       0,     0,     0,     2,     1
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -31,   -31
+     -29,   -29
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -796,19 +796,19 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     3,     4,     5,     6,     7
+       1,     3,     4
 };
 
 static const yytype_int8 yycheck[] =
 {
-      13,    21,     0,    33,    21,    27
+      13,    29,     0
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    13,    59,    21,     0,    33,    21,    27
+       0,    13,    59,    29,     0
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
@@ -820,7 +820,7 @@ static const yytype_int8 yyr1[] =
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     5
+       0,     2,     2
 };
 
 
@@ -1477,7 +1477,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 91 "Analyser.y"
+#line 89 "Analyser.y"
 
 
 int yyerror(char *s){
@@ -1486,6 +1486,6 @@ int yyerror(char *s){
 }
 
 int main (void) {
-        yyparse();
-        return 0;
+  yyparse();
+  return 0;
 }
