@@ -94,76 +94,76 @@ D   [0-9]
 
 %%
 
-"ENDOFFILE"     {/*printf("T_EOF"); return( T_EOF );*/}
+"ENDOFFILE"     {/*printf("T_EOF "); return( T_EOF );*/}
 
-"reverse"       {printf("T_REVERSE"); return( T_REVERSE );}
-"while"         {printf("T_WHILE"); return( T_WHILE );}
-"loop"          {printf("T_LOOP"); return( T_LOOP );}
-"then"          {printf("T_THEN"); return( T_THEN );}
-"else"          {printf("T_ELSE"); return( T_ELSE );}
-"type"          {printf("T_TYPE"); return( T_TYPE );}
-"for"           {printf("T_FOR"); return( T_FOR );}
-"end"           {printf("T_END"); return( T_END );}
-"var"           {printf("T_VAR"); return( T_VAR );}
-"in"            {printf("T_IN"); return( T_IN );}
-"if"            {printf("T_IF"); return( T_IF );}
-"is"            {printf("T_IS"); return( T_IS );}
+"reverse"       {printf("T_REVERSE "); return( T_REVERSE );}
+"while"         {printf("T_WHILE "); return( T_WHILE );}
+"loop"          {printf("T_LOOP "); return( T_LOOP );}
+"then"          {printf("T_THEN "); return( T_THEN );}
+"else"          {printf("T_ELSE "); return( T_ELSE );}
+"type"          {printf("T_TYPE "); return( T_TYPE );}
+"for"           {printf("T_FOR "); return( T_FOR );}
+"end"           {printf("T_END "); return( T_END );}
+"var"           {printf("T_VAR "); return( T_VAR );}
+"in"            {printf("T_IN "); return( T_IN );}
+"if"            {printf("T_IF "); return( T_IF );}
+"is"            {printf("T_IS "); return( T_IS );}
 
-"real"              {printf("T_REAL"); return( T_REAL );}
-"integer"           {printf("T_INTEGER"); return( T_INTEGER );}
-"boolean"           {printf("T_BOOLEAN"); return( T_BOOLEAN );}
-"routine"           {printf("T_ROUTINE"); return( T_ROUTINE );}
-"array"             {printf("T_ARRAY"); return( T_ARRAY );}
-"record"            {printf("T_RECORD"); return( T_RECORD );}
+"real"              {printf("T_REAL "); return( T_REAL );}
+"integer"           {printf("T_INTEGER "); return( T_INTEGER );}
+"boolean"           {printf("T_BOOLEAN "); return( T_BOOLEAN );}
+"routine"           {printf("T_ROUTINE "); return( T_ROUTINE );}
+"array"             {printf("T_ARRAY "); return( T_ARRAY );}
+"record"            {printf("T_RECORD "); return( T_RECORD );}
 
-"true"              {printf("T_TRUE"); return( T_TRUE );}
-"false"             {printf("T_FALSE"); return( T_FALSE );}
+"true"              {printf("T_TRUE "); return( T_TRUE );}
+"false"             {printf("T_FALSE "); return( T_FALSE );}
 
-"and"               {printf("T_AND"); return( T_AND );}
-"xor"               {printf("T_XOR"); return( T_XOR );}
-"or"                {printf("T_OR"); return( T_OR );}
-"not"               {printf("T_NOT"); return( T_NOT );}
+"and"               {printf("T_AND "); return( T_AND );}
+"xor"               {printf("T_XOR "); return( T_XOR );}
+"or"                {printf("T_OR "); return( T_OR );}
+"not"               {printf("T_NOT "); return( T_NOT );}
 
-"<="    {printf("T_LESSOREQU"); return( T_LESSOREQU );}
-">="    {printf("T_GREATOREQU"); return( T_GREATOREQU );}
-"<"     {printf("T_LESS"); return( T_LESS );}
-">"     {printf("T_GREAT"); return( T_GREAT );}
-"/="    {printf("T_NOTEQU"); return( T_NOTEQU );}
-":="    {printf("T_COLONEQU"); return( T_COLONEQU );}
-"="     {printf("T_EQU"); return( T_EQU );}
-
-
-"+"     {printf("T_ADDOP"); return( T_ADDOP );}
-"*"     {printf("T_MULTOP"); return( T_MULTOP );}
-"-"     {printf("T_SUBTROP"); return( T_SUBTROP );}
-"/"     {printf("T_DIVOP"); return( T_DIVOP );}
-"%"     {printf("T_MOD"); return( T_MOD );}
-
-'\n'    {printf("T_NL"); line_no++; return( T_NL ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
-'\t'    {printf("T_TAB"); return( T_TAB ); }
+"<="    {printf("T_LESSOREQU "); return( T_LESSOREQU );}
+">="    {printf("T_GREATOREQU "); return( T_GREATOREQU );}
+"<"     {printf("T_LESS "); return( T_LESS );}
+">"     {printf("T_GREAT "); return( T_GREAT );}
+"/="    {printf("T_NOTEQU "); return( T_NOTEQU );}
+":="    {printf("T_COLONEQU "); return( T_COLONEQU );}
+"="     {printf("T_EQU "); return( T_EQU );}
 
 
-"("     {printf("T_LPAREN"); return( T_LPAREN );}
-")"     {printf("T_RPAREN"); return( T_RPAREN );}
-"["     {printf("T_LBRACK"); return( T_LBRACK );}
-"]"     {printf("T_RBRACK"); return( T_RBRACK );}
+"+"     {printf("T_ADDOP "); return( T_ADDOP );}
+"*"     {printf("T_MULTOP "); return( T_MULTOP );}
+"-"     {printf("T_SUBTROP "); return( T_SUBTROP );}
+"/"     {printf("T_DIVOP "); return( T_DIVOP );}
+"%"     {printf("T_MODOP "); return( T_MODOP );}
 
-".."    {printf("T_DOTDOT"); return( T_DOTDOT );}
-"."     {printf("T_DOT"); return( T_DOT );}
-","     {printf("T_COMMA"); return( T_COMMA );}
-":"     {printf("T_COLON"); return( T_COLON );}
+'\n'    {printf("T_NL "); line_no++; return( T_NL ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
+'\t'    {printf("T_TAB "); return( T_TAB ); }
 
 
-(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* { /*yylval.string = strdup(yytext);*/printf("T_ID"); return( T_ID );} 
+"("     {printf("T_LPAREN "); return( T_LPAREN );}
+")"     {printf("T_RPAREN "); return( T_RPAREN );}
+"["     {printf("T_LBRACK "); return( T_LBRACK );}
+"]"     {printf("T_RBRACK "); return( T_RBRACK );}
 
-{Int_Lit}           {/*yylval.integer = atoi(yytext); */        return(T_ICONST );}
-{Float_Lit}         {/*yylval.real = decRealHandler(yytext);*/  return( T_RCONST );}
-{String_Lit}        {/*yylval.string = yytext.substr(1, yytext.size() - 2);*/ return( T_SCONST );}
+".."    {printf("T_DOTDOT "); return( T_DOTDOT );}
+"."     {printf("T_DOT "); return( T_DOT );}
+","     {printf("T_COMMA "); return( T_COMMA );}
+":"     {printf("T_COLON "); return( T_COLON );}
 
-<<EOF>>     {/*printf("T_EOF");*/ static int once = 0; return once++ ? 0 : T_EOF ;}
+
+(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* { /*yylval.string = strdup(yytext);*/printf("T_ID:%s ", yytext);    return( T_ID );} 
+
+{Int_Lit}           {/*yylval.integer = atoi(yytext); */printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
+{Float_Lit}         {/*yylval.real = decRealHandler(yytext);*/printf("T_RCONST:%s ", yytext); return( T_RCONST );}
+{String_Lit}        {/*yylval.string = yytext.substr(1, yytext.size() - 2);*/printf("T_SCONST:%s ", yytext);   return( T_SCONST );}
+
+<<EOF>>     {/*printf("T_EOF ");*/ static int once = 0; return once++ ? 0 : T_EOF ;}
 
 " "         {}
-.           {ECHO; printf (" unexpected character");}
+.           {ECHO; printf (" unexpected character ");}
 
 %%
 int yywrap (void) {return 1;}

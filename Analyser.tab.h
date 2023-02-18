@@ -96,7 +96,7 @@ extern int yydebug;
     T_MULTOP = 297,                /* T_MULTOP  */
     T_SUBTROP = 298,               /* T_SUBTROP  */
     T_DIVOP = 299,                 /* T_DIVOP  */
-    T_MOD = 300,                   /* T_MOD  */
+    T_MODOP = 300,                 /* T_MODOP  */
     T_TAB = 301,                   /* T_TAB  */
     T_NL = 302,                    /* T_NL  */
     T_POINTER = 303,               /* T_POINTER  */

@@ -1,0 +1,18 @@
+routine main(system: integer) is
+    var countFurry is 0
+    type students is array[2] record
+        var furry: boolean
+        var age: integer
+    end
+    students[1].furry := true
+    students[1].age := 17
+    students[2].furry := true
+    students[2].age := 67
+    
+    for i in 1 .. 2 loop
+        if students[i].furry = true then
+            countFurry := countFurry + 1
+        end
+    end
+    
+end

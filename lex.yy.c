@@ -1040,263 +1040,263 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 97 "Analyser.l"
-{/*printf("T_EOF"); return( T_EOF );*/}
+{/*printf("T_EOF "); return( T_EOF );*/}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 99 "Analyser.l"
-{printf("T_REVERSE"); return( T_REVERSE );}
+{printf("T_REVERSE "); return( T_REVERSE );}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 100 "Analyser.l"
-{printf("T_WHILE"); return( T_WHILE );}
+{printf("T_WHILE "); return( T_WHILE );}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 101 "Analyser.l"
-{printf("T_LOOP"); return( T_LOOP );}
+{printf("T_LOOP "); return( T_LOOP );}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 102 "Analyser.l"
-{printf("T_THEN"); return( T_THEN );}
+{printf("T_THEN "); return( T_THEN );}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 103 "Analyser.l"
-{printf("T_ELSE"); return( T_ELSE );}
+{printf("T_ELSE "); return( T_ELSE );}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 104 "Analyser.l"
-{printf("T_TYPE"); return( T_TYPE );}
+{printf("T_TYPE "); return( T_TYPE );}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 105 "Analyser.l"
-{printf("T_FOR"); return( T_FOR );}
+{printf("T_FOR "); return( T_FOR );}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 106 "Analyser.l"
-{printf("T_END"); return( T_END );}
+{printf("T_END "); return( T_END );}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 107 "Analyser.l"
-{printf("T_VAR"); return( T_VAR );}
+{printf("T_VAR "); return( T_VAR );}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 108 "Analyser.l"
-{printf("T_IN"); return( T_IN );}
+{printf("T_IN "); return( T_IN );}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 109 "Analyser.l"
-{printf("T_IF"); return( T_IF );}
+{printf("T_IF "); return( T_IF );}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 110 "Analyser.l"
-{printf("T_IS"); return( T_IS );}
+{printf("T_IS "); return( T_IS );}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 112 "Analyser.l"
-{printf("T_REAL"); return( T_REAL );}
+{printf("T_REAL "); return( T_REAL );}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 113 "Analyser.l"
-{printf("T_INTEGER"); return( T_INTEGER );}
+{printf("T_INTEGER "); return( T_INTEGER );}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 114 "Analyser.l"
-{printf("T_BOOLEAN"); return( T_BOOLEAN );}
+{printf("T_BOOLEAN "); return( T_BOOLEAN );}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 115 "Analyser.l"
-{printf("T_ROUTINE"); return( T_ROUTINE );}
+{printf("T_ROUTINE "); return( T_ROUTINE );}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 116 "Analyser.l"
-{printf("T_ARRAY"); return( T_ARRAY );}
+{printf("T_ARRAY "); return( T_ARRAY );}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 117 "Analyser.l"
-{printf("T_RECORD"); return( T_RECORD );}
+{printf("T_RECORD "); return( T_RECORD );}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 119 "Analyser.l"
-{printf("T_TRUE"); return( T_TRUE );}
+{printf("T_TRUE "); return( T_TRUE );}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 120 "Analyser.l"
-{printf("T_FALSE"); return( T_FALSE );}
+{printf("T_FALSE "); return( T_FALSE );}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 122 "Analyser.l"
-{printf("T_AND"); return( T_AND );}
+{printf("T_AND "); return( T_AND );}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 123 "Analyser.l"
-{printf("T_XOR"); return( T_XOR );}
+{printf("T_XOR "); return( T_XOR );}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 124 "Analyser.l"
-{printf("T_OR"); return( T_OR );}
+{printf("T_OR "); return( T_OR );}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 125 "Analyser.l"
-{printf("T_NOT"); return( T_NOT );}
+{printf("T_NOT "); return( T_NOT );}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 127 "Analyser.l"
-{printf("T_LESSOREQU"); return( T_LESSOREQU );}
+{printf("T_LESSOREQU "); return( T_LESSOREQU );}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 128 "Analyser.l"
-{printf("T_GREATOREQU"); return( T_GREATOREQU );}
+{printf("T_GREATOREQU "); return( T_GREATOREQU );}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 129 "Analyser.l"
-{printf("T_LESS"); return( T_LESS );}
+{printf("T_LESS "); return( T_LESS );}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 130 "Analyser.l"
-{printf("T_GREAT"); return( T_GREAT );}
+{printf("T_GREAT "); return( T_GREAT );}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 131 "Analyser.l"
-{printf("T_NOTEQU"); return( T_NOTEQU );}
+{printf("T_NOTEQU "); return( T_NOTEQU );}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 132 "Analyser.l"
-{printf("T_COLONEQU"); return( T_COLONEQU );}
+{printf("T_COLONEQU "); return( T_COLONEQU );}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 133 "Analyser.l"
-{printf("T_EQU"); return( T_EQU );}
+{printf("T_EQU "); return( T_EQU );}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 136 "Analyser.l"
-{printf("T_ADDOP"); return( T_ADDOP );}
+{printf("T_ADDOP "); return( T_ADDOP );}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 137 "Analyser.l"
-{printf("T_MULTOP"); return( T_MULTOP );}
+{printf("T_MULTOP "); return( T_MULTOP );}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 138 "Analyser.l"
-{printf("T_SUBTROP"); return( T_SUBTROP );}
+{printf("T_SUBTROP "); return( T_SUBTROP );}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 139 "Analyser.l"
-{printf("T_DIVOP"); return( T_DIVOP );}
+{printf("T_DIVOP "); return( T_DIVOP );}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 140 "Analyser.l"
-{printf("T_MOD"); return( T_MOD );}
+{printf("T_MODOP "); return( T_MODOP );}
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
 #line 142 "Analyser.l"
-{printf("T_NL"); line_no++; return( T_NL ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
+{printf("T_NL "); line_no++; return( T_NL ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 143 "Analyser.l"
-{printf("T_TAB"); return( T_TAB ); }
+{printf("T_TAB "); return( T_TAB ); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 146 "Analyser.l"
-{printf("T_LPAREN"); return( T_LPAREN );}
+{printf("T_LPAREN "); return( T_LPAREN );}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 147 "Analyser.l"
-{printf("T_RPAREN"); return( T_RPAREN );}
+{printf("T_RPAREN "); return( T_RPAREN );}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 148 "Analyser.l"
-{printf("T_LBRACK"); return( T_LBRACK );}
+{printf("T_LBRACK "); return( T_LBRACK );}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 149 "Analyser.l"
-{printf("T_RBRACK"); return( T_RBRACK );}
+{printf("T_RBRACK "); return( T_RBRACK );}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 151 "Analyser.l"
-{printf("T_DOTDOT"); return( T_DOTDOT );}
+{printf("T_DOTDOT "); return( T_DOTDOT );}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 152 "Analyser.l"
-{printf("T_DOT"); return( T_DOT );}
+{printf("T_DOT "); return( T_DOT );}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 #line 153 "Analyser.l"
-{printf("T_COMMA"); return( T_COMMA );}
+{printf("T_COMMA "); return( T_COMMA );}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 154 "Analyser.l"
-{printf("T_COLON"); return( T_COLON );}
+{printf("T_COLON "); return( T_COLON );}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 157 "Analyser.l"
-{ /*yylval.string = strdup(yytext);*/printf("T_ID"); return( T_ID );} 
+{ /*yylval.string = strdup(yytext);*/printf("T_ID:%s ", yytext);    return( T_ID );} 
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 159 "Analyser.l"
-{/*yylval.integer = atoi(yytext); */        return(T_ICONST );}
+{/*yylval.integer = atoi(yytext); */printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 160 "Analyser.l"
-{/*yylval.real = decRealHandler(yytext);*/  return( T_RCONST );}
+{/*yylval.real = decRealHandler(yytext);*/printf("T_RCONST:%s ", yytext); return( T_RCONST );}
 	YY_BREAK
 case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
 #line 161 "Analyser.l"
-{/*yylval.string = yytext.substr(1, yytext.size() - 2);*/ return( T_SCONST );}
+{/*yylval.string = yytext.substr(1, yytext.size() - 2);*/printf("T_SCONST:%s ", yytext);   return( T_SCONST );}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 #line 163 "Analyser.l"
-{printf("T_EOF"); static int once = 0; return once++ ? 0 : T_EOF ;}
+{/*printf("T_EOF ");*/ static int once = 0; return once++ ? 0 : T_EOF ;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
@@ -1306,7 +1306,7 @@ YY_RULE_SETUP
 case 53:
 YY_RULE_SETUP
 #line 166 "Analyser.l"
-{ECHO; printf (" unexpected character");}
+{ECHO; printf (" unexpected character ");}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
