@@ -99,7 +99,111 @@ int yylex();
 #  endif
 # endif
 
-#include "Analyser.tab.h"
+
+/* Debug traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
+
+/* Token kinds.  */
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+  enum yytokentype
+  {
+    YYEMPTY = -2,
+    YYEOF = 0,                     /* "end of file"  */
+    YYerror = 256,                 /* error  */
+    YYUNDEF = 257,                 /* "invalid token"  */
+    T_FOR = 258,                   /* T_FOR  */
+    T_WHILE = 259,                 /* T_WHILE  */
+    T_LOOP = 260,                  /* T_LOOP  */
+    T_IN = 261,                    /* T_IN  */
+    T_REVERSE = 262,               /* T_REVERSE  */
+    T_IF = 263,                    /* T_IF  */
+    T_THEN = 264,                  /* T_THEN  */
+    T_ELSE = 265,                  /* T_ELSE  */
+    T_END = 266,                   /* T_END  */
+    T_TYPE = 267,                  /* T_TYPE  */
+    T_VAR = 268,                   /* T_VAR  */
+    T_IS = 269,                    /* T_IS  */
+    T_INTEGER = 270,               /* T_INTEGER  */
+    T_REAL = 271,                  /* T_REAL  */
+    T_BOOLEAN = 272,               /* T_BOOLEAN  */
+    T_ROUTINE = 273,               /* T_ROUTINE  */
+    T_ARRAY = 274,                 /* T_ARRAY  */
+    T_RECORD = 275,                /* T_RECORD  */
+    T_TRUE = 276,                  /* T_TRUE  */
+    T_FALSE = 277,                 /* T_FALSE  */
+    T_ID = 278,                    /* T_ID  */
+    T_ICONST = 279,                /* T_ICONST  */
+    T_SCONST = 280,                /* T_SCONST  */
+    T_RCONST = 281,                /* T_RCONST  */
+    T_BCONST = 282,                /* T_BCONST  */
+    T_CCONST = 283,                /* T_CCONST  */
+    T_EOF = 284,                   /* T_EOF  */
+    T_LESS = 285,                  /* T_LESS  */
+    T_GREAT = 286,                 /* T_GREAT  */
+    T_LESSOREQU = 287,             /* T_LESSOREQU  */
+    T_GREATOREQU = 288,            /* T_GREATOREQU  */
+    T_NOTEQU = 289,                /* T_NOTEQU  */
+    T_EQU = 290,                   /* T_EQU  */
+    T_COLONEQU = 291,              /* T_COLONEQU  */
+    T_AND = 292,                   /* T_AND  */
+    T_OR = 293,                    /* T_OR  */
+    T_XOR = 294,                   /* T_XOR  */
+    T_NOT = 295,                   /* T_NOT  */
+    T_ADDOP = 296,                 /* T_ADDOP  */
+    T_MULTOP = 297,                /* T_MULTOP  */
+    T_SUBTROP = 298,               /* T_SUBTROP  */
+    T_DIVOP = 299,                 /* T_DIVOP  */
+    T_MODOP = 300,                 /* T_MODOP  */
+    T_TAB = 301,                   /* T_TAB  */
+    T_NL = 302,                    /* T_NL  */
+    T_POINTER = 303,               /* T_POINTER  */
+    T_REFERENCE = 304,             /* T_REFERENCE  */
+    T_LPAREN = 305,                /* T_LPAREN  */
+    T_RPAREN = 306,                /* T_RPAREN  */
+    T_LBRACK = 307,                /* T_LBRACK  */
+    T_RBRACK = 308,                /* T_RBRACK  */
+    T_DOTDOT = 309,                /* T_DOTDOT  */
+    T_DOT = 310,                   /* T_DOT  */
+    T_COMMA = 311,                 /* T_COMMA  */
+    T_COLON = 312                  /* T_COLON  */
+  };
+  typedef enum yytokentype yytoken_kind_t;
+#endif
+
+/* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+union YYSTYPE
+{
+#line 11 "Analyser.y"
+
+  unsigned int integer;
+  double real;
+  char *string;
+  char character;
+  int boolean;
+
+#line 192 "Analyser.tab.c"
+
+};
+typedef union YYSTYPE YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
+
+
+extern YYSTYPE yylval;
+
+
+int yyparse (void);
+
+
+
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -1260,7 +1364,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1264 "Analyser.tab.c"
+#line 1368 "Analyser.tab.c"
 
       default: break;
     }
