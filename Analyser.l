@@ -94,8 +94,6 @@ D   [0-9]
 
 %%
 
-"ENDOFFILE"     {/*printf("T_EOF "); return( T_EOF );*/}
-
 "reverse"       {printf("T_REVERSE "); return( T_REVERSE );}
 "while"         {printf("T_WHILE "); return( T_WHILE );}
 "loop"          {printf("T_LOOP "); return( T_LOOP );}
@@ -108,50 +106,51 @@ D   [0-9]
 "in"            {printf("T_IN "); return( T_IN );}
 "if"            {printf("T_IF "); return( T_IF );}
 "is"            {printf("T_IS "); return( T_IS );}
+"print"            {printf("T_PRINT "); return( T_PRINT );}
 
-"real"              {printf("T_REAL "); return( T_REAL );}
 "integer"           {printf("T_INTEGER "); return( T_INTEGER );}
 "boolean"           {printf("T_BOOLEAN "); return( T_BOOLEAN );}
 "routine"           {printf("T_ROUTINE "); return( T_ROUTINE );}
-"array"             {printf("T_ARRAY "); return( T_ARRAY );}
 "record"            {printf("T_RECORD "); return( T_RECORD );}
+"array"             {printf("T_ARRAY "); return( T_ARRAY );}
+"real"              {printf("T_REAL "); return( T_REAL );}
 
-"true"              {printf("T_TRUE "); return( T_TRUE );}
 "false"             {printf("T_FALSE "); return( T_FALSE );}
+"true"              {printf("T_TRUE "); return( T_TRUE );}
 
 "and"               {printf("T_AND "); return( T_AND );}
 "xor"               {printf("T_XOR "); return( T_XOR );}
-"or"                {printf("T_OR "); return( T_OR );}
 "not"               {printf("T_NOT "); return( T_NOT );}
+"or"                {printf("T_OR "); return( T_OR );}
 
-"<="    {printf("T_LESSOREQU "); return( T_LESSOREQU );}
-">="    {printf("T_GREATOREQU "); return( T_GREATOREQU );}
-"<"     {printf("T_LESS "); return( T_LESS );}
-">"     {printf("T_GREAT "); return( T_GREAT );}
-"/="    {printf("T_NOTEQU "); return( T_NOTEQU );}
-":="    {printf("T_COLONEQU "); return( T_COLONEQU );}
-"="     {printf("T_EQU "); return( T_EQU );}
+">="    {printf("T_>= "); return( T_GREATOREQU );}
+"<="    {printf("T_<= "); return( T_LESSOREQU );}
+":="    {printf("T_:= "); return( T_COLONEQU );}
+"/="    {printf("T_/= "); return( T_NOTEQU );}
+">"     {printf("T_> "); return( T_GREAT );}
+"<"     {printf("T_< "); return( T_LESS );}
+"="     {printf("T_= "); return( T_EQU );}
 
 
-"+"     {printf("T_ADDOP "); return( T_ADDOP );}
-"*"     {printf("T_MULTOP "); return( T_MULTOP );}
-"-"     {printf("T_SUBTROP "); return( T_SUBTROP );}
-"/"     {printf("T_DIVOP "); return( T_DIVOP );}
 "%"     {printf("T_MODOP "); return( T_MODOP );}
+"-"     {printf("T_- "); return( T_SUBTROP );}
+"*"     {printf("T_* "); return( T_MULTOP );}
+"+"     {printf("T_+ "); return( T_ADDOP );}
+"/"     {printf("T_/ "); return( T_DIVOP );}
 
 '\n'    {printf("T_NL "); line_no++; return( T_NL ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
 '\t'    {printf("T_TAB "); return( T_TAB ); }
 
 
-"("     {printf("T_LPAREN "); return( T_LPAREN );}
-")"     {printf("T_RPAREN "); return( T_RPAREN );}
-"["     {printf("T_LBRACK "); return( T_LBRACK );}
-"]"     {printf("T_RBRACK "); return( T_RBRACK );}
+"("     {printf("T_( "); return( T_LPAREN );}
+")"     {printf("T_) "); return( T_RPAREN );}
+"["     {printf("T_[ "); return( T_LBRACK );}
+"]"     {printf("T_] "); return( T_RBRACK );}
 
-".."    {printf("T_DOTDOT "); return( T_DOTDOT );}
-"."     {printf("T_DOT "); return( T_DOT );}
-","     {printf("T_COMMA "); return( T_COMMA );}
-":"     {printf("T_COLON "); return( T_COLON );}
+".."    {printf("T_.. "); return( T_DOTDOT );}
+","     {printf("T_, "); return( T_COMMA );}
+":"     {printf("T_: "); return( T_COLON );}
+"."     {printf("T_. "); return( T_DOT );}
 
 
 (_)?{L}({L}|{D}|_)*({L}|{D})|{L}* { /*yylval.string = strdup(yytext);*/printf("T_ID:%s ", yytext);    return( T_ID );} 

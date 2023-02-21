@@ -1,6 +1,6 @@
 routine main(system: integer) is
     var cnt: integer is 0
-    type arr is array[0] integer
+    type arr is array[5] integer
     arr[1] := 0
     arr[2] := 1
     arr[3] := 2

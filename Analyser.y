@@ -17,7 +17,7 @@ int yylex();
 }
 
 //keywords
-%token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS 
+%token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS T_PRINT
 %token <string> T_INTEGER T_REAL T_BOOLEAN T_ROUTINE T_ARRAY T_RECORD T_TRUE T_FALSE
 
 //identifier
@@ -156,6 +156,7 @@ Statement : Assignment
           | WhileLoop 
           | ForLoop 
           | IfStatement
+          | T_PRINT T_LPAREN Expression T_RPAREN
           ;
 
 Assignment : ModifiablePrimary T_COLONEQU Expression 
