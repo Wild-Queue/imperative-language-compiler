@@ -1,6 +1,4 @@
 all:
 	bison -d Analyser.y
-	bison -y Analyser.y
-	bison Analyser.y -o BisonAnalyser
-	lex Analyser.l
-	gcc lex.yy.c y.tab.c -o Analyser
+	lex Analyser.lex
+	g++ lex.yy.c Analyser.tab.c -o Analyser

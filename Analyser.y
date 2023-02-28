@@ -1,11 +1,26 @@
 /* BLOCK A: Statements block*/
 %{
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+    #include <iostream>
+    #include <vector>
+    extern int yylineno;
+    extern int yylex();
+    using namespace std;
+    void yyerror(char *s) {
+        printf("Syntax Error on Line %s\n", s);
+        cerr << s << ", line " << yylineno << endl;
+        exit(1);
+    }
+    #define YYSTYPE string
 
-int yyerror (char *s);
-int yylex();
+    struct Token{
+        string token;
+        string lexeme;
+    };
+
+    struct Node {
+        Token token;
+        vector<Node* >nodes;
+    };
 %}
 
 %union {
@@ -86,8 +101,8 @@ T_COLON // :
 
 // Zero or more
 // Program : { SimpleDeclaration | RoutineDeclaration }
-Program : T_EOF
-        | SimpleDeclaration Program
+Program : T_EOF 
+        | SimpleDeclaration Program     
         | RoutineDeclaration Program 
         ;
 
@@ -246,12 +261,6 @@ Identifiers : /*empty*/
 
 %%
 
-int yyerror(char *s){
-  printf("Syntax Error on Line %s\n", s);
-  return 0;
-}
-
 int main (void) {
-  yyparse();
-  return 0;
+  return yyparse();
 }

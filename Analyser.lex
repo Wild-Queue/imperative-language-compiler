@@ -1,15 +1,13 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
+    #include <string>
+    #define YYSTYPE std::string
+    #include "Analyser.tab.h"
+    void yyerror(char *s);
+    int line_no = 1;
+    int errors = 0;
 
-#include "Analyser.tab.h"
-//void yyerror (char *s);
-//int yylex();
-
-//used in error function
-int line_no = 1;
-int errors = 0;
 %}
+
 
 ASCII1 [ -[]
 
