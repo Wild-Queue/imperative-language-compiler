@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_ANALYSER_TAB_H_INCLUDED
-# define YY_YY_ANALYSER_TAB_H_INCLUDED
+#ifndef YY_YY_ANALYSER_TAB_HH_INCLUDED
+# define YY_YY_ANALYSER_TAB_HH_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -115,6 +115,24 @@ extern int yydebug;
 #endif
 
 /* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+union YYSTYPE
+{
+#line 47 "Analyser.yy"
+
+  unsigned int integer;
+  double real;
+  char *string;
+  char character;
+  int boolean;
+
+#line 130 "Analyser.tab.hh"
+
+};
+typedef union YYSTYPE YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
 
 
 extern YYSTYPE yylval;
@@ -123,4 +141,4 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-#endif /* !YY_YY_ANALYSER_TAB_H_INCLUDED  */
+#endif /* !YY_YY_ANALYSER_TAB_HH_INCLUDED  */

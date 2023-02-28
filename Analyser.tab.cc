@@ -67,10 +67,9 @@
 
 
 /* First part of user prologue.  */
-#line 2 "Analyser.y"
+#line 2 "Analyser.yy"
 
     #include <iostream>
-    #include <string.h>
     #include <vector>
     extern int yylineno;
     extern int yylex();
@@ -80,6 +79,7 @@
         cerr << s << ", line " << yylineno << endl;
         exit(1);
     }
+    #define YYSTYPE string
 
     struct Token{
         string token;
@@ -90,116 +90,29 @@
 
     struct Node {
         Token token = Token("NONE", "");
-        vector<Node*>nodes;
+        vector<Node* >nodes;
 
         Node(Token token) : token(token){};
     };
 
-    typedef struct {
-        Node* nodeLink;
-        vector<Node*> nodeList;
-
-        unsigned int integer;
-        double real;
-        char *string;
-        char character;
-        int boolean;
-    } YYSTYPE;
-    #define YYSTYPE YYSTYPE
-    
-    Node* combineNodes(vector<Node*> nodes, string token, string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
-
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode->nodes.push_back(nodes[i]);
-        }
-        return newNode;
-    };
-
-    Node* combineNodes(Node *fst, vector<Node*> nodes, string token, string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
-
-        newNode->nodes.push_back(fst);
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode->nodes.push_back(nodes[i]);
-        }
-        return newNode;
-    };
-
-    vector<Node*> collectNodes(Node *fst){
-        vector<Node*> newNode;
-
-        newNode.push_back(fst);
-
-        return newNode;
-    };
-
-    vector<Node*> collectNodes(vector<Node*> nodes){
-        vector<Node*> newNode;
-
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode.push_back(nodes[i]);
-        }
-
-        return newNode;
-    };
-
-    vector<Node*> collectNodes(Node *fst, vector<Node*> nodes){
-        vector<Node*> newNode;
-
-        newNode.push_back(fst);
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode.push_back(nodes[i]);
-        }
-
-        return newNode;
-    };
-
-    Node* createNode(string token, string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
-
-        return newNode;
-    };
-
-    Node* createNode(Node *fst, string token, string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
+    Node createNode1(Node& fst, string token, string lexeme){
+        Node* newNode = new Node(new Token(token, lexeme));
 
         newNode->nodes.push_back(fst);
 
         return newNode;
-    };
+    }
 
-    Node* createNode(Node *fst, Node *snd, string token, string lexeme){
-            Node* newNode = new Node(Token(token, lexeme));
+    Node createNode2(Node& fst, Node& snd, string token, string lexeme){
+            Node* newNode = new Node(new Token(token, lexeme));
 
             newNode->nodes.push_back(fst);
             newNode->nodes.push_back(snd);
 
             return newNode;
-    };
+    }
 
-    Node* createNode(Node *fst, Node *snd, Node *trd, string token, string lexeme){
-            Node* newNode = new Node(Token(token, lexeme));
-
-            newNode->nodes.push_back(fst);
-            newNode->nodes.push_back(snd);
-            newNode->nodes.push_back(trd);
-
-            return newNode;
-    };
-
-    Node* createNode(Node *fst, Node *snd, Node *trd, Node *frth, string token, string lexeme){
-            Node* newNode = new Node(Token(token, lexeme));
-
-            newNode->nodes.push_back(fst);
-            newNode->nodes.push_back(snd);
-            newNode->nodes.push_back(trd);
-            newNode->nodes.push_back(frth);
-
-            return newNode;
-    };
-
-#line 203 "Analyser.tab.c"
+#line 116 "Analyser.tab.cc"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -222,7 +135,7 @@
 #  endif
 # endif
 
-#include "Analyser.tab.h"
+#include "Analyser.tab.hh"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -288,37 +201,38 @@ enum yysymbol_kind_t
   YYSYMBOL_T_COLON = 58,                   /* T_COLON  */
   YYSYMBOL_YYACCEPT = 59,                  /* $accept  */
   YYSYMBOL_Program = 60,                   /* Program  */
-  YYSYMBOL_Programs = 61,                  /* Programs  */
-  YYSYMBOL_SimpleDeclaration = 62,         /* SimpleDeclaration  */
-  YYSYMBOL_VariableDeclaration = 63,       /* VariableDeclaration  */
-  YYSYMBOL_TypeDeclaration = 64,           /* TypeDeclaration  */
-  YYSYMBOL_RoutineDeclaration = 65,        /* RoutineDeclaration  */
-  YYSYMBOL_Parameters = 66,                /* Parameters  */
-  YYSYMBOL_ParameterDeclarations = 67,     /* ParameterDeclarations  */
-  YYSYMBOL_ParameterDeclaration = 68,      /* ParameterDeclaration  */
-  YYSYMBOL_Type = 69,                      /* Type  */
-  YYSYMBOL_PrimitiveType = 70,             /* PrimitiveType  */
-  YYSYMBOL_RecordType = 71,                /* RecordType  */
-  YYSYMBOL_VariableDeclarations = 72,      /* VariableDeclarations  */
-  YYSYMBOL_ArrayType = 73,                 /* ArrayType  */
-  YYSYMBOL_Body = 74,                      /* Body  */
-  YYSYMBOL_Bodies = 75,                    /* Bodies  */
-  YYSYMBOL_Statement = 76,                 /* Statement  */
-  YYSYMBOL_Assignment = 77,                /* Assignment  */
-  YYSYMBOL_RoutineCall = 78,               /* RoutineCall  */
-  YYSYMBOL_Expressions = 79,               /* Expressions  */
-  YYSYMBOL_WhileLoop = 80,                 /* WhileLoop  */
-  YYSYMBOL_ForLoop = 81,                   /* ForLoop  */
-  YYSYMBOL_Range = 82,                     /* Range  */
-  YYSYMBOL_IfStatement = 83,               /* IfStatement  */
-  YYSYMBOL_Expression = 84,                /* Expression  */
-  YYSYMBOL_Relation = 85,                  /* Relation  */
-  YYSYMBOL_Simple = 86,                    /* Simple  */
+  YYSYMBOL_SimpleDeclaration = 61,         /* SimpleDeclaration  */
+  YYSYMBOL_VariableDeclaration = 62,       /* VariableDeclaration  */
+  YYSYMBOL_TypeDeclaration = 63,           /* TypeDeclaration  */
+  YYSYMBOL_RoutineDeclaration = 64,        /* RoutineDeclaration  */
+  YYSYMBOL_Parameters = 65,                /* Parameters  */
+  YYSYMBOL_ParameterDeclarations = 66,     /* ParameterDeclarations  */
+  YYSYMBOL_ParameterDeclaration = 67,      /* ParameterDeclaration  */
+  YYSYMBOL_Type = 68,                      /* Type  */
+  YYSYMBOL_PrimitiveType = 69,             /* PrimitiveType  */
+  YYSYMBOL_RecordType = 70,                /* RecordType  */
+  YYSYMBOL_VariableDeclarations = 71,      /* VariableDeclarations  */
+  YYSYMBOL_ArrayType = 72,                 /* ArrayType  */
+  YYSYMBOL_Body = 73,                      /* Body  */
+  YYSYMBOL_Statement = 74,                 /* Statement  */
+  YYSYMBOL_Assignment = 75,                /* Assignment  */
+  YYSYMBOL_RoutineCall = 76,               /* RoutineCall  */
+  YYSYMBOL_Expressions = 77,               /* Expressions  */
+  YYSYMBOL_WhileLoop = 78,                 /* WhileLoop  */
+  YYSYMBOL_ForLoop = 79,                   /* ForLoop  */
+  YYSYMBOL_Range = 80,                     /* Range  */
+  YYSYMBOL_IfStatement = 81,               /* IfStatement  */
+  YYSYMBOL_Expression = 82,                /* Expression  */
+  YYSYMBOL_Relations = 83,                 /* Relations  */
+  YYSYMBOL_Relation = 84,                  /* Relation  */
+  YYSYMBOL_Simple = 85,                    /* Simple  */
+  YYSYMBOL_Factors = 86,                   /* Factors  */
   YYSYMBOL_Factor = 87,                    /* Factor  */
-  YYSYMBOL_Summand = 88,                   /* Summand  */
-  YYSYMBOL_Primary = 89,                   /* Primary  */
-  YYSYMBOL_ModifiablePrimary = 90,         /* ModifiablePrimary  */
-  YYSYMBOL_Identifiers = 91                /* Identifiers  */
+  YYSYMBOL_Summands = 88,                  /* Summands  */
+  YYSYMBOL_Summand = 89,                   /* Summand  */
+  YYSYMBOL_Primary = 90,                   /* Primary  */
+  YYSYMBOL_ModifiablePrimary = 91,         /* ModifiablePrimary  */
+  YYSYMBOL_Identifiers = 92                /* Identifiers  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -644,18 +558,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  12
+#define YYFINAL  13
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   175
+#define YYLAST   151
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  59
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  33
+#define YYNNTS  34
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  83
+#define YYNRULES  79
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  169
+#define YYNSTATES  164
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   313
@@ -710,15 +624,14 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   238,   238,   239,   242,   243,   244,   247,   248,   254,
-     255,   256,   259,   265,   266,   269,   273,   274,   277,   280,
-     281,   282,   283,   286,   287,   288,   291,   295,   296,   299,
-     304,   305,   306,   309,   310,   311,   314,   315,   316,   317,
-     318,   319,   322,   326,   327,   331,   332,   335,   338,   341,
-     342,   345,   346,   350,   351,   352,   353,   365,   366,   367,
-     368,   369,   370,   371,   375,   376,   377,   378,   383,   384,
-     385,   388,   389,   392,   393,   394,   395,   396,   400,   401,
-     405,   406,   407,   408
+       0,   125,   125,   126,   127,   130,   131,   137,   138,   139,
+     142,   148,   149,   152,   156,   157,   160,   163,   164,   165,
+     166,   169,   170,   171,   174,   177,   178,   181,   185,   186,
+     187,   190,   191,   192,   193,   194,   195,   198,   202,   203,
+     207,   208,   211,   214,   217,   218,   221,   222,   225,   229,
+     230,   231,   232,   235,   236,   237,   238,   239,   240,   241,
+     245,   248,   249,   250,   251,   255,   258,   259,   260,   263,
+     264,   267,   268,   269,   269,   270,   274,   278,   279,   280
 };
 #endif
 
@@ -744,13 +657,14 @@ static const char *const yytname[] =
   "T_SUBTROP", "T_DIVOP", "T_MODOP", "T_TAB", "T_NL", "T_POINTER",
   "T_REFERENCE", "T_LPAREN", "T_RPAREN", "T_LBRACK", "T_RBRACK",
   "T_DOTDOT", "T_DOT", "T_COMMA", "T_COLON", "$accept", "Program",
-  "Programs", "SimpleDeclaration", "VariableDeclaration",
-  "TypeDeclaration", "RoutineDeclaration", "Parameters",
-  "ParameterDeclarations", "ParameterDeclaration", "Type", "PrimitiveType",
-  "RecordType", "VariableDeclarations", "ArrayType", "Body", "Bodies",
-  "Statement", "Assignment", "RoutineCall", "Expressions", "WhileLoop",
-  "ForLoop", "Range", "IfStatement", "Expression", "Relation", "Simple",
-  "Factor", "Summand", "Primary", "ModifiablePrimary", "Identifiers", YY_NULLPTR
+  "SimpleDeclaration", "VariableDeclaration", "TypeDeclaration",
+  "RoutineDeclaration", "Parameters", "ParameterDeclarations",
+  "ParameterDeclaration", "Type", "PrimitiveType", "RecordType",
+  "VariableDeclarations", "ArrayType", "Body", "Statement", "Assignment",
+  "RoutineCall", "Expressions", "WhileLoop", "ForLoop", "Range",
+  "IfStatement", "Expression", "Relations", "Relation", "Simple",
+  "Factors", "Factor", "Summands", "Summand", "Primary",
+  "ModifiablePrimary", "Identifiers", YY_NULLPTR
 };
 
 static const char *
@@ -760,12 +674,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-131)
+#define YYPACT_NINF (-103)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-79)
+#define YYTABLE_NINF (-78)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -774,23 +688,23 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      67,    -1,     4,     7,    46,    90,  -131,  -131,    90,    36,
-     -11,     9,  -131,  -131,  -131,    90,    90,  -131,   106,    48,
-     106,    44,  -131,  -131,  -131,  -131,  -131,    24,    70,  -131,
-    -131,  -131,  -131,  -131,  -131,  -131,   -41,  -131,  -131,    48,
-    -131,   102,   101,    49,    56,  -131,  -131,    96,    54,    52,
-      58,    48,    70,   107,    48,    95,  -131,    74,    48,    48,
-      48,    48,    48,    48,    48,    48,    48,    48,    48,    48,
-      48,    48,    48,   106,    -4,    44,  -131,    85,  -131,  -131,
-      89,   -41,  -131,  -131,  -131,  -131,  -131,  -131,  -131,  -131,
-    -131,  -131,  -131,  -131,  -131,  -131,  -131,  -131,  -131,    93,
-     106,    58,   106,   -41,  -131,   130,    48,    48,   104,    25,
-      93,   145,    93,  -131,  -131,  -131,  -131,  -131,   120,   144,
-    -131,  -131,  -131,   153,   155,   152,    48,    34,    93,  -131,
-      93,  -131,  -131,    48,    93,    42,   157,    93,    93,   111,
-      48,   112,  -131,  -131,  -131,  -131,   154,    48,   113,    93,
-     156,    27,  -131,    34,  -131,  -131,   114,    48,   159,  -131,
-      93,  -131,  -131,    48,  -131,  -131,   160,  -131,  -131
+      53,     2,    34,    40,  -103,    75,    53,  -103,  -103,    53,
+      73,    -8,    31,  -103,  -103,  -103,    82,    12,    82,    64,
+    -103,  -103,  -103,    43,    88,  -103,  -103,  -103,  -103,  -103,
+    -103,  -103,   -43,  -103,  -103,    12,  -103,  -103,    85,  -103,
+    -103,  -103,  -103,    90,    49,    56,    52,    12,    88,    99,
+      12,    89,  -103,    61,    46,    12,    12,    12,    12,    12,
+      12,    16,    37,    12,    82,    -6,    64,  -103,    60,  -103,
+    -103,    76,   -43,  -103,    12,    12,    12,  -103,  -103,  -103,
+    -103,  -103,  -103,    12,    12,    12,    12,    12,  -103,  -103,
+      65,    82,    52,    82,   -43,  -103,  -103,  -103,  -103,  -103,
+    -103,  -103,  -103,  -103,   105,    12,    12,    80,     4,    65,
+     121,    65,  -103,  -103,  -103,  -103,  -103,    96,   120,  -103,
+    -103,  -103,   129,   131,   128,    12,    12,  -103,  -103,  -103,
+      12,    65,    -5,   133,    65,    65,    87,    83,  -103,   130,
+      12,    91,    65,   132,    20,  -103,    12,    92,  -103,    93,
+      12,   134,  -103,    65,  -103,    83,  -103,    12,  -103,  -103,
+     136,  -103,  -103,  -103
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -798,41 +712,41 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     0,     7,     8,     0,     0,
-       0,     0,     1,     4,     2,     0,     0,     3,     0,     0,
-       0,     0,     5,     6,    23,    24,    25,     0,    27,    22,
-      12,    19,    21,    20,    75,    76,    78,    73,    74,     0,
-      11,    53,    57,    64,    68,    71,    77,    10,     0,     0,
-      16,     0,    27,     0,     0,     0,    79,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    15,     0,    28,    26,
-       0,    80,    72,    54,    55,    56,    58,    60,    59,    61,
-      63,    62,    65,    66,    67,    69,    70,     9,    18,    30,
-       0,    16,     0,    82,    81,     0,     0,     0,     0,    43,
-      33,     0,    33,    36,    37,    38,    39,    40,     0,     0,
-      17,    29,    83,     0,     0,     0,     0,     0,    33,    31,
-      33,    14,    32,     0,    30,     0,     0,    30,    30,     0,
-       0,     0,    45,    34,    35,    42,     0,     0,     0,    30,
-       0,     0,    41,     0,    44,    13,     0,     0,     0,    47,
-      30,    52,    46,     0,    49,    48,     0,    50,    51
+       0,     0,     0,     0,     2,     0,     0,     5,     6,     0,
+       0,     0,     0,     1,     3,     4,     0,     0,     0,     0,
+      21,    22,    23,     0,    25,    20,    10,    17,    19,    18,
+      73,    74,    77,    71,    72,     0,     9,    49,    53,    61,
+      66,    69,    75,     8,     0,     0,    14,     0,    25,     0,
+       0,     0,    76,     0,    48,     0,     0,     0,     0,     0,
+       0,    60,    65,     0,     0,     0,     0,    13,     0,    26,
+      24,     0,    77,    70,     0,     0,     0,    54,    56,    55,
+      57,    59,    58,     0,     0,     0,     0,     0,     7,    16,
+      28,     0,    14,     0,    77,    78,    50,    51,    52,    62,
+      63,    64,    67,    68,     0,     0,     0,     0,    38,    28,
+       0,    28,    31,    32,    33,    34,    35,     0,     0,    15,
+      27,    79,     0,     0,     0,     0,     0,    29,    12,    30,
+       0,    28,     0,     0,    28,    28,     0,    40,    37,     0,
+       0,     0,    28,     0,     0,    36,     0,     0,    11,     0,
+       0,     0,    42,    28,    47,    40,    39,     0,    44,    43,
+       0,    41,    45,    46
 };
 
 /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int16 yypgoto[] =
+static const yytype_int8 yypgoto[] =
 {
-    -131,  -131,     6,     1,   -23,  -131,   166,  -131,    71,    98,
-     -18,  -131,  -131,   122,  -131,  -130,   -94,   -85,  -131,  -131,
-      22,  -131,  -131,  -131,  -131,   -19,  -131,    84,    19,  -131,
-    -131,   -86,   -70
+    -103,    15,     5,   -21,  -103,  -103,  -103,    50,    84,   -17,
+    -103,  -103,   101,  -103,  -102,  -103,  -103,  -103,    -4,  -103,
+    -103,  -103,  -103,   -35,  -103,   -32,    68,  -103,     9,  -103,
+     -33,  -103,   -86,   -56
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
-       0,     4,    14,   110,     6,     7,    16,    49,    76,    50,
-      30,    31,    32,    53,    33,   111,   129,   112,   113,   114,
-     141,   115,   116,   136,   117,   142,    41,    42,    43,    44,
-      45,    46,    56
+       0,     5,   109,     7,     8,     9,    45,    67,    46,    26,
+      27,    28,    49,    29,   110,   111,   112,   113,   147,   114,
+     115,   133,   116,    36,    54,    37,    38,    61,    39,    62,
+      40,    41,    42,    52
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -840,97 +754,91 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      40,     5,    47,    19,   146,    52,    15,   150,   151,    15,
-      99,   104,    54,   118,    17,    55,    15,    15,   132,   158,
-      57,    22,    23,     9,   118,   130,   118,   130,    10,    52,
-     166,    11,    77,   122,   143,    80,   144,   160,   161,    83,
-      84,    85,   118,   130,   118,   130,    12,    20,   118,   147,
-      18,   118,   118,    97,   100,    98,    34,    35,    36,    37,
-      21,    38,   -78,   118,    34,    35,    36,    37,    48,    38,
-      34,    35,    36,    37,   118,    38,   127,    51,    54,     1,
-       2,    55,   119,     2,   121,    39,     3,   124,   125,    95,
-      96,   140,    67,    39,    68,    69,   105,   106,    70,    39,
-      71,   107,     1,     2,    74,     1,     2,   139,   108,     3,
-      72,   128,    73,   128,   145,    75,   148,   109,    79,    81,
-      13,   153,    24,    25,    26,    82,    27,    28,   156,   128,
-      29,   128,    61,    62,    63,    64,    65,    66,   164,   102,
-      58,    59,    60,   103,   167,    86,    87,    88,    89,    90,
-      91,    92,    93,    94,   123,   126,   131,   133,   134,   135,
-     137,   138,   149,   152,   154,   155,     8,   159,   157,   163,
-     165,   168,   120,   101,    78,   162
+      53,    43,   140,    48,   117,     6,    17,   127,    90,   129,
+      50,     6,    68,    51,     6,    71,    95,    30,    31,    32,
+      33,    14,    34,   117,    15,   117,    10,    48,    88,   139,
+     153,   154,   143,   144,    30,    31,    32,    33,   121,    34,
+     151,   -77,    96,    97,    98,   117,    35,    89,   117,   117,
+      18,   160,    91,   102,   103,   126,   117,    50,    11,    83,
+      51,    84,    85,    35,    12,     1,     2,   117,   104,   105,
+     123,   124,     3,   106,   118,    13,   120,     1,     2,    86,
+     107,    87,    19,     4,    74,    75,    76,    16,    44,   108,
+     136,   137,    99,   100,   101,   138,    47,   141,    20,    21,
+      22,     2,    23,    24,    63,   149,    25,    64,    65,    66,
+      70,   155,    73,    72,    93,   158,    55,    56,    57,    58,
+      59,    60,   162,    77,    78,    79,    80,    81,    82,   122,
+      94,   125,   128,   130,   131,   132,   134,   135,   142,   145,
+     146,   148,   119,   152,   156,   159,   150,   163,   157,    69,
+      92,   161
 };
 
 static const yytype_uint8 yycheck[] =
 {
-      19,     0,    20,    14,   134,    28,     5,   137,   138,     8,
-      14,    81,    53,    99,     8,    56,    15,    16,   112,   149,
-      39,    15,    16,    24,   110,   110,   112,   112,    24,    52,
-     160,    24,    51,   103,   128,    54,   130,    10,    11,    58,
-      59,    60,   128,   128,   130,   130,     0,    58,   134,     7,
-      14,   137,   138,    72,    58,    73,    22,    23,    24,    25,
-      51,    27,    37,   149,    22,    23,    24,    25,    24,    27,
-      22,    23,    24,    25,   160,    27,    51,    53,    53,    12,
-      13,    56,   100,    13,   102,    51,    19,   106,   107,    70,
-      71,    57,    43,    51,    45,    46,     3,     4,    42,    51,
-      44,     8,    12,    13,    52,    12,    13,   126,    15,    19,
-      14,   110,    58,   112,   133,    57,   135,    24,    11,    24,
-      30,   140,    16,    17,    18,    51,    20,    21,   147,   128,
-      24,   130,    31,    32,    33,    34,    35,    36,   157,    54,
-      38,    39,    40,    54,   163,    61,    62,    63,    64,    65,
-      66,    67,    68,    69,    24,    51,    11,    37,    14,     6,
-       5,     9,     5,    52,    52,    11,     0,    11,    55,    55,
-      11,    11,   101,    75,    52,   153
+      35,    18,     7,    24,    90,     0,    14,   109,    14,   111,
+      53,     6,    47,    56,     9,    50,    72,    22,    23,    24,
+      25,     6,    27,   109,     9,   111,    24,    48,    63,   131,
+      10,    11,   134,   135,    22,    23,    24,    25,    94,    27,
+     142,    37,    74,    75,    76,   131,    51,    64,   134,   135,
+      58,   153,    58,    86,    87,    51,   142,    53,    24,    43,
+      56,    45,    46,    51,    24,    12,    13,   153,     3,     4,
+     105,   106,    19,     8,    91,     0,    93,    12,    13,    42,
+      15,    44,    51,    30,    38,    39,    40,    14,    24,    24,
+     125,   126,    83,    84,    85,   130,    53,   132,    16,    17,
+      18,    13,    20,    21,    14,   140,    24,    58,    52,    57,
+      11,   146,    51,    24,    54,   150,    31,    32,    33,    34,
+      35,    36,   157,    55,    56,    57,    58,    59,    60,    24,
+      54,    51,    11,    37,    14,     6,     5,     9,     5,    52,
+      57,    11,    92,    11,    52,    11,    55,    11,    55,    48,
+      66,   155
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    12,    13,    19,    60,    62,    63,    64,    65,    24,
-      24,    24,     0,    30,    61,    62,    65,    61,    14,    14,
-      58,    51,    61,    61,    16,    17,    18,    20,    21,    24,
-      69,    70,    71,    73,    22,    23,    24,    25,    27,    51,
-      84,    85,    86,    87,    88,    89,    90,    69,    24,    66,
-      68,    53,    63,    72,    53,    56,    91,    84,    38,    39,
-      40,    31,    32,    33,    34,    35,    36,    43,    45,    46,
-      42,    44,    14,    58,    52,    57,    67,    84,    72,    11,
-      84,    24,    51,    84,    84,    84,    86,    86,    86,    86,
-      86,    86,    86,    86,    86,    87,    87,    84,    69,    14,
-      58,    68,    54,    54,    91,     3,     4,     8,    15,    24,
-      62,    74,    76,    77,    78,    80,    81,    83,    90,    69,
-      67,    69,    91,    24,    84,    84,    51,    51,    62,    75,
-      76,    11,    75,    37,    14,     6,    82,     5,     9,    84,
-      57,    79,    84,    75,    75,    84,    74,     7,    84,     5,
-      74,    74,    52,    84,    52,    11,    84,    55,    74,    11,
-      10,    11,    79,    55,    84,    11,    74,    84,    11
+       0,    12,    13,    19,    30,    60,    61,    62,    63,    64,
+      24,    24,    24,     0,    60,    60,    14,    14,    58,    51,
+      16,    17,    18,    20,    21,    24,    68,    69,    70,    72,
+      22,    23,    24,    25,    27,    51,    82,    84,    85,    87,
+      89,    90,    91,    68,    24,    65,    67,    53,    62,    71,
+      53,    56,    92,    82,    83,    31,    32,    33,    34,    35,
+      36,    86,    88,    14,    58,    52,    57,    66,    82,    71,
+      11,    82,    24,    51,    38,    39,    40,    85,    85,    85,
+      85,    85,    85,    43,    45,    46,    42,    44,    82,    68,
+      14,    58,    67,    54,    54,    92,    84,    84,    84,    87,
+      87,    87,    89,    89,     3,     4,     8,    15,    24,    61,
+      73,    74,    75,    76,    78,    79,    81,    91,    68,    66,
+      68,    92,    24,    82,    82,    51,    51,    73,    11,    73,
+      37,    14,     6,    80,     5,     9,    82,    82,    82,    73,
+       7,    82,     5,    73,    73,    52,    57,    77,    11,    82,
+      55,    73,    11,    10,    11,    82,    52,    55,    82,    11,
+      73,    77,    82,    11
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    59,    60,    60,    61,    61,    61,    62,    62,    63,
-      63,    63,    64,    65,    65,    66,    67,    67,    68,    69,
-      69,    69,    69,    70,    70,    70,    71,    72,    72,    73,
-      74,    74,    74,    75,    75,    75,    76,    76,    76,    76,
-      76,    76,    77,    78,    78,    79,    79,    80,    81,    82,
-      82,    83,    83,    84,    84,    84,    84,    85,    85,    85,
-      85,    85,    85,    85,    86,    86,    86,    86,    87,    87,
-      87,    88,    88,    89,    89,    89,    89,    89,    90,    90,
-      91,    91,    91,    91
+       0,    59,    60,    60,    60,    61,    61,    62,    62,    62,
+      63,    64,    64,    65,    66,    66,    67,    68,    68,    68,
+      68,    69,    69,    69,    70,    71,    71,    72,    73,    73,
+      73,    74,    74,    74,    74,    74,    74,    75,    76,    76,
+      77,    77,    78,    79,    80,    80,    81,    81,    82,    83,
+      83,    83,    83,    84,    84,    84,    84,    84,    84,    84,
+      85,    86,    86,    86,    86,    87,    88,    88,    88,    89,
+      89,    90,    90,    90,    90,    90,    91,    92,    92,    92
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     2,     2,     1,     2,     2,     1,     1,     6,
-       4,     4,     4,    10,     8,     2,     0,     3,     3,     1,
-       1,     1,     1,     1,     1,     1,     3,     0,     2,     5,
-       0,     2,     2,     0,     2,     2,     1,     1,     1,     1,
-       1,     4,     3,     1,     4,     1,     3,     5,     6,     4,
-       5,     7,     5,     1,     3,     3,     3,     1,     3,     3,
-       3,     3,     3,     3,     1,     3,     3,     3,     1,     3,
-       3,     1,     3,     1,     1,     1,     1,     1,     1,     2,
-       2,     3,     3,     4
+       0,     2,     1,     2,     2,     1,     1,     6,     4,     4,
+       4,    10,     8,     2,     0,     3,     3,     1,     1,     1,
+       1,     1,     1,     1,     3,     0,     2,     5,     0,     2,
+       2,     1,     1,     1,     1,     1,     4,     3,     1,     5,
+       0,     3,     5,     6,     4,     5,     7,     5,     2,     0,
+       3,     3,     3,     1,     3,     3,     3,     3,     3,     3,
+       2,     0,     3,     3,     3,     2,     0,     3,     3,     1,
+       3,     1,     1,     1,     1,     1,     2,     0,     3,     4
 };
 
 
@@ -1393,500 +1301,8 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* Program: SimpleDeclaration Programs  */
-#line 238 "Analyser.y"
-                                        {(yyval.nodeLink) = combineNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList), "root", "root");}
-#line 1400 "Analyser.tab.c"
-    break;
 
-  case 3: /* Program: RoutineDeclaration Programs  */
-#line 239 "Analyser.y"
-                                        {(yyval.nodeLink) = combineNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList), "root", "root");}
-#line 1406 "Analyser.tab.c"
-    break;
-
-  case 4: /* Programs: T_EOF  */
-#line 242 "Analyser.y"
-                                         {(yyval.nodeList) = vector<Node*>();}
-#line 1412 "Analyser.tab.c"
-    break;
-
-  case 5: /* Programs: SimpleDeclaration Programs  */
-#line 243 "Analyser.y"
-                                        {(yyval.nodeList) = collectNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList));}
-#line 1418 "Analyser.tab.c"
-    break;
-
-  case 6: /* Programs: RoutineDeclaration Programs  */
-#line 244 "Analyser.y"
-                                        {(yyval.nodeList) = collectNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList));}
-#line 1424 "Analyser.tab.c"
-    break;
-
-  case 7: /* SimpleDeclaration: VariableDeclaration  */
-#line 247 "Analyser.y"
-                                        {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1430 "Analyser.tab.c"
-    break;
-
-  case 8: /* SimpleDeclaration: TypeDeclaration  */
-#line 248 "Analyser.y"
-                                        {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1436 "Analyser.tab.c"
-    break;
-
-  case 9: /* VariableDeclaration: T_VAR T_ID T_COLON Type T_IS Expression  */
-#line 254 "Analyser.y"
-                                                                {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-4].string))), (yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "var_decl_colon_is", "colon_is");}
-#line 1442 "Analyser.tab.c"
-    break;
-
-  case 10: /* VariableDeclaration: T_VAR T_ID T_COLON Type  */
-#line 255 "Analyser.y"
-                                                                {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-2].string))), (yyvsp[0].nodeLink), "var_decl_colon", "colon");}
-#line 1448 "Analyser.tab.c"
-    break;
-
-  case 11: /* VariableDeclaration: T_VAR T_ID T_IS Expression  */
-#line 256 "Analyser.y"
-                                                                {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-2].string))), (yyvsp[0].nodeLink), "var_decl_is", "is");}
-#line 1454 "Analyser.tab.c"
-    break;
-
-  case 12: /* TypeDeclaration: T_TYPE T_ID T_IS Type  */
-#line 259 "Analyser.y"
-                                                                {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-2].string))), (yyvsp[0].nodeLink), "type_decl_is", "is");}
-#line 1460 "Analyser.tab.c"
-    break;
-
-  case 13: /* RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS Body T_END  */
-#line 265 "Analyser.y"
-                                                                                                {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-8].string))), (yyvsp[-6].nodeLink), (yyvsp[-3].nodeLink),(yyvsp[-1].nodeLink), "routin_decl_type", "routin_decl_type");}
-#line 1466 "Analyser.tab.c"
-    break;
-
-  case 14: /* RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS Body T_END  */
-#line 266 "Analyser.y"
-                                                                                                {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-6].string))), (yyvsp[-4].nodeLink), (yyvsp[-1].nodeLink), "routin_decl", "routin_decl");}
-#line 1472 "Analyser.tab.c"
-    break;
-
-  case 15: /* Parameters: ParameterDeclaration ParameterDeclarations  */
-#line 269 "Analyser.y"
-                                                                                                {(yyval.nodeLink) = combineNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList), "param", "param");}
-#line 1478 "Analyser.tab.c"
-    break;
-
-  case 16: /* ParameterDeclarations: %empty  */
-#line 273 "Analyser.y"
-                                                                                                {(yyval.nodeList) = vector<Node*>();}
-#line 1484 "Analyser.tab.c"
-    break;
-
-  case 17: /* ParameterDeclarations: T_COMMA ParameterDeclaration ParameterDeclarations  */
-#line 274 "Analyser.y"
-                                                                                                {(yyval.nodeList) = collectNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList));}
-#line 1490 "Analyser.tab.c"
-    break;
-
-  case 18: /* ParameterDeclaration: T_ID T_COLON Type  */
-#line 277 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-2].string))), (yyvsp[0].nodeLink), "T_COLON", ":");}
-#line 1496 "Analyser.tab.c"
-    break;
-
-  case 19: /* Type: PrimitiveType  */
-#line 280 "Analyser.y"
-                                            {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1502 "Analyser.tab.c"
-    break;
-
-  case 20: /* Type: ArrayType  */
-#line 281 "Analyser.y"
-                                            {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1508 "Analyser.tab.c"
-    break;
-
-  case 21: /* Type: RecordType  */
-#line 282 "Analyser.y"
-                                            {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1514 "Analyser.tab.c"
-    break;
-
-  case 22: /* Type: T_ID  */
-#line 283 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode("T_ID", (yyvsp[0].string));}
-#line 1520 "Analyser.tab.c"
-    break;
-
-  case 23: /* PrimitiveType: T_INTEGER  */
-#line 286 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode("T_INTEGER", "integer");}
-#line 1526 "Analyser.tab.c"
-    break;
-
-  case 24: /* PrimitiveType: T_REAL  */
-#line 287 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode("T_REAL", "real");}
-#line 1532 "Analyser.tab.c"
-    break;
-
-  case 25: /* PrimitiveType: T_BOOLEAN  */
-#line 288 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode("T_BOOLEAN", "boolean");}
-#line 1538 "Analyser.tab.c"
-    break;
-
-  case 26: /* RecordType: T_RECORD VariableDeclarations T_END  */
-#line 291 "Analyser.y"
-                                                 {(yyval.nodeLink) = combineNodes((yyvsp[-1].nodeList), "T_RECORD", "record");}
-#line 1544 "Analyser.tab.c"
-    break;
-
-  case 27: /* VariableDeclarations: %empty  */
-#line 295 "Analyser.y"
-                                                                {(yyval.nodeList) = vector<Node*>();}
-#line 1550 "Analyser.tab.c"
-    break;
-
-  case 28: /* VariableDeclarations: VariableDeclaration VariableDeclarations  */
-#line 296 "Analyser.y"
-                                                                {(yyval.nodeList) = collectNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList));}
-#line 1556 "Analyser.tab.c"
-    break;
-
-  case 29: /* ArrayType: T_ARRAY T_LBRACK Expression T_RBRACK Type  */
-#line 299 "Analyser.y"
-                                                        {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_ARRAY", "array");}
-#line 1562 "Analyser.tab.c"
-    break;
-
-  case 30: /* Body: %empty  */
-#line 304 "Analyser.y"
-                                    {(yyval.nodeLink) = createNode("BODY", "body");}
-#line 1568 "Analyser.tab.c"
-    break;
-
-  case 31: /* Body: SimpleDeclaration Bodies  */
-#line 305 "Analyser.y"
-                                    {(yyval.nodeLink) = combineNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList), "BODY", "body");}
-#line 1574 "Analyser.tab.c"
-    break;
-
-  case 32: /* Body: Statement Bodies  */
-#line 306 "Analyser.y"
-                                    {(yyval.nodeLink) = combineNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList), "BODY", "body");}
-#line 1580 "Analyser.tab.c"
-    break;
-
-  case 33: /* Bodies: %empty  */
-#line 309 "Analyser.y"
-                                    {(yyval.nodeList) = vector<Node*>();}
-#line 1586 "Analyser.tab.c"
-    break;
-
-  case 34: /* Bodies: SimpleDeclaration Bodies  */
-#line 310 "Analyser.y"
-                                    {(yyval.nodeList) = collectNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList));}
-#line 1592 "Analyser.tab.c"
-    break;
-
-  case 35: /* Bodies: Statement Bodies  */
-#line 311 "Analyser.y"
-                                    {(yyval.nodeList) = collectNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList));}
-#line 1598 "Analyser.tab.c"
-    break;
-
-  case 36: /* Statement: Assignment  */
-#line 314 "Analyser.y"
-                                                    {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1604 "Analyser.tab.c"
-    break;
-
-  case 37: /* Statement: RoutineCall  */
-#line 315 "Analyser.y"
-                                                    {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1610 "Analyser.tab.c"
-    break;
-
-  case 38: /* Statement: WhileLoop  */
-#line 316 "Analyser.y"
-                                                    {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1616 "Analyser.tab.c"
-    break;
-
-  case 39: /* Statement: ForLoop  */
-#line 317 "Analyser.y"
-                                                    {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1622 "Analyser.tab.c"
-    break;
-
-  case 40: /* Statement: IfStatement  */
-#line 318 "Analyser.y"
-                                                    {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1628 "Analyser.tab.c"
-    break;
-
-  case 41: /* Statement: T_PRINT T_LPAREN Expression T_RPAREN  */
-#line 319 "Analyser.y"
-                                                    {(yyval.nodeLink) = createNode((yyvsp[-1].nodeLink), "T_PRINT", "print");}
-#line 1634 "Analyser.tab.c"
-    break;
-
-  case 42: /* Assignment: ModifiablePrimary T_COLONEQU Expression  */
-#line 322 "Analyser.y"
-                                                     {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_COLONEQU", ":=");}
-#line 1640 "Analyser.tab.c"
-    break;
-
-  case 43: /* RoutineCall: T_ID  */
-#line 326 "Analyser.y"
-                                                    {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[0].string))), "RoutineCall", (yyvsp[0].string));}
-#line 1646 "Analyser.tab.c"
-    break;
-
-  case 44: /* RoutineCall: T_ID T_LPAREN Expressions T_RPAREN  */
-#line 327 "Analyser.y"
-                                                    {(yyval.nodeLink) = combineNodes(new Node(Token("T_ID", (yyvsp[-3].string))), (yyvsp[-1].nodeList), "RoutineCall", "RoutineCall");}
-#line 1652 "Analyser.tab.c"
-    break;
-
-  case 45: /* Expressions: Expression  */
-#line 331 "Analyser.y"
-                                                    {(yyval.nodeList) = collectNodes((yyvsp[0].nodeLink));}
-#line 1658 "Analyser.tab.c"
-    break;
-
-  case 46: /* Expressions: T_COMMA Expression Expressions  */
-#line 332 "Analyser.y"
-                                                    {(yyval.nodeList) = collectNodes((yyvsp[-1].nodeLink), (yyvsp[0].nodeList));}
-#line 1664 "Analyser.tab.c"
-    break;
-
-  case 47: /* WhileLoop: T_WHILE Expression T_LOOP Body T_END  */
-#line 335 "Analyser.y"
-                                                    {(yyval.nodeLink) = createNode((yyvsp[-3].nodeLink), (yyvsp[-1].nodeLink), "T_WHILE", "while");}
-#line 1670 "Analyser.tab.c"
-    break;
-
-  case 48: /* ForLoop: T_FOR T_ID Range T_LOOP Body T_END  */
-#line 338 "Analyser.y"
-                                                    {(yyval.nodeLink) = createNode(new Node(Token("T_ID", (yyvsp[-4].string))), (yyvsp[-3].nodeLink), (yyvsp[-1].nodeLink), "T_FOR", "for");}
-#line 1676 "Analyser.tab.c"
-    break;
-
-  case 49: /* Range: T_IN Expression T_DOTDOT Expression  */
-#line 341 "Analyser.y"
-                                                        {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_IN", "in");}
-#line 1682 "Analyser.tab.c"
-    break;
-
-  case 50: /* Range: T_IN T_REVERSE Expression T_DOTDOT Expression  */
-#line 342 "Analyser.y"
-                                                        {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_IN_REVERSE", "in_reverse");}
-#line 1688 "Analyser.tab.c"
-    break;
-
-  case 51: /* IfStatement: T_IF Expression T_THEN Body T_ELSE Body T_END  */
-#line 345 "Analyser.y"
-                                                                {(yyval.nodeLink) = createNode((yyvsp[-5].nodeLink), (yyvsp[-3].nodeLink), (yyvsp[-1].nodeLink), "T_IF_ELSE", "if_else");}
-#line 1694 "Analyser.tab.c"
-    break;
-
-  case 52: /* IfStatement: T_IF Expression T_THEN Body T_END  */
-#line 346 "Analyser.y"
-                                                                {(yyval.nodeLink) = createNode((yyvsp[-3].nodeLink), (yyvsp[-1].nodeLink), "T_IF", "if");}
-#line 1700 "Analyser.tab.c"
-    break;
-
-  case 53: /* Expression: Relation  */
-#line 350 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[0].nodeLink), "Expression", "Expression");}
-#line 1706 "Analyser.tab.c"
-    break;
-
-  case 54: /* Expression: Relation T_AND Expression  */
-#line 351 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_AND", "and");}
-#line 1712 "Analyser.tab.c"
-    break;
-
-  case 55: /* Expression: Relation T_OR Expression  */
-#line 352 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_OR", "or");}
-#line 1718 "Analyser.tab.c"
-    break;
-
-  case 56: /* Expression: Relation T_XOR Expression  */
-#line 353 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_XOR", "xor");}
-#line 1724 "Analyser.tab.c"
-    break;
-
-  case 57: /* Relation: Simple  */
-#line 365 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[0].nodeLink), "Relation", "relation");}
-#line 1730 "Analyser.tab.c"
-    break;
-
-  case 58: /* Relation: Simple T_LESS Simple  */
-#line 366 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_LESS", "<");}
-#line 1736 "Analyser.tab.c"
-    break;
-
-  case 59: /* Relation: Simple T_LESSOREQU Simple  */
-#line 367 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_LESSOREQU", "<=");}
-#line 1742 "Analyser.tab.c"
-    break;
-
-  case 60: /* Relation: Simple T_GREAT Simple  */
-#line 368 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_GREAT", ">");}
-#line 1748 "Analyser.tab.c"
-    break;
-
-  case 61: /* Relation: Simple T_GREATOREQU Simple  */
-#line 369 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_GREATOREQU", ">=");}
-#line 1754 "Analyser.tab.c"
-    break;
-
-  case 62: /* Relation: Simple T_EQU Simple  */
-#line 370 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_EQU", "=");}
-#line 1760 "Analyser.tab.c"
-    break;
-
-  case 63: /* Relation: Simple T_NOTEQU Simple  */
-#line 371 "Analyser.y"
-                                            {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_NOTEQU", "/=");}
-#line 1766 "Analyser.tab.c"
-    break;
-
-  case 64: /* Simple: Factor  */
-#line 375 "Analyser.y"
-                                    {(yyval.nodeLink) = createNode((yyvsp[0].nodeLink), "Simple", "simple");}
-#line 1772 "Analyser.tab.c"
-    break;
-
-  case 65: /* Simple: Factor T_MULTOP Simple  */
-#line 376 "Analyser.y"
-                                   {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_MULTOP", "*");}
-#line 1778 "Analyser.tab.c"
-    break;
-
-  case 66: /* Simple: Factor T_DIVOP Simple  */
-#line 377 "Analyser.y"
-                                   {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_DIVOP", "/");}
-#line 1784 "Analyser.tab.c"
-    break;
-
-  case 67: /* Simple: Factor T_MODOP Simple  */
-#line 378 "Analyser.y"
-                                   {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_MODOP", "%");}
-#line 1790 "Analyser.tab.c"
-    break;
-
-  case 68: /* Factor: Summand  */
-#line 383 "Analyser.y"
-                                        {(yyval.nodeLink) = createNode((yyvsp[0].nodeLink), "Summand", "summand");}
-#line 1796 "Analyser.tab.c"
-    break;
-
-  case 69: /* Factor: Summand T_ADDOP Factor  */
-#line 384 "Analyser.y"
-                                      {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_ADDOP", "+");}
-#line 1802 "Analyser.tab.c"
-    break;
-
-  case 70: /* Factor: Summand T_SUBTROP Factor  */
-#line 385 "Analyser.y"
-                                      {(yyval.nodeLink) = createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink), "T_SUBTROP", "-");}
-#line 1808 "Analyser.tab.c"
-    break;
-
-  case 71: /* Summand: Primary  */
-#line 388 "Analyser.y"
-                                        {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1814 "Analyser.tab.c"
-    break;
-
-  case 72: /* Summand: T_LPAREN Expression T_LPAREN  */
-#line 389 "Analyser.y"
-                                        {(yyval.nodeLink) = (yyvsp[-1].nodeLink);}
-#line 1820 "Analyser.tab.c"
-    break;
-
-  case 73: /* Primary: T_ICONST  */
-#line 392 "Analyser.y"
-                                        {(yyval.nodeLink) = createNode("T_ICONST", to_string((yyvsp[0].integer)));}
-#line 1826 "Analyser.tab.c"
-    break;
-
-  case 74: /* Primary: T_RCONST  */
-#line 393 "Analyser.y"
-                                        {(yyval.nodeLink) = createNode("T_RCONST", to_string((yyvsp[0].real)));}
-#line 1832 "Analyser.tab.c"
-    break;
-
-  case 75: /* Primary: T_TRUE  */
-#line 394 "Analyser.y"
-                                        {(yyval.nodeLink) = createNode("T_TRUE", "true");}
-#line 1838 "Analyser.tab.c"
-    break;
-
-  case 76: /* Primary: T_FALSE  */
-#line 395 "Analyser.y"
-                                        {(yyval.nodeLink) = createNode("T_FALSE", "false");}
-#line 1844 "Analyser.tab.c"
-    break;
-
-  case 77: /* Primary: ModifiablePrimary  */
-#line 396 "Analyser.y"
-                                        {(yyval.nodeLink) = (yyvsp[0].nodeLink);}
-#line 1850 "Analyser.tab.c"
-    break;
-
-  case 78: /* ModifiablePrimary: T_ID  */
-#line 400 "Analyser.y"
-                                    {createNode(new Node(Token("T_ID", (yyvsp[0].string))),"ModifiablePrim", "ModifiablePrim");}
-#line 1856 "Analyser.tab.c"
-    break;
-
-  case 79: /* ModifiablePrimary: T_ID Identifiers  */
-#line 401 "Analyser.y"
-                                    {createNode(new Node(Token("T_ID", (yyvsp[-1].string))), (yyvsp[0].nodeLink),"ModifiablePrim", "ModifiablePrim");}
-#line 1862 "Analyser.tab.c"
-    break;
-
-  case 80: /* Identifiers: T_DOT T_ID  */
-#line 405 "Analyser.y"
-                                                        {createNode(new Node(Token("T_ID", (yyvsp[0].string))),"T_DOT", ".");}
-#line 1868 "Analyser.tab.c"
-    break;
-
-  case 81: /* Identifiers: T_DOT T_ID Identifiers  */
-#line 406 "Analyser.y"
-                                                        {createNode(new Node(Token("T_ID", (yyvsp[-1].string))), (yyvsp[0].nodeLink),"T_DOT", ".");}
-#line 1874 "Analyser.tab.c"
-    break;
-
-  case 82: /* Identifiers: T_LBRACK Expression T_RBRACK  */
-#line 407 "Analyser.y"
-                                                        {createNode((yyvsp[-1].nodeLink),"BRACKS", "[]");}
-#line 1880 "Analyser.tab.c"
-    break;
-
-  case 83: /* Identifiers: T_LBRACK Expression T_RBRACK Identifiers  */
-#line 408 "Analyser.y"
-                                                        {createNode((yyvsp[-2].nodeLink), (yyvsp[0].nodeLink),"BRACKS", "[]");}
-#line 1886 "Analyser.tab.c"
-    break;
-
-
-#line 1890 "Analyser.tab.c"
+#line 1306 "Analyser.tab.cc"
 
       default: break;
     }
@@ -2079,7 +1495,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 411 "Analyser.y"
+#line 283 "Analyser.yy"
 
 
 int main (void) {
