@@ -3,20 +3,21 @@
     #include <iostream>
     #include <string.h>
     #include <vector>
+    #include <typeinfo>
     extern int yylineno;
-    extern int yylex();
+    int yylex();
     using namespace std;
-    void yyerror(char *s) {
-        printf("Syntax Error on Line %s\n", s);
+    void yyerror(std::string s) {
+        cout << "Syntax Error on Line" << s << endl;
         cerr << s << ", line " << yylineno << endl;
         exit(1);
     }
 
     struct Token{
-        string token;
-        string lexeme;
+        std::string token;
+        std::string lexeme;
 
-        Token(string token, string lexeme) : token(token), lexeme(lexeme){};
+        Token(std::string token, std::string lexeme) : token(token), lexeme(lexeme){};
     };
 
     struct Node {
@@ -32,13 +33,14 @@
 
         unsigned int integer;
         double real;
-        char *string;
+        std::string string;
         char character;
         int boolean;
     } YYSTYPE;
     #define YYSTYPE YYSTYPE
+
     
-    Node* combineNodes(vector<Node*> nodes, string token, string lexeme){
+    Node* combineNodes(vector<Node*> nodes, std::string token, std::string lexeme){
         Node* newNode = new Node(Token(token, lexeme));
 
         for (int i = 0; i < nodes.size(); ++i){
@@ -47,7 +49,7 @@
         return newNode;
     };
 
-    Node* combineNodes(Node *fst, vector<Node*> nodes, string token, string lexeme){
+    Node* combineNodes(Node *fst, vector<Node*> nodes, std::string token, std::string lexeme){
         Node* newNode = new Node(Token(token, lexeme));
 
         newNode->nodes.push_back(fst);
@@ -86,13 +88,13 @@
         return newNode;
     };
 
-    Node* createNode(string token, string lexeme){
+    Node* createNode(std::string token, std::string lexeme){
         Node* newNode = new Node(Token(token, lexeme));
 
         return newNode;
     };
 
-    Node* createNode(Node *fst, string token, string lexeme){
+    Node* createNode(Node *fst, std::string token, std::string lexeme){
         Node* newNode = new Node(Token(token, lexeme));
 
         newNode->nodes.push_back(fst);
@@ -129,6 +131,8 @@
 
             return newNode;
     };
+
+    Node* root = new Node(Token("root", "root"));
 %}
 
 
@@ -235,8 +239,8 @@ T_COLON // :
 
 // Zero or more
 // Program : { SimpleDeclaration | RoutineDeclaration }
-Program : SimpleDeclaration Programs    {$$ = combineNodes($1, $2, "root", "root");}
-        | RoutineDeclaration Programs   {$$ = combineNodes($1, $2, "root", "root");}
+Program : SimpleDeclaration Programs    {root = combineNodes($1, $2, "root", "root");}
+        | RoutineDeclaration Programs   {root = combineNodes($1, $2, "root", "root");}
         ;
 
 Programs : T_EOF                         {$$ = vector<Node*>();}
@@ -323,7 +327,7 @@ Assignment : ModifiablePrimary T_COLONEQU Expression {$$ = createNode($1, $3, "T
                 ;
 
 // RoutineCall : Identifier [ '('' Expression { , Expression } ')' ]
-RoutineCall : T_ID                                  {$$ = createNode(new Node(Token("T_ID", $1)), "RoutineCall", $1);}
+RoutineCall : T_ID                                  {$$ = createNode("T_ID", $1);}
             | T_ID T_LPAREN Expressions T_RPAREN    {$$ = combineNodes(new Node(Token("T_ID", $1)), $3, "RoutineCall", "RoutineCall");}
             ;
 
@@ -347,7 +351,7 @@ IfStatement : T_IF Expression T_THEN Body T_ELSE Body  T_END    {$$ = createNode
             ;
 
 // Возможно, прикреплять детей к родительскому ноду
-Expression : Relation                       {$$ = createNode($1, "Expression", "Expression");}
+Expression : Relation                       {$$ = $1;}
             | Relation T_AND Expression     {$$ = createNode($1, $3, "T_AND", "and");}
             | Relation T_OR  Expression     {$$ = createNode($1, $3, "T_OR", "or");}
             | Relation T_XOR Expression     {$$ = createNode($1, $3, "T_XOR", "xor");}
@@ -362,7 +366,7 @@ Expression : Relation                       {$$ = createNode($1, "Expression", "
 //          ;
 
 
-Relation : Simple                           {$$ = createNode($1, "Relation", "relation");}
+Relation : Simple                           {$$ = $1;}
           | Simple T_LESS Simple            {$$ = createNode($1, $3, "T_LESS", "<");}
           | Simple T_LESSOREQU Simple       {$$ = createNode($1, $3, "T_LESSOREQU", "<=");}
           | Simple T_GREAT Simple           {$$ = createNode($1, $3, "T_GREAT", ">");}
@@ -372,7 +376,7 @@ Relation : Simple                           {$$ = createNode($1, "Relation", "re
           ;
 
 // Simple : Factor { ( * | / | % ) Factor }
-Simple : Factor                     {$$ = createNode($1, "Simple", "simple");}
+Simple : Factor                     {$$ = $1;}
         | Factor T_MULTOP Simple   {$$ = createNode($1, $3, "T_MULTOP", "*");}
         | Factor T_DIVOP Simple    {$$ = createNode($1, $3, "T_DIVOP", "/");}
         | Factor T_MODOP Simple    {$$ = createNode($1, $3, "T_MODOP", "%");}
@@ -380,7 +384,7 @@ Simple : Factor                     {$$ = createNode($1, "Simple", "simple");}
 
 
 //Factor : Summand { ( + | - ) Summand }
-Factor : Summand                        {$$ = createNode($1, "Summand", "summand");}
+Factor : Summand                        {$$ = $1;}
         | Summand T_ADDOP Factor      {$$ = createNode($1, $3, "T_ADDOP", "+");}
         | Summand T_SUBTROP Factor    {$$ = createNode($1, $3, "T_SUBTROP", "-");}
         ;
@@ -397,19 +401,46 @@ Primary : T_ICONST                      {$$ = createNode("T_ICONST", to_string($
         ;
 
 //ModifiablePrimary : Identifier { . Identifier | [ Expression ] }
-ModifiablePrimary : T_ID            {createNode(new Node(Token("T_ID", $1)),"ModifiablePrim", "ModifiablePrim");}
-                | T_ID Identifiers  {createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "ModifiablePrim");}
+ModifiablePrimary : T_ID            {$$ = createNode("T_ID", $1);}
+                | T_ID Identifiers  {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "ModifiablePrim");}
                 ;
 
 // Zero of more
-Identifiers : T_DOT T_ID                                {createNode(new Node(Token("T_ID", $2)),"T_DOT", ".");}
-            | T_DOT T_ID Identifiers                    {createNode(new Node(Token("T_ID", $2)), $3,"T_DOT", ".");}
-            | T_LBRACK Expression T_RBRACK              {createNode($2,"BRACKS", "[]");}
-            | T_LBRACK Expression T_RBRACK Identifiers  {createNode($2, $4,"BRACKS", "[]");}
+Identifiers : T_DOT T_ID                                {$$ = createNode(new Node(Token("T_ID", $2)),"T_DOT", ".");}
+            | T_DOT T_ID Identifiers                    {$$ = createNode(new Node(Token("T_ID", $2)), $3,"T_DOT", ".");}
+            | T_LBRACK Expression T_RBRACK              {$$ = createNode($2,"BRACKS", "[]");}
+            | T_LBRACK Expression T_RBRACK Identifiers  {$$ = createNode($2, $4,"BRACKS", "[]");}
             ;
+
+//ModifiablePrimary : T_ID                                                {$$ = createNode("T_ID", $1);}
+//                |   T_ID T_DOT ModifiablePrimary                        {$$ = createNode(new Node(Token("T_ID", $1)), $3, "T_DOT", ".");}
+//                |   T_ID T_LBRACK Expression T_RBRACK ModifiablePrimary {$$ = createNode(new Node(Token("T_ID", $1)), $3, $5,"T_BRACKETS", "[]");}
+//                ;
 
 %%
 
+void printAST(Node *curNode, int depth = 0)
+{
+    for (int i = 0; i < depth; ++i)
+        cout << "---";
+
+    if (curNode->nodes.empty())
+        cout << "| ";
+    else
+        cout << "> ";
+
+    cout << curNode->token.token << " : " << curNode->token.lexeme << endl;
+
+    for (Node *nextNode : curNode->nodes)
+    {
+        printAST(nextNode, depth + 1);
+    }
+}
+
 int main (void) {
-  return yyparse();
+    auto newNode = yyparse();
+    
+    cout << "\n\n";
+    printAST(root, 0);
+    return 0;
 }

@@ -1,5 +1,7 @@
 %{
+    #include <iostream>
     #include <string>
+    #include <typeinfo>
     #define YYSTYPE std::string
     #include "Analyser.tab.h"
     void yyerror(char *s);
@@ -151,9 +153,9 @@ D   [0-9]
 "."     {printf("T_. "); return( T_DOT );}
 
 
-(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* { /*yylval.string = strdup(yytext);*/printf("T_ID:%s ", yytext);    return( T_ID );} 
+(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* {/*yylval = yytext;*/ printf("T_ID:%s ", yytext);    return( T_ID );} 
 
-{Int_Lit}           {/*yylval.integer = atoi(yytext); */printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
+{Int_Lit}           {/*yylval.integer = atoi(yytext);yylval = atoi(yytext);*/ printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
 {Float_Lit}         {/*yylval.real = decRealHandler(yytext);*/printf("T_RCONST:%s ", yytext); return( T_RCONST );}
 {String_Lit}        {/*yylval.string = yytext.substr(1, yytext.size() - 2);*/printf("T_SCONST:%s ", yytext);   return( T_SCONST );}
 
