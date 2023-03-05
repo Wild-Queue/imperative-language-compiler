@@ -1,8 +1,34 @@
 %{
     #include <iostream>
     #include <string>
+    #include <vector>
     #include <typeinfo>
-    #define YYSTYPE std::string
+
+    struct Token{
+        std::string token;
+        std::string lexeme;
+
+        Token(std::string token, std::string lexeme) : token(token), lexeme(lexeme){};
+    };
+
+    struct Node {
+        Token token = Token("NONE", "");
+        std::vector<Node*>nodes;
+
+        Node(Token token) : token(token){};
+    };
+
+    typedef struct {
+        Node* nodeLink;
+        std::vector<Node*> nodeList;
+
+        long long int integer;
+        double real;
+        std::string string;
+        char character;
+        int boolean;
+    } YYSTYPE;
+    #define YYSTYPE YYSTYPE
     #include "Analyser.tab.h"
     void yyerror(char *s);
     int line_no = 1;
@@ -49,7 +75,7 @@ Decimal_Lit      ((0)|(([1-9])((_)?{Decimal_Digits})?))
 
 Hex_Lit      ((0)(x|X)(_)?{Hex_Digits})
 
-Int_Lit       ({Binary_Lit}|{Octal_Lit}|{Decimal_Lit}|{Hex_Lit})
+Int_Lit       ((-)?{Binary_Lit}|{Octal_Lit}|{Decimal_Lit}|{Hex_Lit})
 
 /* floating piont literals*/
 
@@ -63,7 +89,7 @@ Hex_Float_Lit   (0)(x|X){Hex_Mantisa}{Hex_Exponent}
 
 Decimal_Float_Lit   ({Decimal_Digits}("."){Decimal_Digits}?{Decimal_Exponent}?)|({Decimal_Digits}{Decimal_Exponent})|(("."){Decimal_Digits}{Decimal_Exponent}?)
 
-Float_Lit       ({Decimal_Float_Lit}|{Hex_Float_Lit})
+Float_Lit       ((-)?({Decimal_Float_Lit}|{Hex_Float_Lit}))
 
 /*Rune literals*/
 
@@ -106,7 +132,8 @@ D   [0-9]
 "in"            {printf("T_IN "); return( T_IN );}
 "if"            {printf("T_IF "); return( T_IF );}
 "is"            {printf("T_IS "); return( T_IS );}
-"print"            {printf("T_PRINT "); return( T_PRINT );}
+"print"         {printf("T_PRINT "); return( T_PRINT );}
+"return"        {printf("T_RETURN "); return( T_RETURN );}
 
 "integer"           {printf("T_INTEGER "); return( T_INTEGER );}
 "boolean"           {printf("T_BOOLEAN "); return( T_BOOLEAN );}
@@ -153,11 +180,11 @@ D   [0-9]
 "."     {printf("T_. "); return( T_DOT );}
 
 
-(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* {/*yylval = yytext;*/ printf("T_ID:%s ", yytext);    return( T_ID );} 
+(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* {yylval.string = std::string(yytext); printf("T_ID:%s ", yytext); return( T_ID);} 
 
-{Int_Lit}           {/*yylval.integer = atoi(yytext);yylval = atoi(yytext);*/ printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
-{Float_Lit}         {/*yylval.real = decRealHandler(yytext);*/printf("T_RCONST:%s ", yytext); return( T_RCONST );}
-{String_Lit}        {/*yylval.string = yytext.substr(1, yytext.size() - 2);*/printf("T_SCONST:%s ", yytext);   return( T_SCONST );}
+{Int_Lit}           {yylval.integer = atoi(yytext); printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
+{Float_Lit}         {yylval.real = atof(yytext); printf("T_RCONST:%s ", yytext); return( T_RCONST );}
+{String_Lit}        {yylval.string = std::string(yytext); printf("T_SCONST:%s ", yytext);   return( T_SCONST );}
 
 <<EOF>>     {/*printf("T_EOF ");*/ static int once = 0; return once++ ? 0 : T_EOF ;}
 

@@ -4,6 +4,7 @@
     #include <string.h>
     #include <vector>
     #include <typeinfo>
+    extern FILE *yyin;
     extern int yylineno;
     int yylex();
     using namespace std;
@@ -31,7 +32,7 @@
         Node* nodeLink;
         vector<Node*> nodeList;
 
-        unsigned int integer;
+        long long int integer;
         double real;
         std::string string;
         char character;
@@ -133,11 +134,13 @@
     };
 
     Node* root = new Node(Token("root", "root"));
+
+
 %}
 
 
 //keywords
-%token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS T_PRINT
+%token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS T_PRINT T_RETURN
 %token <string> T_INTEGER T_REAL T_BOOLEAN T_ROUTINE T_ARRAY T_RECORD T_TRUE T_FALSE
 
 //identifier
@@ -239,8 +242,8 @@ T_COLON // :
 
 // Zero or more
 // Program : { SimpleDeclaration | RoutineDeclaration }
-Program : SimpleDeclaration Programs    {root = combineNodes($1, $2, "root", "root");}
-        | RoutineDeclaration Programs   {root = combineNodes($1, $2, "root", "root");}
+Program : SimpleDeclaration Programs    {root = combineNodes($1, $2, "root", "ROOT");}
+        | RoutineDeclaration Programs   {root = combineNodes($1, $2, "root", "ROOT");}
         ;
 
 Programs : T_EOF                         {$$ = vector<Node*>();}
@@ -255,7 +258,7 @@ SimpleDeclaration : VariableDeclaration {$$ = $1;}
 //VariableDeclaration
 // : var Identifier : Type [ is Expression ]
 // | var Identifier is Expression
-VariableDeclaration : T_VAR T_ID T_COLON Type T_IS Expression   {$$ = createNode(new Node(Token("T_ID", $2)), $4, $6, "var_decl_colon_is", "colon_is");}
+VariableDeclaration : T_VAR T_ID T_COLON Type T_IS Expression   {$$ = createNode(new Node(Token("T_ID", $2)), $4, $6, "var_decl_colon_is", "colon is");}
                   | T_VAR T_ID T_COLON Type                     {$$ = createNode(new Node(Token("T_ID", $2)), $4, "var_decl_colon", "colon");}
                   | T_VAR T_ID T_IS Expression                  {$$ = createNode(new Node(Token("T_ID", $2)), $4, "var_decl_is", "is");}
                   ;
@@ -266,11 +269,11 @@ TypeDeclaration : T_TYPE T_ID T_IS Type                         {$$ = createNode
 //RoutineDeclaration
 // : routine Identifier ( Parameters ) [ : Type ] is Body end
 RoutineDeclaration 
-              : T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS Body T_END        {$$ = createNode(new Node(Token("T_ID", $2)), $4, $7,$9, "routin_decl_type", "routin_decl_type");}   
-              | T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS Body T_END                     {$$ = createNode(new Node(Token("T_ID", $2)), $4, $7, "routin_decl", "routin_decl");}
+              : T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS Body T_END        {$$ = createNode(new Node(Token("T_ID", $2)), $4, $7,$9, "routin_decl_type", "routine");}   
+              | T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS Body T_END                     {$$ = createNode(new Node(Token("T_ID", $2)), $4, $7, "routin_decl", "routine");}
               ;
 
-Parameters : ParameterDeclaration ParameterDeclarations                                         {$$ = combineNodes($1, $2, "param", "param");}
+Parameters : ParameterDeclaration ParameterDeclarations                                         {$$ = combineNodes($1, $2, "parameters", "PARAMETERS");}
                 ;
 
 // Zero or more
@@ -305,9 +308,9 @@ ArrayType : T_ARRAY T_LBRACK Expression T_RBRACK Type   {$$ = createNode($3, $5,
 
 // Zero or more
 // Body : { SimpleDeclaration | Statement }
-Body : /*empty*/                    {$$ = createNode("BODY", "body");}
-      | SimpleDeclaration Bodies    {$$ = combineNodes($1, $2, "BODY", "body");}
-      | Statement Bodies            {$$ = combineNodes($1, $2, "BODY", "body");}
+Body : /*empty*/                    {$$ = createNode("BODY", "BODY");}
+      | SimpleDeclaration Bodies    {$$ = combineNodes($1, $2, "BODY", "BODY");}
+      | Statement Bodies            {$$ = combineNodes($1, $2, "BODY", "BODY");}
       ;
 
 Bodies : /*empty*/                  {$$ = vector<Node*>();}
@@ -320,6 +323,7 @@ Statement : Assignment                              {$$ = $1;}
           | WhileLoop                               {$$ = $1;}
           | ForLoop                                 {$$ = $1;}
           | IfStatement                             {$$ = $1;}
+          | T_RETURN T_LPAREN Expression T_RPAREN   {$$ = createNode($3, "T_RETURN", "return");}
           | T_PRINT T_LPAREN Expression T_RPAREN    {$$ = createNode($3, "T_PRINT", "print");}
           ;
 
@@ -328,7 +332,7 @@ Assignment : ModifiablePrimary T_COLONEQU Expression {$$ = createNode($1, $3, "T
 
 // RoutineCall : Identifier [ '('' Expression { , Expression } ')' ]
 RoutineCall : T_ID                                  {$$ = createNode("T_ID", $1);}
-            | T_ID T_LPAREN Expressions T_RPAREN    {$$ = combineNodes(new Node(Token("T_ID", $1)), $3, "RoutineCall", "RoutineCall");}
+            | T_ID T_LPAREN Expressions T_RPAREN    {$$ = combineNodes(new Node(Token("T_ID", $1)), $3, "RoutineCall", "ROUTINECALL");}
             ;
 
 // Zero or more
@@ -346,7 +350,7 @@ Range : T_IN Expression T_DOTDOT Expression             {$$ = createNode($2, $4,
       | T_IN T_REVERSE Expression T_DOTDOT Expression   {$$ = createNode($3, $5, "T_IN_REVERSE", "in_reverse");}
       ;
 
-IfStatement : T_IF Expression T_THEN Body T_ELSE Body  T_END    {$$ = createNode($2, $4, $6, "T_IF_ELSE", "if_else");}
+IfStatement : T_IF Expression T_THEN Body T_ELSE Body  T_END    {$$ = createNode($2, $4, $6, "T_IF_ELSE", "if else");}
             | T_IF Expression T_THEN Body T_END                 {$$ = createNode($2, $4, "T_IF", "if");}
             ;
 
@@ -402,7 +406,7 @@ Primary : T_ICONST                      {$$ = createNode("T_ICONST", to_string($
 
 //ModifiablePrimary : Identifier { . Identifier | [ Expression ] }
 ModifiablePrimary : T_ID            {$$ = createNode("T_ID", $1);}
-                | T_ID Identifiers  {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "ModifiablePrim");}
+                | T_ID Identifiers  {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "MODIFIABLEPRIM");}
                 ;
 
 // Zero of more
@@ -412,35 +416,12 @@ Identifiers : T_DOT T_ID                                {$$ = createNode(new Nod
             | T_LBRACK Expression T_RBRACK Identifiers  {$$ = createNode($2, $4,"BRACKS", "[]");}
             ;
 
-//ModifiablePrimary : T_ID                                                {$$ = createNode("T_ID", $1);}
-//                |   T_ID T_DOT ModifiablePrimary                        {$$ = createNode(new Node(Token("T_ID", $1)), $3, "T_DOT", ".");}
-//                |   T_ID T_LBRACK Expression T_RBRACK ModifiablePrimary {$$ = createNode(new Node(Token("T_ID", $1)), $3, $5,"T_BRACKETS", "[]");}
-//                ;
-
 %%
 
-void printAST(Node *curNode, int depth = 0)
-{
-    for (int i = 0; i < depth; ++i)
-        cout << "---";
+Node* generateAST (string inputfile) {
+    yyin = fopen(inputfile.c_str(), "r");
+    yyparse();
+    fclose(yyin);
 
-    if (curNode->nodes.empty())
-        cout << "| ";
-    else
-        cout << "> ";
-
-    cout << curNode->token.token << " : " << curNode->token.lexeme << endl;
-
-    for (Node *nextNode : curNode->nodes)
-    {
-        printAST(nextNode, depth + 1);
-    }
-}
-
-int main (void) {
-    auto newNode = yyparse();
-    
-    cout << "\n\n";
-    printAST(root, 0);
-    return 0;
+    return root;
 }

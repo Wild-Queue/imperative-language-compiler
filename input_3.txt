@@ -1,5 +1,5 @@
 type int_return is record var ans is 0 end
-routine fib(n: integer, return_variable : int_return) is
+routine fib(n: integer, return_variable : int_return) : integer is
     var a is 0
     var b is 1    
     
@@ -10,4 +10,5 @@ routine fib(n: integer, return_variable : int_return) is
     end
     return_variable.ans := a
     print(a)
+    return(a)
 end
