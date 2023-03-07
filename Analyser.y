@@ -9,7 +9,7 @@
     int yylex();
     using namespace std;
     void yyerror(std::string s) {
-        cout << "Syntax Error on Line " << s << endl;
+        cout << "Syntax Error on Line " << "some line" << endl;
         cerr << s << ", line " << yylineno << endl;
         exit(1);
     }
