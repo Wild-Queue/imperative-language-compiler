@@ -236,7 +236,9 @@ T_COLON // :
 %type<nodeLink> Summand;
 %type<nodeLink> Primary;
 %type<nodeLink> ModifiablePrimary;
-%type<nodeLink> Identifiers;
+//%type<nodeLink> Identifiers;
+%type<nodeLink> Identifiers_ARRAY
+%type<nodeLink> ID_ARRAY;
 
 %%
 
@@ -273,7 +275,7 @@ RoutineDeclaration
               | T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS Body T_END                     {$$ = createNode(new Node(Token("T_ID", $2)), $4, $7, "routin_decl", "routine");}
               ;
 
-Parameters : ParameterDeclaration ParameterDeclarations                                         {$$ = combineNodes($1, $2, "parameters", "PARAMETERS");}
+Parameters : ParameterDeclaration ParameterDeclarations                                         {$$ = combineNodes($1, $2, "parameters", "()");}
                 ;
 
 // Zero or more
@@ -407,25 +409,29 @@ Primary : T_ICONST                      {$$ = createNode("T_ICONST", to_string($
         ;
 
 //ModifiablePrimary : Identifier { . Identifier | [ Expression ] }
-ModifiablePrimary : T_ID            {$$ = createNode("T_ID", $1);}
-                | T_ID Identifiers  {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "MODIFIABLEPRIM");}
-                ;
+//ModifiablePrimary : T_ID            {$$ = createNode("T_ID", $1);}
+//                | T_ID Identifiers  {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "MODIFIABLEPRIM");}
+//                ;
 
 // Zero of more
-Identifiers : T_DOT T_ID                                {$$ = createNode(new Node(Token("T_ID", $2)),"T_DOT", ".");}
-            | T_DOT T_ID Identifiers                    {$$ = createNode(new Node(Token("T_ID", $2)), $3,"T_DOT", ".");}
-            | T_LBRACK Expression T_RBRACK              {$$ = createNode($2,"BRACKS", "[]");}
-            | T_LBRACK Expression T_RBRACK Identifiers  {$$ = createNode($2, $4,"BRACKS", "[]");}
-            ;
+//Identifiers : T_DOT T_ID                                {$$ = createNode(new Node(Token("T_ID", $2)),"T_DOT", ".");}
+//            | T_DOT T_ID Identifiers                    {$$ = createNode(new Node(Token("T_ID", $2)), $3,"T_DOT", ".");}
+//            | T_LBRACK Expression T_RBRACK              {$$ = createNode($2,"BRACKS", "[]");}
+//            | T_LBRACK Expression T_RBRACK Identifiers  {$$ = createNode($2, $4,"BRACKS", "[]");}
+//            ;
 
-//ModifiablePrimary : T_ID                                              {$$ = createNode("T_ID", $1);}
-//                | T_ID T_DOT ModifiablePrimary                          {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "MODIFIABLEPRIM");}
-//                | T_ID T_LBRACK Expression T_RBRACK Identifiers_ARRAY {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "MODIFIABLEPRIM");}
-//                ;
-//
-//Identifiers_ARRAY : T_DOT ModifiablePrimary
-//                  | T_LBRACK Expression T_RBRACK Identifiers_ARRAY
-//
+ModifiablePrimary : ID_ARRAY                                        {$$ = $1;}
+                | ID_ARRAY T_DOT ModifiablePrimary                  {$$ = createNode($1, $3,"T_DOT", ".");}
+                ;
+
+ID_ARRAY  : T_ID                                                {$$ = createNode("T_ID", $1);}
+          | T_ID T_LBRACK Expression T_RBRACK                   {$$ = createNode(new Node(Token("T_ID", $1)), $3, "BRACKS", "[]");}
+          | T_ID T_LBRACK Expression T_RBRACK Identifiers_ARRAY {$$ = createNode(new Node(Token("T_ID", $1)), $3, $5, "BRACKS", "[]");}
+          ;
+
+Identifiers_ARRAY : T_LBRACK Expression T_RBRACK                    {$$ = createNode($2, "BRACKS", "[]");}
+                  | T_LBRACK Expression T_RBRACK Identifiers_ARRAY  {$$ = createNode($2, $4, "BRACKS", "[]");}
+                  ;
 
 %%
 

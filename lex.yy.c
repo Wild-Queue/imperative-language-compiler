@@ -362,29 +362,29 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[210] =
     {   0,
-       51,   51,   57,   55,   56,   54,   55,   35,   55,   42,
-       43,   37,   38,   47,   36,   49,   39,   52,   52,   48,
-       33,   34,   32,   51,   44,   45,   55,   51,   51,   51,
-       51,   51,   51,   51,   51,   51,   51,   51,   51,   51,
-       51,   51,    0,    0,    0,    0,    0,    0,   46,   53,
-       31,   53,   52,    0,    0,    0,    0,    0,    0,   52,
-        0,   30,   29,   28,   51,   51,    0,    0,   51,   51,
-       51,   51,   51,   51,   51,   51,   13,   12,   14,   51,
-       51,   27,   51,   51,   51,   51,   51,   51,   51,   51,
-       51,   50,   41,   40,    0,    0,   53,    0,    0,   53,
+       53,   53,   57,   55,   56,   54,   55,   35,   55,   42,
+       43,   37,   38,   47,   36,   49,   39,   50,   50,   48,
+       33,   34,   32,   53,   44,   45,   55,   53,   53,   53,
+       53,   53,   53,   53,   53,   53,   53,   53,   53,   53,
+       53,   53,    0,    0,    0,    0,    0,    0,   46,   51,
+       31,   51,   50,    0,    0,    0,    0,    0,    0,   50,
+        0,   30,   29,   28,   53,   53,    0,    0,   53,   53,
+       53,   53,   53,   53,   53,   53,   13,   12,   14,   53,
+       53,   27,   53,   53,   53,   53,   53,   53,   53,   53,
+       53,   52,   41,   40,    0,    0,   51,    0,    0,   51,
 
-        0,   52,    0,   52,    0,    0,   53,   52,    0,    0,
-       52,    0,   52,    0,   24,   51,   51,   51,   51,   10,
-       51,    9,   51,   51,   26,   51,   51,   51,   51,   51,
-       51,   51,   51,   51,   11,   51,   25,    0,    0,    0,
-       53,   53,    0,    0,   53,   52,    0,   53,    0,   52,
-        0,    0,    0,   52,    0,    0,   51,   51,   21,    7,
-       51,   51,    5,   51,   20,   51,   51,   51,   51,    6,
-       23,    8,   51,    0,    0,   53,    0,   53,    0,    0,
-        0,    0,    0,   53,   19,   51,   22,   51,    3,   51,
-       51,   51,   51,    4,    0,    0,   53,    0,   51,   51,
+        0,   50,    0,   50,    0,    0,   51,   50,    0,    0,
+       50,    0,   50,    0,   24,   53,   53,   53,   53,   10,
+       53,    9,   53,   53,   26,   53,   53,   53,   53,   53,
+       53,   53,   53,   53,   11,   53,   25,    0,    0,    0,
+       51,   51,    0,    0,   51,   50,    0,   51,    0,   50,
+        0,    0,    0,   50,    0,    0,   53,   53,   21,    7,
+       53,   53,    5,   53,   20,   53,   53,   53,   53,    6,
+       23,    8,   53,    0,    0,   51,    0,   51,    0,    0,
+        0,    0,    0,   51,   19,   53,   22,   53,    3,   53,
+       53,   53,   53,    4,    0,    0,   51,    0,   53,   53,
 
-       18,    2,   51,   51,   16,   15,    1,   17,    0
+       18,    2,   53,   53,   16,   15,    1,   17,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -1258,41 +1258,41 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 188 "Analyser.lex"
-{yylval.string = std::string(yytext)[1]; printf("T_CCONST:%s ", yytext);   return( T_CCONST );}
+#line 187 "Analyser.lex"
+{yylval.integer = atoi(yytext); printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 189 "Analyser.lex"
-{yylval.string = std::string(yytext); printf("T_ID:%s ", yytext); return( T_ID);} 
+#line 188 "Analyser.lex"
+{yylval.real = atof(yytext); printf("T_RCONST:%s ", yytext); return( T_RCONST );}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 191 "Analyser.lex"
-{yylval.integer = atoi(yytext); printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
+#line 190 "Analyser.lex"
+{yylval.string = std::string(yytext)[1]; printf("T_CCONST:%s ", yytext);   return( T_CCONST );}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 192 "Analyser.lex"
-{yylval.real = atof(yytext); printf("T_RCONST:%s ", yytext); return( T_RCONST );}
+#line 191 "Analyser.lex"
+{yylval.string = std::string(yytext); printf("T_ID:%s ", yytext); return( T_ID);} 
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 194 "Analyser.lex"
+#line 193 "Analyser.lex"
 {static int once = 0; return once++ ? 0 : T_EOF ;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 196 "Analyser.lex"
+#line 195 "Analyser.lex"
 {}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 197 "Analyser.lex"
+#line 196 "Analyser.lex"
 {ECHO; printf (" unexpected character\n");}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 199 "Analyser.lex"
+#line 198 "Analyser.lex"
 ECHO;
 	YY_BREAK
 #line 1299 "lex.yy.c"
@@ -2298,6 +2298,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 199 "Analyser.lex"
+#line 198 "Analyser.lex"
 
 int yywrap (void) {return 1;}

@@ -184,12 +184,11 @@ D   [0-9]
 ":"     {printf("T_: "); return( T_COLON );}
 "."     {printf("T_. "); return( T_DOT );}
 
+{Int_Lit}           {yylval.integer = atoi(yytext); printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
+{Float_Lit}         {yylval.real = atof(yytext); printf("T_RCONST:%s ", yytext); return( T_RCONST );}
 
 {Char_Lit}                        {yylval.string = std::string(yytext)[1]; printf("T_CCONST:%s ", yytext);   return( T_CCONST );}
 (_)?{L}({L}|{D}|_)*({L}|{D})|{L}* {yylval.string = std::string(yytext); printf("T_ID:%s ", yytext); return( T_ID);} 
-
-{Int_Lit}           {yylval.integer = atoi(yytext); printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
-{Float_Lit}         {yylval.real = atof(yytext); printf("T_RCONST:%s ", yytext); return( T_RCONST );}
 
 <<EOF>>     {static int once = 0; return once++ ? 0 : T_EOF ;}
 
