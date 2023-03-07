@@ -2,7 +2,6 @@
 
     T_SCONST
     T_BCONST
-    T_CCONST
     T_NOT
     T_TAB
     T_NL
@@ -48,251 +47,254 @@
    22 PrimitiveType: T_INTEGER
    23              | T_REAL
    24              | T_BOOLEAN
+   25              | T_CHAR
 
-   25 RecordType: T_RECORD VariableDeclarations T_END
+   26 RecordType: T_RECORD VariableDeclarations T_END
 
-   26 VariableDeclarations: ε
-   27                     | VariableDeclaration VariableDeclarations
+   27 VariableDeclarations: ε
+   28                     | VariableDeclaration VariableDeclarations
 
-   28 ArrayType: T_ARRAY T_LBRACK Expression T_RBRACK Type
+   29 ArrayType: T_ARRAY T_LBRACK Expression T_RBRACK Type
 
-   29 Body: ε
-   30     | SimpleDeclaration Bodies
-   31     | Statement Bodies
+   30 Body: ε
+   31     | SimpleDeclaration Bodies
+   32     | Statement Bodies
 
-   32 Bodies: ε
-   33       | SimpleDeclaration Bodies
-   34       | Statement Bodies
+   33 Bodies: ε
+   34       | SimpleDeclaration Bodies
+   35       | Statement Bodies
 
-   35 Statement: Assignment
-   36          | RoutineCall
-   37          | WhileLoop
-   38          | ForLoop
-   39          | IfStatement
-   40          | T_RETURN T_LPAREN Expression T_RPAREN
-   41          | T_PRINT T_LPAREN Expression T_RPAREN
+   36 Statement: Assignment
+   37          | RoutineCall
+   38          | WhileLoop
+   39          | ForLoop
+   40          | IfStatement
+   41          | T_RETURN T_LPAREN Expression T_RPAREN
+   42          | T_PRINT T_LPAREN Expression T_RPAREN
 
-   42 Assignment: ModifiablePrimary T_COLONEQU Expression
+   43 Assignment: ModifiablePrimary T_COLONEQU Expression
 
-   43 RoutineCall: T_ID
-   44            | T_ID T_LPAREN Expressions T_RPAREN
+   44 RoutineCall: T_ID
+   45            | T_ID T_LPAREN Expressions T_RPAREN
 
-   45 Expressions: Expression
-   46            | T_COMMA Expression Expressions
+   46 Expressions: Expression
+   47            | T_COMMA Expression Expressions
 
-   47 WhileLoop: T_WHILE Expression T_LOOP Body T_END
+   48 WhileLoop: T_WHILE Expression T_LOOP Body T_END
 
-   48 ForLoop: T_FOR T_ID Range T_LOOP Body T_END
+   49 ForLoop: T_FOR T_ID Range T_LOOP Body T_END
 
-   49 Range: T_IN Expression T_DOTDOT Expression
-   50      | T_IN T_REVERSE Expression T_DOTDOT Expression
+   50 Range: T_IN Expression T_DOTDOT Expression
+   51      | T_IN T_REVERSE Expression T_DOTDOT Expression
 
-   51 IfStatement: T_IF Expression T_THEN Body T_ELSE Body T_END
-   52            | T_IF Expression T_THEN Body T_END
+   52 IfStatement: T_IF Expression T_THEN Body T_ELSE Body T_END
+   53            | T_IF Expression T_THEN Body T_END
 
-   53 Expression: Relation
-   54           | Relation T_AND Expression
-   55           | Relation T_OR Expression
-   56           | Relation T_XOR Expression
+   54 Expression: Relation
+   55           | Relation T_AND Expression
+   56           | Relation T_OR Expression
+   57           | Relation T_XOR Expression
 
-   57 Relation: Simple
-   58         | Simple T_LESS Simple
-   59         | Simple T_LESSOREQU Simple
-   60         | Simple T_GREAT Simple
-   61         | Simple T_GREATOREQU Simple
-   62         | Simple T_EQU Simple
-   63         | Simple T_NOTEQU Simple
+   58 Relation: Simple
+   59         | Simple T_LESS Simple
+   60         | Simple T_LESSOREQU Simple
+   61         | Simple T_GREAT Simple
+   62         | Simple T_GREATOREQU Simple
+   63         | Simple T_EQU Simple
+   64         | Simple T_NOTEQU Simple
 
-   64 Simple: Factor
-   65       | Factor T_MULTOP Simple
-   66       | Factor T_DIVOP Simple
-   67       | Factor T_MODOP Simple
+   65 Simple: Factor
+   66       | Factor T_MULTOP Simple
+   67       | Factor T_DIVOP Simple
+   68       | Factor T_MODOP Simple
 
-   68 Factor: Summand
-   69       | Summand T_ADDOP Factor
-   70       | Summand T_SUBTROP Factor
+   69 Factor: Summand
+   70       | Summand T_ADDOP Factor
+   71       | Summand T_SUBTROP Factor
 
-   71 Summand: Primary
-   72        | T_LPAREN Expression T_LPAREN
+   72 Summand: Primary
+   73        | T_LPAREN Expression T_LPAREN
 
-   73 Primary: T_ICONST
-   74        | T_RCONST
-   75        | T_TRUE
-   76        | T_FALSE
-   77        | ModifiablePrimary
+   74 Primary: T_ICONST
+   75        | T_CCONST
+   76        | T_RCONST
+   77        | T_TRUE
+   78        | T_FALSE
+   79        | ModifiablePrimary
 
-   78 ModifiablePrimary: T_ID
-   79                  | T_ID Identifiers
+   80 ModifiablePrimary: T_ID
+   81                  | T_ID Identifiers
 
-   80 Identifiers: T_DOT T_ID
-   81            | T_DOT T_ID Identifiers
-   82            | T_LBRACK Expression T_RBRACK
-   83            | T_LBRACK Expression T_RBRACK Identifiers
+   82 Identifiers: T_DOT T_ID
+   83            | T_DOT T_ID Identifiers
+   84            | T_LBRACK Expression T_RBRACK
+   85            | T_LBRACK Expression T_RBRACK Identifiers
 
 
 Терминальные символы с правилами, в которых они появляются
 
     $end (0) 0
     error (256)
-    T_FOR <string> (258) 48
-    T_WHILE <string> (259) 47
-    T_LOOP <string> (260) 47 48
-    T_IN <string> (261) 49 50
-    T_REVERSE <string> (262) 50
-    T_IF <string> (263) 51 52
-    T_THEN <string> (264) 51 52
-    T_ELSE <string> (265) 51
-    T_END <string> (266) 12 13 25 47 48 51 52
+    T_FOR <string> (258) 49
+    T_WHILE <string> (259) 48
+    T_LOOP <string> (260) 48 49
+    T_IN <string> (261) 50 51
+    T_REVERSE <string> (262) 51
+    T_IF <string> (263) 52 53
+    T_THEN <string> (264) 52 53
+    T_ELSE <string> (265) 52
+    T_END <string> (266) 12 13 26 48 49 52 53
     T_TYPE <string> (267) 11
     T_VAR <string> (268) 8 9 10
     T_IS <string> (269) 8 10 11 12 13
-    T_PRINT <string> (270) 41
-    T_RETURN <string> (271) 40
+    T_PRINT <string> (270) 42
+    T_RETURN <string> (271) 41
     T_INTEGER <string> (272) 22
     T_REAL <string> (273) 23
     T_BOOLEAN <string> (274) 24
-    T_ROUTINE <string> (275) 12 13
-    T_ARRAY <string> (276) 28
-    T_RECORD <string> (277) 25
-    T_TRUE <string> (278) 75
-    T_FALSE <string> (279) 76
-    T_ID <string> (280) 8 9 10 11 12 13 17 21 43 44 48 78 79 80 81
-    T_ICONST <integer> (281) 73
-    T_SCONST <string> (282)
-    T_RCONST <real> (283) 74
-    T_BCONST <boolean> (284)
-    T_CCONST <character> (285)
-    T_EOF <string> (286) 3
-    T_LESS <string> (287) 58
-    T_GREAT <string> (288) 60
-    T_LESSOREQU <string> (289) 59
-    T_GREATOREQU <string> (290) 61
-    T_NOTEQU <string> (291) 63
-    T_EQU <string> (292) 62
-    T_COLONEQU <string> (293) 42
-    T_AND <string> (294) 54
-    T_OR <string> (295) 55
-    T_XOR <string> (296) 56
-    T_NOT <string> (297)
-    T_ADDOP <string> (298) 69
-    T_MULTOP <string> (299) 65
-    T_SUBTROP <string> (300) 70
-    T_DIVOP <string> (301) 66
-    T_MODOP <string> (302) 67
-    T_TAB <string> (303)
-    T_NL <string> (304)
-    T_POINTER <string> (305)
-    T_REFERENCE <string> (306)
-    T_LPAREN <string> (307) 12 13 40 41 44 72
-    T_RPAREN <string> (308) 12 13 40 41 44
-    T_LBRACK <string> (309) 28 82 83
-    T_RBRACK <string> (310) 28 82 83
-    T_DOTDOT <string> (311) 49 50
-    T_DOT <string> (312) 80 81
-    T_COMMA <string> (313) 16 46
-    T_COLON <string> (314) 8 9 12 17
+    T_CHAR <string> (275) 25
+    T_ROUTINE <string> (276) 12 13
+    T_ARRAY <string> (277) 29
+    T_RECORD <string> (278) 26
+    T_TRUE <string> (279) 77
+    T_FALSE <string> (280) 78
+    T_ID <string> (281) 8 9 10 11 12 13 17 21 44 45 49 80 81 82 83
+    T_ICONST <integer> (282) 74
+    T_SCONST <string> (283)
+    T_RCONST <real> (284) 76
+    T_BCONST <boolean> (285)
+    T_CCONST <string> (286) 75
+    T_EOF <string> (287) 3
+    T_LESS <string> (288) 59
+    T_GREAT <string> (289) 61
+    T_LESSOREQU <string> (290) 60
+    T_GREATOREQU <string> (291) 62
+    T_NOTEQU <string> (292) 64
+    T_EQU <string> (293) 63
+    T_COLONEQU <string> (294) 43
+    T_AND <string> (295) 55
+    T_OR <string> (296) 56
+    T_XOR <string> (297) 57
+    T_NOT <string> (298)
+    T_ADDOP <string> (299) 70
+    T_MULTOP <string> (300) 66
+    T_SUBTROP <string> (301) 71
+    T_DIVOP <string> (302) 67
+    T_MODOP <string> (303) 68
+    T_TAB <string> (304)
+    T_NL <string> (305)
+    T_POINTER <string> (306)
+    T_REFERENCE <string> (307)
+    T_LPAREN <string> (308) 12 13 41 42 45 73
+    T_RPAREN <string> (309) 12 13 41 42 45
+    T_LBRACK <string> (310) 29 84 85
+    T_RBRACK <string> (311) 29 84 85
+    T_DOTDOT <string> (312) 50 51
+    T_DOT <string> (313) 82 83
+    T_COMMA <string> (314) 16 47
+    T_COLON <string> (315) 8 9 12 17
 
 
 Нетерминальные символы с правилами, в которых они появляются
 
-    $accept (60)
+    $accept (61)
         on left: 0
-    Program <nodeLink> (61)
+    Program <nodeLink> (62)
         on left: 1 2
         on right: 0
-    Programs <nodeList> (62)
+    Programs <nodeList> (63)
         on left: 3 4 5
         on right: 1 2 4 5
-    SimpleDeclaration <nodeLink> (63)
+    SimpleDeclaration <nodeLink> (64)
         on left: 6 7
-        on right: 1 4 30 33
-    VariableDeclaration <nodeLink> (64)
+        on right: 1 4 31 34
+    VariableDeclaration <nodeLink> (65)
         on left: 8 9 10
-        on right: 6 27
-    TypeDeclaration <nodeLink> (65)
+        on right: 6 28
+    TypeDeclaration <nodeLink> (66)
         on left: 11
         on right: 7
-    RoutineDeclaration <nodeLink> (66)
+    RoutineDeclaration <nodeLink> (67)
         on left: 12 13
         on right: 2 5
-    Parameters <nodeLink> (67)
+    Parameters <nodeLink> (68)
         on left: 14
         on right: 12 13
-    ParameterDeclarations <nodeList> (68)
+    ParameterDeclarations <nodeList> (69)
         on left: 15 16
         on right: 14 16
-    ParameterDeclaration <nodeLink> (69)
+    ParameterDeclaration <nodeLink> (70)
         on left: 17
         on right: 14 16
-    Type <nodeLink> (70)
+    Type <nodeLink> (71)
         on left: 18 19 20 21
-        on right: 8 9 11 12 17 28
-    PrimitiveType <nodeLink> (71)
-        on left: 22 23 24
+        on right: 8 9 11 12 17 29
+    PrimitiveType <nodeLink> (72)
+        on left: 22 23 24 25
         on right: 18
-    RecordType <nodeLink> (72)
-        on left: 25
+    RecordType <nodeLink> (73)
+        on left: 26
         on right: 20
-    VariableDeclarations <nodeList> (73)
-        on left: 26 27
-        on right: 25 27
-    ArrayType <nodeLink> (74)
-        on left: 28
+    VariableDeclarations <nodeList> (74)
+        on left: 27 28
+        on right: 26 28
+    ArrayType <nodeLink> (75)
+        on left: 29
         on right: 19
-    Body <nodeLink> (75)
-        on left: 29 30 31
-        on right: 12 13 47 48 51 52
-    Bodies <nodeList> (76)
-        on left: 32 33 34
-        on right: 30 31 33 34
-    Statement <nodeLink> (77)
-        on left: 35 36 37 38 39 40 41
-        on right: 31 34
-    Assignment <nodeLink> (78)
-        on left: 42
-        on right: 35
-    RoutineCall <nodeLink> (79)
-        on left: 43 44
+    Body <nodeLink> (76)
+        on left: 30 31 32
+        on right: 12 13 48 49 52 53
+    Bodies <nodeList> (77)
+        on left: 33 34 35
+        on right: 31 32 34 35
+    Statement <nodeLink> (78)
+        on left: 36 37 38 39 40 41 42
+        on right: 32 35
+    Assignment <nodeLink> (79)
+        on left: 43
         on right: 36
-    Expressions <nodeList> (80)
-        on left: 45 46
-        on right: 44 46
-    WhileLoop <nodeLink> (81)
-        on left: 47
+    RoutineCall <nodeLink> (80)
+        on left: 44 45
         on right: 37
-    ForLoop <nodeLink> (82)
+    Expressions <nodeList> (81)
+        on left: 46 47
+        on right: 45 47
+    WhileLoop <nodeLink> (82)
         on left: 48
         on right: 38
-    Range <nodeLink> (83)
-        on left: 49 50
-        on right: 48
-    IfStatement <nodeLink> (84)
-        on left: 51 52
+    ForLoop <nodeLink> (83)
+        on left: 49
         on right: 39
-    Expression <nodeLink> (85)
-        on left: 53 54 55 56
-        on right: 8 10 28 40 41 42 45 46 47 49 50 51 52 54 55 56 72 82 83
-    Relation <nodeLink> (86)
-        on left: 57 58 59 60 61 62 63
-        on right: 53 54 55 56
-    Simple <nodeLink> (87)
-        on left: 64 65 66 67
-        on right: 57 58 59 60 61 62 63 65 66 67
-    Factor <nodeLink> (88)
-        on left: 68 69 70
-        on right: 64 65 66 67 69 70
-    Summand <nodeLink> (89)
-        on left: 71 72
-        on right: 68 69 70
-    Primary <nodeLink> (90)
-        on left: 73 74 75 76 77
-        on right: 71
-    ModifiablePrimary <nodeLink> (91)
-        on left: 78 79
-        on right: 42 77
-    Identifiers <nodeLink> (92)
-        on left: 80 81 82 83
-        on right: 79 81 83
+    Range <nodeLink> (84)
+        on left: 50 51
+        on right: 49
+    IfStatement <nodeLink> (85)
+        on left: 52 53
+        on right: 40
+    Expression <nodeLink> (86)
+        on left: 54 55 56 57
+        on right: 8 10 29 41 42 43 46 47 48 50 51 52 53 55 56 57 73 84 85
+    Relation <nodeLink> (87)
+        on left: 58 59 60 61 62 63 64
+        on right: 54 55 56 57
+    Simple <nodeLink> (88)
+        on left: 65 66 67 68
+        on right: 58 59 60 61 62 63 64 66 67 68
+    Factor <nodeLink> (89)
+        on left: 69 70 71
+        on right: 65 66 67 68 70 71
+    Summand <nodeLink> (90)
+        on left: 72 73
+        on right: 69 70 71
+    Primary <nodeLink> (91)
+        on left: 74 75 76 77 78 79
+        on right: 72
+    ModifiablePrimary <nodeLink> (92)
+        on left: 80 81
+        on right: 43 79
+    Identifiers <nodeLink> (93)
+        on left: 82 83 84 85
+        on right: 81 83 85
 
 
 Состояние 0
@@ -479,34 +481,36 @@
     T_INTEGER  сдвиг, и переход в состояние 24
     T_REAL     сдвиг, и переход в состояние 25
     T_BOOLEAN  сдвиг, и переход в состояние 26
-    T_ARRAY    сдвиг, и переход в состояние 27
-    T_RECORD   сдвиг, и переход в состояние 28
-    T_ID       сдвиг, и переход в состояние 29
+    T_CHAR     сдвиг, и переход в состояние 27
+    T_ARRAY    сдвиг, и переход в состояние 28
+    T_RECORD   сдвиг, и переход в состояние 29
+    T_ID       сдвиг, и переход в состояние 30
 
-    Type           переход в состояние 30
-    PrimitiveType  переход в состояние 31
-    RecordType     переход в состояние 32
-    ArrayType      переход в состояние 33
+    Type           переход в состояние 31
+    PrimitiveType  переход в состояние 32
+    RecordType     переход в состояние 33
+    ArrayType      переход в состояние 34
 
 
 Состояние 19
 
    10 VariableDeclaration: T_VAR T_ID T_IS • Expression
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Expression         переход в состояние 40
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Expression         переход в состояние 42
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 20
@@ -517,14 +521,15 @@
     T_INTEGER  сдвиг, и переход в состояние 24
     T_REAL     сдвиг, и переход в состояние 25
     T_BOOLEAN  сдвиг, и переход в состояние 26
-    T_ARRAY    сдвиг, и переход в состояние 27
-    T_RECORD   сдвиг, и переход в состояние 28
-    T_ID       сдвиг, и переход в состояние 29
+    T_CHAR     сдвиг, и переход в состояние 27
+    T_ARRAY    сдвиг, и переход в состояние 28
+    T_RECORD   сдвиг, и переход в состояние 29
+    T_ID       сдвиг, и переход в состояние 30
 
-    Type           переход в состояние 47
-    PrimitiveType  переход в состояние 31
-    RecordType     переход в состояние 32
-    ArrayType      переход в состояние 33
+    Type           переход в состояние 49
+    PrimitiveType  переход в состояние 32
+    RecordType     переход в состояние 33
+    ArrayType      переход в состояние 34
 
 
 Состояние 21
@@ -532,10 +537,10 @@
    12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN • Parameters T_RPAREN T_COLON Type T_IS Body T_END
    13                   | T_ROUTINE T_ID T_LPAREN • Parameters T_RPAREN T_IS Body T_END
 
-    T_ID  сдвиг, и переход в состояние 48
+    T_ID  сдвиг, и переход в состояние 50
 
-    Parameters            переход в состояние 49
-    ParameterDeclaration  переход в состояние 50
+    Parameters            переход в состояние 51
+    ParameterDeclaration  переход в состояние 52
 
 
 Состояние 22
@@ -575,1729 +580,1776 @@
 
 Состояние 27
 
-   28 ArrayType: T_ARRAY • T_LBRACK Expression T_RBRACK Type
+   25 PrimitiveType: T_CHAR •
 
-    T_LBRACK  сдвиг, и переход в состояние 51
+    $default  вывод с использованием правила 25 (PrimitiveType)
 
 
 Состояние 28
 
-   25 RecordType: T_RECORD • VariableDeclarations T_END
+   29 ArrayType: T_ARRAY • T_LBRACK Expression T_RBRACK Type
 
-    T_VAR  сдвиг, и переход в состояние 2
-
-    $default  вывод с использованием правила 26 (VariableDeclarations)
-
-    VariableDeclaration   переход в состояние 52
-    VariableDeclarations  переход в состояние 53
+    T_LBRACK  сдвиг, и переход в состояние 53
 
 
 Состояние 29
+
+   26 RecordType: T_RECORD • VariableDeclarations T_END
+
+    T_VAR  сдвиг, и переход в состояние 2
+
+    $default  вывод с использованием правила 27 (VariableDeclarations)
+
+    VariableDeclaration   переход в состояние 54
+    VariableDeclarations  переход в состояние 55
+
+
+Состояние 30
 
    21 Type: T_ID •
 
     $default  вывод с использованием правила 21 (Type)
 
 
-Состояние 30
+Состояние 31
 
    11 TypeDeclaration: T_TYPE T_ID T_IS Type •
 
     $default  вывод с использованием правила 11 (TypeDeclaration)
 
 
-Состояние 31
+Состояние 32
 
    18 Type: PrimitiveType •
 
     $default  вывод с использованием правила 18 (Type)
 
 
-Состояние 32
+Состояние 33
 
    20 Type: RecordType •
 
     $default  вывод с использованием правила 20 (Type)
 
 
-Состояние 33
+Состояние 34
 
    19 Type: ArrayType •
 
     $default  вывод с использованием правила 19 (Type)
 
 
-Состояние 34
-
-   75 Primary: T_TRUE •
-
-    $default  вывод с использованием правила 75 (Primary)
-
-
 Состояние 35
 
-   76 Primary: T_FALSE •
+   77 Primary: T_TRUE •
 
-    $default  вывод с использованием правила 76 (Primary)
+    $default  вывод с использованием правила 77 (Primary)
 
 
 Состояние 36
 
-   78 ModifiablePrimary: T_ID •
-   79                  | T_ID • Identifiers
+   78 Primary: T_FALSE •
 
-    T_LBRACK  сдвиг, и переход в состояние 54
-    T_DOT     сдвиг, и переход в состояние 55
-
-    $default  вывод с использованием правила 78 (ModifiablePrimary)
-
-    Identifiers  переход в состояние 56
+    $default  вывод с использованием правила 78 (Primary)
 
 
 Состояние 37
 
-   73 Primary: T_ICONST •
+   80 ModifiablePrimary: T_ID •
+   81                  | T_ID • Identifiers
 
-    $default  вывод с использованием правила 73 (Primary)
+    T_LBRACK  сдвиг, и переход в состояние 56
+    T_DOT     сдвиг, и переход в состояние 57
+
+    $default  вывод с использованием правила 80 (ModifiablePrimary)
+
+    Identifiers  переход в состояние 58
 
 
 Состояние 38
 
-   74 Primary: T_RCONST •
+   74 Primary: T_ICONST •
 
     $default  вывод с использованием правила 74 (Primary)
 
 
 Состояние 39
 
-   72 Summand: T_LPAREN • Expression T_LPAREN
+   76 Primary: T_RCONST •
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 57
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    $default  вывод с использованием правила 76 (Primary)
 
 
 Состояние 40
+
+   75 Primary: T_CCONST •
+
+    $default  вывод с использованием правила 75 (Primary)
+
+
+Состояние 41
+
+   73 Summand: T_LPAREN • Expression T_LPAREN
+
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 59
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
+
+
+Состояние 42
 
    10 VariableDeclaration: T_VAR T_ID T_IS Expression •
 
     $default  вывод с использованием правила 10 (VariableDeclaration)
 
 
-Состояние 41
-
-   53 Expression: Relation •
-   54           | Relation • T_AND Expression
-   55           | Relation • T_OR Expression
-   56           | Relation • T_XOR Expression
-
-    T_AND  сдвиг, и переход в состояние 58
-    T_OR   сдвиг, и переход в состояние 59
-    T_XOR  сдвиг, и переход в состояние 60
-
-    $default  вывод с использованием правила 53 (Expression)
-
-
-Состояние 42
-
-   57 Relation: Simple •
-   58         | Simple • T_LESS Simple
-   59         | Simple • T_LESSOREQU Simple
-   60         | Simple • T_GREAT Simple
-   61         | Simple • T_GREATOREQU Simple
-   62         | Simple • T_EQU Simple
-   63         | Simple • T_NOTEQU Simple
-
-    T_LESS        сдвиг, и переход в состояние 61
-    T_GREAT       сдвиг, и переход в состояние 62
-    T_LESSOREQU   сдвиг, и переход в состояние 63
-    T_GREATOREQU  сдвиг, и переход в состояние 64
-    T_NOTEQU      сдвиг, и переход в состояние 65
-    T_EQU         сдвиг, и переход в состояние 66
-
-    $default  вывод с использованием правила 57 (Relation)
-
-
 Состояние 43
 
-   64 Simple: Factor •
-   65       | Factor • T_MULTOP Simple
-   66       | Factor • T_DIVOP Simple
-   67       | Factor • T_MODOP Simple
+   54 Expression: Relation •
+   55           | Relation • T_AND Expression
+   56           | Relation • T_OR Expression
+   57           | Relation • T_XOR Expression
 
-    T_MULTOP  сдвиг, и переход в состояние 67
-    T_DIVOP   сдвиг, и переход в состояние 68
-    T_MODOP   сдвиг, и переход в состояние 69
+    T_AND  сдвиг, и переход в состояние 60
+    T_OR   сдвиг, и переход в состояние 61
+    T_XOR  сдвиг, и переход в состояние 62
 
-    $default  вывод с использованием правила 64 (Simple)
+    $default  вывод с использованием правила 54 (Expression)
 
 
 Состояние 44
 
-   68 Factor: Summand •
-   69       | Summand • T_ADDOP Factor
-   70       | Summand • T_SUBTROP Factor
+   58 Relation: Simple •
+   59         | Simple • T_LESS Simple
+   60         | Simple • T_LESSOREQU Simple
+   61         | Simple • T_GREAT Simple
+   62         | Simple • T_GREATOREQU Simple
+   63         | Simple • T_EQU Simple
+   64         | Simple • T_NOTEQU Simple
 
-    T_ADDOP    сдвиг, и переход в состояние 70
-    T_SUBTROP  сдвиг, и переход в состояние 71
+    T_LESS        сдвиг, и переход в состояние 63
+    T_GREAT       сдвиг, и переход в состояние 64
+    T_LESSOREQU   сдвиг, и переход в состояние 65
+    T_GREATOREQU  сдвиг, и переход в состояние 66
+    T_NOTEQU      сдвиг, и переход в состояние 67
+    T_EQU         сдвиг, и переход в состояние 68
 
-    $default  вывод с использованием правила 68 (Factor)
+    $default  вывод с использованием правила 58 (Relation)
 
 
 Состояние 45
 
-   71 Summand: Primary •
+   65 Simple: Factor •
+   66       | Factor • T_MULTOP Simple
+   67       | Factor • T_DIVOP Simple
+   68       | Factor • T_MODOP Simple
 
-    $default  вывод с использованием правила 71 (Summand)
+    T_MULTOP  сдвиг, и переход в состояние 69
+    T_DIVOP   сдвиг, и переход в состояние 70
+    T_MODOP   сдвиг, и переход в состояние 71
+
+    $default  вывод с использованием правила 65 (Simple)
 
 
 Состояние 46
 
-   77 Primary: ModifiablePrimary •
+   69 Factor: Summand •
+   70       | Summand • T_ADDOP Factor
+   71       | Summand • T_SUBTROP Factor
 
-    $default  вывод с использованием правила 77 (Primary)
+    T_ADDOP    сдвиг, и переход в состояние 72
+    T_SUBTROP  сдвиг, и переход в состояние 73
+
+    $default  вывод с использованием правила 69 (Factor)
 
 
 Состояние 47
 
-    8 VariableDeclaration: T_VAR T_ID T_COLON Type • T_IS Expression
-    9                    | T_VAR T_ID T_COLON Type •
+   72 Summand: Primary •
 
-    T_IS  сдвиг, и переход в состояние 72
-
-    $default  вывод с использованием правила 9 (VariableDeclaration)
+    $default  вывод с использованием правила 72 (Summand)
 
 
 Состояние 48
 
-   17 ParameterDeclaration: T_ID • T_COLON Type
+   79 Primary: ModifiablePrimary •
 
-    T_COLON  сдвиг, и переход в состояние 73
+    $default  вывод с использованием правила 79 (Primary)
 
 
 Состояние 49
 
-   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters • T_RPAREN T_COLON Type T_IS Body T_END
-   13                   | T_ROUTINE T_ID T_LPAREN Parameters • T_RPAREN T_IS Body T_END
+    8 VariableDeclaration: T_VAR T_ID T_COLON Type • T_IS Expression
+    9                    | T_VAR T_ID T_COLON Type •
 
-    T_RPAREN  сдвиг, и переход в состояние 74
+    T_IS  сдвиг, и переход в состояние 74
+
+    $default  вывод с использованием правила 9 (VariableDeclaration)
 
 
 Состояние 50
 
-   14 Parameters: ParameterDeclaration • ParameterDeclarations
+   17 ParameterDeclaration: T_ID • T_COLON Type
 
-    T_COMMA  сдвиг, и переход в состояние 75
-
-    $default  вывод с использованием правила 15 (ParameterDeclarations)
-
-    ParameterDeclarations  переход в состояние 76
+    T_COLON  сдвиг, и переход в состояние 75
 
 
 Состояние 51
 
-   28 ArrayType: T_ARRAY T_LBRACK • Expression T_RBRACK Type
+   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters • T_RPAREN T_COLON Type T_IS Body T_END
+   13                   | T_ROUTINE T_ID T_LPAREN Parameters • T_RPAREN T_IS Body T_END
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 77
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    T_RPAREN  сдвиг, и переход в состояние 76
 
 
 Состояние 52
 
-   27 VariableDeclarations: VariableDeclaration • VariableDeclarations
+   14 Parameters: ParameterDeclaration • ParameterDeclarations
 
-    T_VAR  сдвиг, и переход в состояние 2
+    T_COMMA  сдвиг, и переход в состояние 77
 
-    $default  вывод с использованием правила 26 (VariableDeclarations)
+    $default  вывод с использованием правила 15 (ParameterDeclarations)
 
-    VariableDeclaration   переход в состояние 52
-    VariableDeclarations  переход в состояние 78
+    ParameterDeclarations  переход в состояние 78
 
 
 Состояние 53
 
-   25 RecordType: T_RECORD VariableDeclarations • T_END
+   29 ArrayType: T_ARRAY T_LBRACK • Expression T_RBRACK Type
 
-    T_END  сдвиг, и переход в состояние 79
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 79
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 54
 
-   82 Identifiers: T_LBRACK • Expression T_RBRACK
-   83            | T_LBRACK • Expression T_RBRACK Identifiers
+   28 VariableDeclarations: VariableDeclaration • VariableDeclarations
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_VAR  сдвиг, и переход в состояние 2
 
-    Expression         переход в состояние 80
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    $default  вывод с использованием правила 27 (VariableDeclarations)
+
+    VariableDeclaration   переход в состояние 54
+    VariableDeclarations  переход в состояние 80
 
 
 Состояние 55
 
-   80 Identifiers: T_DOT • T_ID
-   81            | T_DOT • T_ID Identifiers
+   26 RecordType: T_RECORD VariableDeclarations • T_END
 
-    T_ID  сдвиг, и переход в состояние 81
+    T_END  сдвиг, и переход в состояние 81
 
 
 Состояние 56
 
-   79 ModifiablePrimary: T_ID Identifiers •
+   84 Identifiers: T_LBRACK • Expression T_RBRACK
+   85            | T_LBRACK • Expression T_RBRACK Identifiers
 
-    $default  вывод с использованием правила 79 (ModifiablePrimary)
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 82
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 57
 
-   72 Summand: T_LPAREN Expression • T_LPAREN
+   82 Identifiers: T_DOT • T_ID
+   83            | T_DOT • T_ID Identifiers
 
-    T_LPAREN  сдвиг, и переход в состояние 82
+    T_ID  сдвиг, и переход в состояние 83
 
 
 Состояние 58
 
-   54 Expression: Relation T_AND • Expression
+   81 ModifiablePrimary: T_ID Identifiers •
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 83
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    $default  вывод с использованием правила 81 (ModifiablePrimary)
 
 
 Состояние 59
 
-   55 Expression: Relation T_OR • Expression
+   73 Summand: T_LPAREN Expression • T_LPAREN
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 84
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    T_LPAREN  сдвиг, и переход в состояние 84
 
 
 Состояние 60
 
-   56 Expression: Relation T_XOR • Expression
+   55 Expression: Relation T_AND • Expression
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Expression         переход в состояние 85
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 61
 
-   58 Relation: Simple T_LESS • Simple
+   56 Expression: Relation T_OR • Expression
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Simple             переход в состояние 86
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Expression         переход в состояние 86
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 62
 
-   60 Relation: Simple T_GREAT • Simple
+   57 Expression: Relation T_XOR • Expression
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Simple             переход в состояние 87
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Expression         переход в состояние 87
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 63
 
-   59 Relation: Simple T_LESSOREQU • Simple
+   59 Relation: Simple T_LESS • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Simple             переход в состояние 88
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 64
 
-   61 Relation: Simple T_GREATOREQU • Simple
+   61 Relation: Simple T_GREAT • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Simple             переход в состояние 89
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 65
 
-   63 Relation: Simple T_NOTEQU • Simple
+   60 Relation: Simple T_LESSOREQU • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Simple             переход в состояние 90
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 66
 
-   62 Relation: Simple T_EQU • Simple
+   62 Relation: Simple T_GREATOREQU • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Simple             переход в состояние 91
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 67
 
-   65 Simple: Factor T_MULTOP • Simple
+   64 Relation: Simple T_NOTEQU • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Simple             переход в состояние 92
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 68
 
-   66 Simple: Factor T_DIVOP • Simple
+   63 Relation: Simple T_EQU • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Simple             переход в состояние 93
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 69
 
-   67 Simple: Factor T_MODOP • Simple
+   66 Simple: Factor T_MULTOP • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
     Simple             переход в состояние 94
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 70
 
-   69 Factor: Summand T_ADDOP • Factor
+   67 Simple: Factor T_DIVOP • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Factor             переход в состояние 95
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Simple             переход в состояние 95
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 71
 
-   70 Factor: Summand T_SUBTROP • Factor
+   68 Simple: Factor T_MODOP • Simple
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Factor             переход в состояние 96
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Simple             переход в состояние 96
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 72
 
-    8 VariableDeclaration: T_VAR T_ID T_COLON Type T_IS • Expression
+   70 Factor: Summand T_ADDOP • Factor
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Expression         переход в состояние 97
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Factor             переход в состояние 97
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 73
+
+   71 Factor: Summand T_SUBTROP • Factor
+
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Factor             переход в состояние 98
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
+
+
+Состояние 74
+
+    8 VariableDeclaration: T_VAR T_ID T_COLON Type T_IS • Expression
+
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 99
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
+
+
+Состояние 75
 
    17 ParameterDeclaration: T_ID T_COLON • Type
 
     T_INTEGER  сдвиг, и переход в состояние 24
     T_REAL     сдвиг, и переход в состояние 25
     T_BOOLEAN  сдвиг, и переход в состояние 26
-    T_ARRAY    сдвиг, и переход в состояние 27
-    T_RECORD   сдвиг, и переход в состояние 28
-    T_ID       сдвиг, и переход в состояние 29
+    T_CHAR     сдвиг, и переход в состояние 27
+    T_ARRAY    сдвиг, и переход в состояние 28
+    T_RECORD   сдвиг, и переход в состояние 29
+    T_ID       сдвиг, и переход в состояние 30
 
-    Type           переход в состояние 98
-    PrimitiveType  переход в состояние 31
-    RecordType     переход в состояние 32
-    ArrayType      переход в состояние 33
+    Type           переход в состояние 100
+    PrimitiveType  переход в состояние 32
+    RecordType     переход в состояние 33
+    ArrayType      переход в состояние 34
 
 
-Состояние 74
+Состояние 76
 
    12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN • T_COLON Type T_IS Body T_END
    13                   | T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN • T_IS Body T_END
 
-    T_IS     сдвиг, и переход в состояние 99
-    T_COLON  сдвиг, и переход в состояние 100
+    T_IS     сдвиг, и переход в состояние 101
+    T_COLON  сдвиг, и переход в состояние 102
 
 
-Состояние 75
+Состояние 77
 
    16 ParameterDeclarations: T_COMMA • ParameterDeclaration ParameterDeclarations
 
-    T_ID  сдвиг, и переход в состояние 48
+    T_ID  сдвиг, и переход в состояние 50
 
-    ParameterDeclaration  переход в состояние 101
+    ParameterDeclaration  переход в состояние 103
 
 
-Состояние 76
+Состояние 78
 
    14 Parameters: ParameterDeclaration ParameterDeclarations •
 
     $default  вывод с использованием правила 14 (Parameters)
 
 
-Состояние 77
-
-   28 ArrayType: T_ARRAY T_LBRACK Expression • T_RBRACK Type
-
-    T_RBRACK  сдвиг, и переход в состояние 102
-
-
-Состояние 78
-
-   27 VariableDeclarations: VariableDeclaration VariableDeclarations •
-
-    $default  вывод с использованием правила 27 (VariableDeclarations)
-
-
 Состояние 79
 
-   25 RecordType: T_RECORD VariableDeclarations T_END •
+   29 ArrayType: T_ARRAY T_LBRACK Expression • T_RBRACK Type
 
-    $default  вывод с использованием правила 25 (RecordType)
+    T_RBRACK  сдвиг, и переход в состояние 104
 
 
 Состояние 80
 
-   82 Identifiers: T_LBRACK Expression • T_RBRACK
-   83            | T_LBRACK Expression • T_RBRACK Identifiers
+   28 VariableDeclarations: VariableDeclaration VariableDeclarations •
 
-    T_RBRACK  сдвиг, и переход в состояние 103
+    $default  вывод с использованием правила 28 (VariableDeclarations)
 
 
 Состояние 81
 
-   80 Identifiers: T_DOT T_ID •
-   81            | T_DOT T_ID • Identifiers
+   26 RecordType: T_RECORD VariableDeclarations T_END •
 
-    T_LBRACK  сдвиг, и переход в состояние 54
-    T_DOT     сдвиг, и переход в состояние 55
-
-    $default  вывод с использованием правила 80 (Identifiers)
-
-    Identifiers  переход в состояние 104
+    $default  вывод с использованием правила 26 (RecordType)
 
 
 Состояние 82
 
-   72 Summand: T_LPAREN Expression T_LPAREN •
+   84 Identifiers: T_LBRACK Expression • T_RBRACK
+   85            | T_LBRACK Expression • T_RBRACK Identifiers
 
-    $default  вывод с использованием правила 72 (Summand)
+    T_RBRACK  сдвиг, и переход в состояние 105
 
 
 Состояние 83
 
-   54 Expression: Relation T_AND Expression •
+   82 Identifiers: T_DOT T_ID •
+   83            | T_DOT T_ID • Identifiers
 
-    $default  вывод с использованием правила 54 (Expression)
+    T_LBRACK  сдвиг, и переход в состояние 56
+    T_DOT     сдвиг, и переход в состояние 57
+
+    $default  вывод с использованием правила 82 (Identifiers)
+
+    Identifiers  переход в состояние 106
 
 
 Состояние 84
 
-   55 Expression: Relation T_OR Expression •
+   73 Summand: T_LPAREN Expression T_LPAREN •
 
-    $default  вывод с использованием правила 55 (Expression)
+    $default  вывод с использованием правила 73 (Summand)
 
 
 Состояние 85
 
-   56 Expression: Relation T_XOR Expression •
+   55 Expression: Relation T_AND Expression •
 
-    $default  вывод с использованием правила 56 (Expression)
+    $default  вывод с использованием правила 55 (Expression)
 
 
 Состояние 86
 
-   58 Relation: Simple T_LESS Simple •
+   56 Expression: Relation T_OR Expression •
 
-    $default  вывод с использованием правила 58 (Relation)
+    $default  вывод с использованием правила 56 (Expression)
 
 
 Состояние 87
 
-   60 Relation: Simple T_GREAT Simple •
+   57 Expression: Relation T_XOR Expression •
 
-    $default  вывод с использованием правила 60 (Relation)
+    $default  вывод с использованием правила 57 (Expression)
 
 
 Состояние 88
 
-   59 Relation: Simple T_LESSOREQU Simple •
+   59 Relation: Simple T_LESS Simple •
 
     $default  вывод с использованием правила 59 (Relation)
 
 
 Состояние 89
 
-   61 Relation: Simple T_GREATOREQU Simple •
+   61 Relation: Simple T_GREAT Simple •
 
     $default  вывод с использованием правила 61 (Relation)
 
 
 Состояние 90
 
-   63 Relation: Simple T_NOTEQU Simple •
+   60 Relation: Simple T_LESSOREQU Simple •
 
-    $default  вывод с использованием правила 63 (Relation)
+    $default  вывод с использованием правила 60 (Relation)
 
 
 Состояние 91
 
-   62 Relation: Simple T_EQU Simple •
+   62 Relation: Simple T_GREATOREQU Simple •
 
     $default  вывод с использованием правила 62 (Relation)
 
 
 Состояние 92
 
-   65 Simple: Factor T_MULTOP Simple •
+   64 Relation: Simple T_NOTEQU Simple •
 
-    $default  вывод с использованием правила 65 (Simple)
+    $default  вывод с использованием правила 64 (Relation)
 
 
 Состояние 93
 
-   66 Simple: Factor T_DIVOP Simple •
+   63 Relation: Simple T_EQU Simple •
 
-    $default  вывод с использованием правила 66 (Simple)
+    $default  вывод с использованием правила 63 (Relation)
 
 
 Состояние 94
 
-   67 Simple: Factor T_MODOP Simple •
+   66 Simple: Factor T_MULTOP Simple •
 
-    $default  вывод с использованием правила 67 (Simple)
+    $default  вывод с использованием правила 66 (Simple)
 
 
 Состояние 95
 
-   69 Factor: Summand T_ADDOP Factor •
+   67 Simple: Factor T_DIVOP Simple •
 
-    $default  вывод с использованием правила 69 (Factor)
+    $default  вывод с использованием правила 67 (Simple)
 
 
 Состояние 96
 
-   70 Factor: Summand T_SUBTROP Factor •
+   68 Simple: Factor T_MODOP Simple •
+
+    $default  вывод с использованием правила 68 (Simple)
+
+
+Состояние 97
+
+   70 Factor: Summand T_ADDOP Factor •
 
     $default  вывод с использованием правила 70 (Factor)
 
 
-Состояние 97
+Состояние 98
+
+   71 Factor: Summand T_SUBTROP Factor •
+
+    $default  вывод с использованием правила 71 (Factor)
+
+
+Состояние 99
 
     8 VariableDeclaration: T_VAR T_ID T_COLON Type T_IS Expression •
 
     $default  вывод с использованием правила 8 (VariableDeclaration)
 
 
-Состояние 98
+Состояние 100
 
    17 ParameterDeclaration: T_ID T_COLON Type •
 
     $default  вывод с использованием правила 17 (ParameterDeclaration)
 
 
-Состояние 99
+Состояние 101
 
    13 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS • Body T_END
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
     T_TYPE    сдвиг, и переход в состояние 1
     T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
 
-    $default  вывод с использованием правила 29 (Body)
+    $default  вывод с использованием правила 30 (Body)
 
-    SimpleDeclaration    переход в состояние 111
+    SimpleDeclaration    переход в состояние 113
     VariableDeclaration  переход в состояние 6
     TypeDeclaration      переход в состояние 7
-    Body                 переход в состояние 112
-    Statement            переход в состояние 113
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    Body                 переход в состояние 114
+    Statement            переход в состояние 115
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
-Состояние 100
+Состояние 102
 
    12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON • Type T_IS Body T_END
 
     T_INTEGER  сдвиг, и переход в состояние 24
     T_REAL     сдвиг, и переход в состояние 25
     T_BOOLEAN  сдвиг, и переход в состояние 26
-    T_ARRAY    сдвиг, и переход в состояние 27
-    T_RECORD   сдвиг, и переход в состояние 28
-    T_ID       сдвиг, и переход в состояние 29
-
-    Type           переход в состояние 120
-    PrimitiveType  переход в состояние 31
-    RecordType     переход в состояние 32
-    ArrayType      переход в состояние 33
-
-
-Состояние 101
-
-   16 ParameterDeclarations: T_COMMA ParameterDeclaration • ParameterDeclarations
-
-    T_COMMA  сдвиг, и переход в состояние 75
-
-    $default  вывод с использованием правила 15 (ParameterDeclarations)
-
-    ParameterDeclarations  переход в состояние 121
-
-
-Состояние 102
-
-   28 ArrayType: T_ARRAY T_LBRACK Expression T_RBRACK • Type
-
-    T_INTEGER  сдвиг, и переход в состояние 24
-    T_REAL     сдвиг, и переход в состояние 25
-    T_BOOLEAN  сдвиг, и переход в состояние 26
-    T_ARRAY    сдвиг, и переход в состояние 27
-    T_RECORD   сдвиг, и переход в состояние 28
-    T_ID       сдвиг, и переход в состояние 29
+    T_CHAR     сдвиг, и переход в состояние 27
+    T_ARRAY    сдвиг, и переход в состояние 28
+    T_RECORD   сдвиг, и переход в состояние 29
+    T_ID       сдвиг, и переход в состояние 30
 
     Type           переход в состояние 122
-    PrimitiveType  переход в состояние 31
-    RecordType     переход в состояние 32
-    ArrayType      переход в состояние 33
+    PrimitiveType  переход в состояние 32
+    RecordType     переход в состояние 33
+    ArrayType      переход в состояние 34
 
 
 Состояние 103
 
-   82 Identifiers: T_LBRACK Expression T_RBRACK •
-   83            | T_LBRACK Expression T_RBRACK • Identifiers
+   16 ParameterDeclarations: T_COMMA ParameterDeclaration • ParameterDeclarations
 
-    T_LBRACK  сдвиг, и переход в состояние 54
-    T_DOT     сдвиг, и переход в состояние 55
+    T_COMMA  сдвиг, и переход в состояние 77
 
-    $default  вывод с использованием правила 82 (Identifiers)
+    $default  вывод с использованием правила 15 (ParameterDeclarations)
 
-    Identifiers  переход в состояние 123
+    ParameterDeclarations  переход в состояние 123
 
 
 Состояние 104
 
-   81 Identifiers: T_DOT T_ID Identifiers •
+   29 ArrayType: T_ARRAY T_LBRACK Expression T_RBRACK • Type
 
-    $default  вывод с использованием правила 81 (Identifiers)
+    T_INTEGER  сдвиг, и переход в состояние 24
+    T_REAL     сдвиг, и переход в состояние 25
+    T_BOOLEAN  сдвиг, и переход в состояние 26
+    T_CHAR     сдвиг, и переход в состояние 27
+    T_ARRAY    сдвиг, и переход в состояние 28
+    T_RECORD   сдвиг, и переход в состояние 29
+    T_ID       сдвиг, и переход в состояние 30
+
+    Type           переход в состояние 124
+    PrimitiveType  переход в состояние 32
+    RecordType     переход в состояние 33
+    ArrayType      переход в состояние 34
 
 
 Состояние 105
 
-   48 ForLoop: T_FOR • T_ID Range T_LOOP Body T_END
+   84 Identifiers: T_LBRACK Expression T_RBRACK •
+   85            | T_LBRACK Expression T_RBRACK • Identifiers
 
-    T_ID  сдвиг, и переход в состояние 124
+    T_LBRACK  сдвиг, и переход в состояние 56
+    T_DOT     сдвиг, и переход в состояние 57
+
+    $default  вывод с использованием правила 84 (Identifiers)
+
+    Identifiers  переход в состояние 125
 
 
 Состояние 106
 
-   47 WhileLoop: T_WHILE • Expression T_LOOP Body T_END
+   83 Identifiers: T_DOT T_ID Identifiers •
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 125
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    $default  вывод с использованием правила 83 (Identifiers)
 
 
 Состояние 107
 
-   51 IfStatement: T_IF • Expression T_THEN Body T_ELSE Body T_END
-   52            | T_IF • Expression T_THEN Body T_END
+   49 ForLoop: T_FOR • T_ID Range T_LOOP Body T_END
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 126
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    T_ID  сдвиг, и переход в состояние 126
 
 
 Состояние 108
 
-   41 Statement: T_PRINT • T_LPAREN Expression T_RPAREN
+   48 WhileLoop: T_WHILE • Expression T_LOOP Body T_END
 
-    T_LPAREN  сдвиг, и переход в состояние 127
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 127
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 109
 
-   40 Statement: T_RETURN • T_LPAREN Expression T_RPAREN
+   52 IfStatement: T_IF • Expression T_THEN Body T_ELSE Body T_END
+   53            | T_IF • Expression T_THEN Body T_END
 
-    T_LPAREN  сдвиг, и переход в состояние 128
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 128
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 110
 
-   43 RoutineCall: T_ID •
-   44            | T_ID • T_LPAREN Expressions T_RPAREN
-   78 ModifiablePrimary: T_ID •
-   79                  | T_ID • Identifiers
+   42 Statement: T_PRINT • T_LPAREN Expression T_RPAREN
 
     T_LPAREN  сдвиг, и переход в состояние 129
-    T_LBRACK  сдвиг, и переход в состояние 54
-    T_DOT     сдвиг, и переход в состояние 55
-
-    T_COLONEQU  вывод с использованием правила 78 (ModifiablePrimary)
-    $default    вывод с использованием правила 43 (RoutineCall)
-
-    Identifiers  переход в состояние 56
 
 
 Состояние 111
 
-   30 Body: SimpleDeclaration • Bodies
+   41 Statement: T_RETURN • T_LPAREN Expression T_RPAREN
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
-    T_TYPE    сдвиг, и переход в состояние 1
-    T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
-
-    $default  вывод с использованием правила 32 (Bodies)
-
-    SimpleDeclaration    переход в состояние 130
-    VariableDeclaration  переход в состояние 6
-    TypeDeclaration      переход в состояние 7
-    Bodies               переход в состояние 131
-    Statement            переход в состояние 132
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    T_LPAREN  сдвиг, и переход в состояние 130
 
 
 Состояние 112
 
-   13 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS Body • T_END
+   44 RoutineCall: T_ID •
+   45            | T_ID • T_LPAREN Expressions T_RPAREN
+   80 ModifiablePrimary: T_ID •
+   81                  | T_ID • Identifiers
 
-    T_END  сдвиг, и переход в состояние 133
+    T_LPAREN  сдвиг, и переход в состояние 131
+    T_LBRACK  сдвиг, и переход в состояние 56
+    T_DOT     сдвиг, и переход в состояние 57
+
+    T_COLONEQU  вывод с использованием правила 80 (ModifiablePrimary)
+    $default    вывод с использованием правила 44 (RoutineCall)
+
+    Identifiers  переход в состояние 58
 
 
 Состояние 113
 
-   31 Body: Statement • Bodies
+   31 Body: SimpleDeclaration • Bodies
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
     T_TYPE    сдвиг, и переход в состояние 1
     T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
 
-    $default  вывод с использованием правила 32 (Bodies)
+    $default  вывод с использованием правила 33 (Bodies)
 
-    SimpleDeclaration    переход в состояние 130
+    SimpleDeclaration    переход в состояние 132
     VariableDeclaration  переход в состояние 6
     TypeDeclaration      переход в состояние 7
-    Bodies               переход в состояние 134
-    Statement            переход в состояние 132
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    Bodies               переход в состояние 133
+    Statement            переход в состояние 134
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 114
 
-   35 Statement: Assignment •
+   13 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS Body • T_END
 
-    $default  вывод с использованием правила 35 (Statement)
+    T_END  сдвиг, и переход в состояние 135
 
 
 Состояние 115
 
-   36 Statement: RoutineCall •
+   32 Body: Statement • Bodies
 
-    $default  вывод с использованием правила 36 (Statement)
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
+    T_TYPE    сдвиг, и переход в состояние 1
+    T_VAR     сдвиг, и переход в состояние 2
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
+
+    $default  вывод с использованием правила 33 (Bodies)
+
+    SimpleDeclaration    переход в состояние 132
+    VariableDeclaration  переход в состояние 6
+    TypeDeclaration      переход в состояние 7
+    Bodies               переход в состояние 136
+    Statement            переход в состояние 134
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 116
 
-   37 Statement: WhileLoop •
+   36 Statement: Assignment •
 
-    $default  вывод с использованием правила 37 (Statement)
+    $default  вывод с использованием правила 36 (Statement)
 
 
 Состояние 117
 
-   38 Statement: ForLoop •
+   37 Statement: RoutineCall •
 
-    $default  вывод с использованием правила 38 (Statement)
+    $default  вывод с использованием правила 37 (Statement)
 
 
 Состояние 118
 
-   39 Statement: IfStatement •
+   38 Statement: WhileLoop •
 
-    $default  вывод с использованием правила 39 (Statement)
+    $default  вывод с использованием правила 38 (Statement)
 
 
 Состояние 119
 
-   42 Assignment: ModifiablePrimary • T_COLONEQU Expression
+   39 Statement: ForLoop •
 
-    T_COLONEQU  сдвиг, и переход в состояние 135
+    $default  вывод с использованием правила 39 (Statement)
 
 
 Состояние 120
 
-   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type • T_IS Body T_END
+   40 Statement: IfStatement •
 
-    T_IS  сдвиг, и переход в состояние 136
+    $default  вывод с использованием правила 40 (Statement)
 
 
 Состояние 121
+
+   43 Assignment: ModifiablePrimary • T_COLONEQU Expression
+
+    T_COLONEQU  сдвиг, и переход в состояние 137
+
+
+Состояние 122
+
+   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type • T_IS Body T_END
+
+    T_IS  сдвиг, и переход в состояние 138
+
+
+Состояние 123
 
    16 ParameterDeclarations: T_COMMA ParameterDeclaration ParameterDeclarations •
 
     $default  вывод с использованием правила 16 (ParameterDeclarations)
 
 
-Состояние 122
-
-   28 ArrayType: T_ARRAY T_LBRACK Expression T_RBRACK Type •
-
-    $default  вывод с использованием правила 28 (ArrayType)
-
-
-Состояние 123
-
-   83 Identifiers: T_LBRACK Expression T_RBRACK Identifiers •
-
-    $default  вывод с использованием правила 83 (Identifiers)
-
-
 Состояние 124
 
-   48 ForLoop: T_FOR T_ID • Range T_LOOP Body T_END
+   29 ArrayType: T_ARRAY T_LBRACK Expression T_RBRACK Type •
 
-    T_IN  сдвиг, и переход в состояние 137
-
-    Range  переход в состояние 138
+    $default  вывод с использованием правила 29 (ArrayType)
 
 
 Состояние 125
 
-   47 WhileLoop: T_WHILE Expression • T_LOOP Body T_END
+   85 Identifiers: T_LBRACK Expression T_RBRACK Identifiers •
 
-    T_LOOP  сдвиг, и переход в состояние 139
+    $default  вывод с использованием правила 85 (Identifiers)
 
 
 Состояние 126
 
-   51 IfStatement: T_IF Expression • T_THEN Body T_ELSE Body T_END
-   52            | T_IF Expression • T_THEN Body T_END
+   49 ForLoop: T_FOR T_ID • Range T_LOOP Body T_END
 
-    T_THEN  сдвиг, и переход в состояние 140
+    T_IN  сдвиг, и переход в состояние 139
+
+    Range  переход в состояние 140
 
 
 Состояние 127
 
-   41 Statement: T_PRINT T_LPAREN • Expression T_RPAREN
+   48 WhileLoop: T_WHILE Expression • T_LOOP Body T_END
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 141
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    T_LOOP  сдвиг, и переход в состояние 141
 
 
 Состояние 128
 
-   40 Statement: T_RETURN T_LPAREN • Expression T_RPAREN
+   52 IfStatement: T_IF Expression • T_THEN Body T_ELSE Body T_END
+   53            | T_IF Expression • T_THEN Body T_END
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 142
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    T_THEN  сдвиг, и переход в состояние 142
 
 
 Состояние 129
 
-   44 RoutineCall: T_ID T_LPAREN • Expressions T_RPAREN
+   42 Statement: T_PRINT T_LPAREN • Expression T_RPAREN
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-    T_COMMA   сдвиг, и переход в состояние 143
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Expressions        переход в состояние 144
-    Expression         переход в состояние 145
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Expression         переход в состояние 143
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 130
 
-   33 Bodies: SimpleDeclaration • Bodies
+   41 Statement: T_RETURN T_LPAREN • Expression T_RPAREN
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
-    T_TYPE    сдвиг, и переход в состояние 1
-    T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    $default  вывод с использованием правила 32 (Bodies)
-
-    SimpleDeclaration    переход в состояние 130
-    VariableDeclaration  переход в состояние 6
-    TypeDeclaration      переход в состояние 7
-    Bodies               переход в состояние 146
-    Statement            переход в состояние 132
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    Expression         переход в состояние 144
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 131
 
-   30 Body: SimpleDeclaration Bodies •
+   45 RoutineCall: T_ID T_LPAREN • Expressions T_RPAREN
 
-    $default  вывод с использованием правила 30 (Body)
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+    T_COMMA   сдвиг, и переход в состояние 145
+
+    Expressions        переход в состояние 146
+    Expression         переход в состояние 147
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 132
 
-   34 Bodies: Statement • Bodies
+   34 Bodies: SimpleDeclaration • Bodies
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
     T_TYPE    сдвиг, и переход в состояние 1
     T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
 
-    $default  вывод с использованием правила 32 (Bodies)
+    $default  вывод с использованием правила 33 (Bodies)
 
-    SimpleDeclaration    переход в состояние 130
+    SimpleDeclaration    переход в состояние 132
     VariableDeclaration  переход в состояние 6
     TypeDeclaration      переход в состояние 7
-    Bodies               переход в состояние 147
-    Statement            переход в состояние 132
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    Bodies               переход в состояние 148
+    Statement            переход в состояние 134
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 133
+
+   31 Body: SimpleDeclaration Bodies •
+
+    $default  вывод с использованием правила 31 (Body)
+
+
+Состояние 134
+
+   35 Bodies: Statement • Bodies
+
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
+    T_TYPE    сдвиг, и переход в состояние 1
+    T_VAR     сдвиг, и переход в состояние 2
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
+
+    $default  вывод с использованием правила 33 (Bodies)
+
+    SimpleDeclaration    переход в состояние 132
+    VariableDeclaration  переход в состояние 6
+    TypeDeclaration      переход в состояние 7
+    Bodies               переход в состояние 149
+    Statement            переход в состояние 134
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
+
+
+Состояние 135
 
    13 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_IS Body T_END •
 
     $default  вывод с использованием правила 13 (RoutineDeclaration)
 
 
-Состояние 134
-
-   31 Body: Statement Bodies •
-
-    $default  вывод с использованием правила 31 (Body)
-
-
-Состояние 135
-
-   42 Assignment: ModifiablePrimary T_COLONEQU • Expression
-
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 148
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
-
-
 Состояние 136
 
-   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS • Body T_END
+   32 Body: Statement Bodies •
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
-    T_TYPE    сдвиг, и переход в состояние 1
-    T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
-
-    $default  вывод с использованием правила 29 (Body)
-
-    SimpleDeclaration    переход в состояние 111
-    VariableDeclaration  переход в состояние 6
-    TypeDeclaration      переход в состояние 7
-    Body                 переход в состояние 149
-    Statement            переход в состояние 113
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    $default  вывод с использованием правила 32 (Body)
 
 
 Состояние 137
 
-   49 Range: T_IN • Expression T_DOTDOT Expression
-   50      | T_IN • T_REVERSE Expression T_DOTDOT Expression
+   43 Assignment: ModifiablePrimary T_COLONEQU • Expression
 
-    T_REVERSE  сдвиг, и переход в состояние 150
-    T_TRUE     сдвиг, и переход в состояние 34
-    T_FALSE    сдвиг, и переход в состояние 35
-    T_ID       сдвиг, и переход в состояние 36
-    T_ICONST   сдвиг, и переход в состояние 37
-    T_RCONST   сдвиг, и переход в состояние 38
-    T_LPAREN   сдвиг, и переход в состояние 39
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    Expression         переход в состояние 151
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    Expression         переход в состояние 150
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 138
 
-   48 ForLoop: T_FOR T_ID Range • T_LOOP Body T_END
+   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS • Body T_END
 
-    T_LOOP  сдвиг, и переход в состояние 152
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
+    T_TYPE    сдвиг, и переход в состояние 1
+    T_VAR     сдвиг, и переход в состояние 2
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
+
+    $default  вывод с использованием правила 30 (Body)
+
+    SimpleDeclaration    переход в состояние 113
+    VariableDeclaration  переход в состояние 6
+    TypeDeclaration      переход в состояние 7
+    Body                 переход в состояние 151
+    Statement            переход в состояние 115
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 139
 
-   47 WhileLoop: T_WHILE Expression T_LOOP • Body T_END
+   50 Range: T_IN • Expression T_DOTDOT Expression
+   51      | T_IN • T_REVERSE Expression T_DOTDOT Expression
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
-    T_TYPE    сдвиг, и переход в состояние 1
-    T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
+    T_REVERSE  сдвиг, и переход в состояние 152
+    T_TRUE     сдвиг, и переход в состояние 35
+    T_FALSE    сдвиг, и переход в состояние 36
+    T_ID       сдвиг, и переход в состояние 37
+    T_ICONST   сдвиг, и переход в состояние 38
+    T_RCONST   сдвиг, и переход в состояние 39
+    T_CCONST   сдвиг, и переход в состояние 40
+    T_LPAREN   сдвиг, и переход в состояние 41
 
-    $default  вывод с использованием правила 29 (Body)
-
-    SimpleDeclaration    переход в состояние 111
-    VariableDeclaration  переход в состояние 6
-    TypeDeclaration      переход в состояние 7
-    Body                 переход в состояние 153
-    Statement            переход в состояние 113
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    Expression         переход в состояние 153
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 140
 
-   51 IfStatement: T_IF Expression T_THEN • Body T_ELSE Body T_END
-   52            | T_IF Expression T_THEN • Body T_END
+   49 ForLoop: T_FOR T_ID Range • T_LOOP Body T_END
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
-    T_TYPE    сдвиг, и переход в состояние 1
-    T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
-
-    $default  вывод с использованием правила 29 (Body)
-
-    SimpleDeclaration    переход в состояние 111
-    VariableDeclaration  переход в состояние 6
-    TypeDeclaration      переход в состояние 7
-    Body                 переход в состояние 154
-    Statement            переход в состояние 113
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    T_LOOP  сдвиг, и переход в состояние 154
 
 
 Состояние 141
 
-   41 Statement: T_PRINT T_LPAREN Expression • T_RPAREN
+   48 WhileLoop: T_WHILE Expression T_LOOP • Body T_END
 
-    T_RPAREN  сдвиг, и переход в состояние 155
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
+    T_TYPE    сдвиг, и переход в состояние 1
+    T_VAR     сдвиг, и переход в состояние 2
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
+
+    $default  вывод с использованием правила 30 (Body)
+
+    SimpleDeclaration    переход в состояние 113
+    VariableDeclaration  переход в состояние 6
+    TypeDeclaration      переход в состояние 7
+    Body                 переход в состояние 155
+    Statement            переход в состояние 115
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 142
 
-   40 Statement: T_RETURN T_LPAREN Expression • T_RPAREN
+   52 IfStatement: T_IF Expression T_THEN • Body T_ELSE Body T_END
+   53            | T_IF Expression T_THEN • Body T_END
 
-    T_RPAREN  сдвиг, и переход в состояние 156
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
+    T_TYPE    сдвиг, и переход в состояние 1
+    T_VAR     сдвиг, и переход в состояние 2
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
+
+    $default  вывод с использованием правила 30 (Body)
+
+    SimpleDeclaration    переход в состояние 113
+    VariableDeclaration  переход в состояние 6
+    TypeDeclaration      переход в состояние 7
+    Body                 переход в состояние 156
+    Statement            переход в состояние 115
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 143
 
-   46 Expressions: T_COMMA • Expression Expressions
+   42 Statement: T_PRINT T_LPAREN Expression • T_RPAREN
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 157
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    T_RPAREN  сдвиг, и переход в состояние 157
 
 
 Состояние 144
 
-   44 RoutineCall: T_ID T_LPAREN Expressions • T_RPAREN
+   41 Statement: T_RETURN T_LPAREN Expression • T_RPAREN
 
     T_RPAREN  сдвиг, и переход в состояние 158
 
 
 Состояние 145
 
-   45 Expressions: Expression •
+   47 Expressions: T_COMMA • Expression Expressions
 
-    $default  вывод с использованием правила 45 (Expressions)
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 159
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 146
 
-   33 Bodies: SimpleDeclaration Bodies •
+   45 RoutineCall: T_ID T_LPAREN Expressions • T_RPAREN
 
-    $default  вывод с использованием правила 33 (Bodies)
+    T_RPAREN  сдвиг, и переход в состояние 160
 
 
 Состояние 147
 
-   34 Bodies: Statement Bodies •
+   46 Expressions: Expression •
 
-    $default  вывод с использованием правила 34 (Bodies)
+    $default  вывод с использованием правила 46 (Expressions)
 
 
 Состояние 148
 
-   42 Assignment: ModifiablePrimary T_COLONEQU Expression •
+   34 Bodies: SimpleDeclaration Bodies •
 
-    $default  вывод с использованием правила 42 (Assignment)
+    $default  вывод с использованием правила 34 (Bodies)
 
 
 Состояние 149
 
-   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS Body • T_END
+   35 Bodies: Statement Bodies •
 
-    T_END  сдвиг, и переход в состояние 159
+    $default  вывод с использованием правила 35 (Bodies)
 
 
 Состояние 150
 
-   50 Range: T_IN T_REVERSE • Expression T_DOTDOT Expression
+   43 Assignment: ModifiablePrimary T_COLONEQU Expression •
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 160
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    $default  вывод с использованием правила 43 (Assignment)
 
 
 Состояние 151
 
-   49 Range: T_IN Expression • T_DOTDOT Expression
+   12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS Body • T_END
 
-    T_DOTDOT  сдвиг, и переход в состояние 161
+    T_END  сдвиг, и переход в состояние 161
 
 
 Состояние 152
 
-   48 ForLoop: T_FOR T_ID Range T_LOOP • Body T_END
+   51 Range: T_IN T_REVERSE • Expression T_DOTDOT Expression
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
-    T_TYPE    сдвиг, и переход в состояние 1
-    T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
 
-    $default  вывод с использованием правила 29 (Body)
-
-    SimpleDeclaration    переход в состояние 111
-    VariableDeclaration  переход в состояние 6
-    TypeDeclaration      переход в состояние 7
-    Body                 переход в состояние 162
-    Statement            переход в состояние 113
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    Expression         переход в состояние 162
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 153
 
-   47 WhileLoop: T_WHILE Expression T_LOOP Body • T_END
+   50 Range: T_IN Expression • T_DOTDOT Expression
 
-    T_END  сдвиг, и переход в состояние 163
+    T_DOTDOT  сдвиг, и переход в состояние 163
 
 
 Состояние 154
 
-   51 IfStatement: T_IF Expression T_THEN Body • T_ELSE Body T_END
-   52            | T_IF Expression T_THEN Body • T_END
+   49 ForLoop: T_FOR T_ID Range T_LOOP • Body T_END
 
-    T_ELSE  сдвиг, и переход в состояние 164
-    T_END   сдвиг, и переход в состояние 165
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
+    T_TYPE    сдвиг, и переход в состояние 1
+    T_VAR     сдвиг, и переход в состояние 2
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
+
+    $default  вывод с использованием правила 30 (Body)
+
+    SimpleDeclaration    переход в состояние 113
+    VariableDeclaration  переход в состояние 6
+    TypeDeclaration      переход в состояние 7
+    Body                 переход в состояние 164
+    Statement            переход в состояние 115
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 155
 
-   41 Statement: T_PRINT T_LPAREN Expression T_RPAREN •
+   48 WhileLoop: T_WHILE Expression T_LOOP Body • T_END
 
-    $default  вывод с использованием правила 41 (Statement)
+    T_END  сдвиг, и переход в состояние 165
 
 
 Состояние 156
 
-   40 Statement: T_RETURN T_LPAREN Expression T_RPAREN •
+   52 IfStatement: T_IF Expression T_THEN Body • T_ELSE Body T_END
+   53            | T_IF Expression T_THEN Body • T_END
 
-    $default  вывод с использованием правила 40 (Statement)
+    T_ELSE  сдвиг, и переход в состояние 166
+    T_END   сдвиг, и переход в состояние 167
 
 
 Состояние 157
 
-   46 Expressions: T_COMMA Expression • Expressions
+   42 Statement: T_PRINT T_LPAREN Expression T_RPAREN •
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-    T_COMMA   сдвиг, и переход в состояние 143
-
-    Expressions        переход в состояние 166
-    Expression         переход в состояние 145
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    $default  вывод с использованием правила 42 (Statement)
 
 
 Состояние 158
 
-   44 RoutineCall: T_ID T_LPAREN Expressions T_RPAREN •
+   41 Statement: T_RETURN T_LPAREN Expression T_RPAREN •
 
-    $default  вывод с использованием правила 44 (RoutineCall)
+    $default  вывод с использованием правила 41 (Statement)
 
 
 Состояние 159
+
+   47 Expressions: T_COMMA Expression • Expressions
+
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+    T_COMMA   сдвиг, и переход в состояние 145
+
+    Expressions        переход в состояние 168
+    Expression         переход в состояние 147
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
+
+
+Состояние 160
+
+   45 RoutineCall: T_ID T_LPAREN Expressions T_RPAREN •
+
+    $default  вывод с использованием правила 45 (RoutineCall)
+
+
+Состояние 161
 
    12 RoutineDeclaration: T_ROUTINE T_ID T_LPAREN Parameters T_RPAREN T_COLON Type T_IS Body T_END •
 
     $default  вывод с использованием правила 12 (RoutineDeclaration)
 
 
-Состояние 160
-
-   50 Range: T_IN T_REVERSE Expression • T_DOTDOT Expression
-
-    T_DOTDOT  сдвиг, и переход в состояние 167
-
-
-Состояние 161
-
-   49 Range: T_IN Expression T_DOTDOT • Expression
-
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 168
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
-
-
 Состояние 162
 
-   48 ForLoop: T_FOR T_ID Range T_LOOP Body • T_END
+   51 Range: T_IN T_REVERSE Expression • T_DOTDOT Expression
 
-    T_END  сдвиг, и переход в состояние 169
+    T_DOTDOT  сдвиг, и переход в состояние 169
 
 
 Состояние 163
 
-   47 WhileLoop: T_WHILE Expression T_LOOP Body T_END •
+   50 Range: T_IN Expression T_DOTDOT • Expression
 
-    $default  вывод с использованием правила 47 (WhileLoop)
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 170
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 164
 
-   51 IfStatement: T_IF Expression T_THEN Body T_ELSE • Body T_END
+   49 ForLoop: T_FOR T_ID Range T_LOOP Body • T_END
 
-    T_FOR     сдвиг, и переход в состояние 105
-    T_WHILE   сдвиг, и переход в состояние 106
-    T_IF      сдвиг, и переход в состояние 107
-    T_TYPE    сдвиг, и переход в состояние 1
-    T_VAR     сдвиг, и переход в состояние 2
-    T_PRINT   сдвиг, и переход в состояние 108
-    T_RETURN  сдвиг, и переход в состояние 109
-    T_ID      сдвиг, и переход в состояние 110
-
-    $default  вывод с использованием правила 29 (Body)
-
-    SimpleDeclaration    переход в состояние 111
-    VariableDeclaration  переход в состояние 6
-    TypeDeclaration      переход в состояние 7
-    Body                 переход в состояние 170
-    Statement            переход в состояние 113
-    Assignment           переход в состояние 114
-    RoutineCall          переход в состояние 115
-    WhileLoop            переход в состояние 116
-    ForLoop              переход в состояние 117
-    IfStatement          переход в состояние 118
-    ModifiablePrimary    переход в состояние 119
+    T_END  сдвиг, и переход в состояние 171
 
 
 Состояние 165
 
-   52 IfStatement: T_IF Expression T_THEN Body T_END •
+   48 WhileLoop: T_WHILE Expression T_LOOP Body T_END •
 
-    $default  вывод с использованием правила 52 (IfStatement)
+    $default  вывод с использованием правила 48 (WhileLoop)
 
 
 Состояние 166
 
-   46 Expressions: T_COMMA Expression Expressions •
+   52 IfStatement: T_IF Expression T_THEN Body T_ELSE • Body T_END
 
-    $default  вывод с использованием правила 46 (Expressions)
+    T_FOR     сдвиг, и переход в состояние 107
+    T_WHILE   сдвиг, и переход в состояние 108
+    T_IF      сдвиг, и переход в состояние 109
+    T_TYPE    сдвиг, и переход в состояние 1
+    T_VAR     сдвиг, и переход в состояние 2
+    T_PRINT   сдвиг, и переход в состояние 110
+    T_RETURN  сдвиг, и переход в состояние 111
+    T_ID      сдвиг, и переход в состояние 112
+
+    $default  вывод с использованием правила 30 (Body)
+
+    SimpleDeclaration    переход в состояние 113
+    VariableDeclaration  переход в состояние 6
+    TypeDeclaration      переход в состояние 7
+    Body                 переход в состояние 172
+    Statement            переход в состояние 115
+    Assignment           переход в состояние 116
+    RoutineCall          переход в состояние 117
+    WhileLoop            переход в состояние 118
+    ForLoop              переход в состояние 119
+    IfStatement          переход в состояние 120
+    ModifiablePrimary    переход в состояние 121
 
 
 Состояние 167
 
-   50 Range: T_IN T_REVERSE Expression T_DOTDOT • Expression
+   53 IfStatement: T_IF Expression T_THEN Body T_END •
 
-    T_TRUE    сдвиг, и переход в состояние 34
-    T_FALSE   сдвиг, и переход в состояние 35
-    T_ID      сдвиг, и переход в состояние 36
-    T_ICONST  сдвиг, и переход в состояние 37
-    T_RCONST  сдвиг, и переход в состояние 38
-    T_LPAREN  сдвиг, и переход в состояние 39
-
-    Expression         переход в состояние 171
-    Relation           переход в состояние 41
-    Simple             переход в состояние 42
-    Factor             переход в состояние 43
-    Summand            переход в состояние 44
-    Primary            переход в состояние 45
-    ModifiablePrimary  переход в состояние 46
+    $default  вывод с использованием правила 53 (IfStatement)
 
 
 Состояние 168
 
-   49 Range: T_IN Expression T_DOTDOT Expression •
+   47 Expressions: T_COMMA Expression Expressions •
 
-    $default  вывод с использованием правила 49 (Range)
+    $default  вывод с использованием правила 47 (Expressions)
 
 
 Состояние 169
 
-   48 ForLoop: T_FOR T_ID Range T_LOOP Body T_END •
+   51 Range: T_IN T_REVERSE Expression T_DOTDOT • Expression
 
-    $default  вывод с использованием правила 48 (ForLoop)
+    T_TRUE    сдвиг, и переход в состояние 35
+    T_FALSE   сдвиг, и переход в состояние 36
+    T_ID      сдвиг, и переход в состояние 37
+    T_ICONST  сдвиг, и переход в состояние 38
+    T_RCONST  сдвиг, и переход в состояние 39
+    T_CCONST  сдвиг, и переход в состояние 40
+    T_LPAREN  сдвиг, и переход в состояние 41
+
+    Expression         переход в состояние 173
+    Relation           переход в состояние 43
+    Simple             переход в состояние 44
+    Factor             переход в состояние 45
+    Summand            переход в состояние 46
+    Primary            переход в состояние 47
+    ModifiablePrimary  переход в состояние 48
 
 
 Состояние 170
 
-   51 IfStatement: T_IF Expression T_THEN Body T_ELSE Body • T_END
-
-    T_END  сдвиг, и переход в состояние 172
-
-
-Состояние 171
-
-   50 Range: T_IN T_REVERSE Expression T_DOTDOT Expression •
+   50 Range: T_IN Expression T_DOTDOT Expression •
 
     $default  вывод с использованием правила 50 (Range)
 
 
+Состояние 171
+
+   49 ForLoop: T_FOR T_ID Range T_LOOP Body T_END •
+
+    $default  вывод с использованием правила 49 (ForLoop)
+
+
 Состояние 172
 
-   51 IfStatement: T_IF Expression T_THEN Body T_ELSE Body T_END •
+   52 IfStatement: T_IF Expression T_THEN Body T_ELSE Body • T_END
 
-    $default  вывод с использованием правила 51 (IfStatement)
+    T_END  сдвиг, и переход в состояние 174
+
+
+Состояние 173
+
+   51 Range: T_IN T_REVERSE Expression T_DOTDOT Expression •
+
+    $default  вывод с использованием правила 51 (Range)
+
+
+Состояние 174
+
+   52 IfStatement: T_IF Expression T_THEN Body T_ELSE Body T_END •
+
+    $default  вывод с использованием правила 52 (IfStatement)

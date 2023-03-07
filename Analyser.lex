@@ -57,6 +57,8 @@ Decimal_Digit   [0-9]
 
 Hex_Digit       [0-9A-Fa-f]
 
+
+
 /* Integer literals*/
 
 Binary_Digits    ({Binary_Digit}(_?{Binary_Digit})*)
@@ -115,12 +117,16 @@ Raw_String_Lit          (`)(({ASCIIFTPG}|(\n))*)(`)
 
 String_Lit              ({Raw_String_Lit}|{Interpreted_String_Lit})
 
+Char_Lit                (\")([A-Za-z0-9])(\")
+
 L   [A-Za-z]
 D   [0-9]
 
 %%
 
 "reverse"       {printf("T_REVERSE "); return( T_REVERSE );}
+"return"        {printf("T_RETURN "); return( T_RETURN );}
+"print"         {printf("T_PRINT "); return( T_PRINT );}
 "while"         {printf("T_WHILE "); return( T_WHILE );}
 "loop"          {printf("T_LOOP "); return( T_LOOP );}
 "then"          {printf("T_THEN "); return( T_THEN );}
@@ -132,8 +138,6 @@ D   [0-9]
 "in"            {printf("T_IN "); return( T_IN );}
 "if"            {printf("T_IF "); return( T_IF );}
 "is"            {printf("T_IS "); return( T_IS );}
-"print"         {printf("T_PRINT "); return( T_PRINT );}
-"return"        {printf("T_RETURN "); return( T_RETURN );}
 
 "integer"           {printf("T_INTEGER "); return( T_INTEGER );}
 "boolean"           {printf("T_BOOLEAN "); return( T_BOOLEAN );}
@@ -141,6 +145,7 @@ D   [0-9]
 "record"            {printf("T_RECORD "); return( T_RECORD );}
 "array"             {printf("T_ARRAY "); return( T_ARRAY );}
 "real"              {printf("T_REAL "); return( T_REAL );}
+"char"              {printf("T_CHAR "); return( T_CHAR );}
 
 "false"             {printf("T_FALSE "); return( T_FALSE );}
 "true"              {printf("T_TRUE "); return( T_TRUE );}
@@ -165,7 +170,7 @@ D   [0-9]
 "+"     {printf("T_+ "); return( T_ADDOP );}
 "/"     {printf("T_/ "); return( T_DIVOP );}
 
-'\n'    {printf("T_NL "); line_no++; return( T_NL ); /*printf("Line is right %d \n", line_no); return( T_NL);*/}
+'\n'    {printf("T_NL "); line_no++; return( T_NL );}
 '\t'    {printf("T_TAB "); return( T_TAB ); }
 
 
@@ -180,16 +185,16 @@ D   [0-9]
 "."     {printf("T_. "); return( T_DOT );}
 
 
+{Char_Lit}                        {yylval.string = std::string(yytext)[1]; printf("T_CCONST:%s ", yytext);   return( T_CCONST );}
 (_)?{L}({L}|{D}|_)*({L}|{D})|{L}* {yylval.string = std::string(yytext); printf("T_ID:%s ", yytext); return( T_ID);} 
 
 {Int_Lit}           {yylval.integer = atoi(yytext); printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
 {Float_Lit}         {yylval.real = atof(yytext); printf("T_RCONST:%s ", yytext); return( T_RCONST );}
-{String_Lit}        {yylval.string = std::string(yytext); printf("T_SCONST:%s ", yytext);   return( T_SCONST );}
 
-<<EOF>>     {/*printf("T_EOF ");*/ static int once = 0; return once++ ? 0 : T_EOF ;}
+<<EOF>>     {static int once = 0; return once++ ? 0 : T_EOF ;}
 
 " "         {}
-.           {ECHO; printf (" unexpected character ");}
+.           {ECHO; printf (" unexpected character\n");}
 
 %%
 int yywrap (void) {return 1;}

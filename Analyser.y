@@ -9,7 +9,7 @@
     int yylex();
     using namespace std;
     void yyerror(std::string s) {
-        cout << "Syntax Error on Line" << s << endl;
+        cout << "Syntax Error on Line " << s << endl;
         cerr << s << ", line " << yylineno << endl;
         exit(1);
     }
@@ -141,7 +141,7 @@
 
 //keywords
 %token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS T_PRINT T_RETURN
-%token <string> T_INTEGER T_REAL T_BOOLEAN T_ROUTINE T_ARRAY T_RECORD T_TRUE T_FALSE
+%token <string> T_INTEGER T_REAL T_BOOLEAN T_CHAR T_ROUTINE T_ARRAY T_RECORD T_TRUE T_FALSE
 
 //identifier
 %token<string> T_ID
@@ -159,7 +159,7 @@
 %token <boolean> T_BCONST
 
 //chars
-%token <character> T_CCONST
+%token <string> T_CCONST
 
 
 // End of file
@@ -293,6 +293,7 @@ Type : PrimitiveType                        {$$ = $1;}
 PrimitiveType: T_INTEGER                    {$$ = createNode("T_INTEGER", "integer");}
               | T_REAL                      {$$ = createNode("T_REAL", "real");}
               | T_BOOLEAN                   {$$ = createNode("T_BOOLEAN", "boolean");}
+              | T_CHAR                      {$$ = createNode("T_CHAR", "char");}
               ;
 
 RecordType : T_RECORD VariableDeclarations T_END {$$ = combineNodes($2, "T_RECORD", "record");}
@@ -398,6 +399,7 @@ Summand : Primary                       {$$ = $1;}
         ;
 
 Primary : T_ICONST                      {$$ = createNode("T_ICONST", to_string($1));}
+        | T_CCONST                      {$$ = createNode("T_CCONST", $1);}
         | T_RCONST                      {$$ = createNode("T_RCONST", to_string($1));}
         | T_TRUE                        {$$ = createNode("T_TRUE", "true");}
         | T_FALSE                       {$$ = createNode("T_FALSE", "false");}
@@ -415,6 +417,15 @@ Identifiers : T_DOT T_ID                                {$$ = createNode(new Nod
             | T_LBRACK Expression T_RBRACK              {$$ = createNode($2,"BRACKS", "[]");}
             | T_LBRACK Expression T_RBRACK Identifiers  {$$ = createNode($2, $4,"BRACKS", "[]");}
             ;
+
+//ModifiablePrimary : T_ID                                              {$$ = createNode("T_ID", $1);}
+//                | T_ID T_DOT ModifiablePrimary                          {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "MODIFIABLEPRIM");}
+//                | T_ID T_LBRACK Expression T_RBRACK Identifiers_ARRAY {$$ = createNode(new Node(Token("T_ID", $1)), $2,"ModifiablePrim", "MODIFIABLEPRIM");}
+//                ;
+//
+//Identifiers_ARRAY : T_DOT ModifiablePrimary
+//                  | T_LBRACK Expression T_RBRACK Identifiers_ARRAY
+//
 
 %%
 
