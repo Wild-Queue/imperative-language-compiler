@@ -1,9 +1,11 @@
 /* BLOCK A: Statements block*/
 %{
     #include <iostream>
-    #include <string.h>
+    #include <string>
     #include <vector>
     #include <typeinfo>
+
+    #include "NodeDecl.h"
     extern FILE *yyin;
     extern int yylineno;
     int yylex();
@@ -12,20 +14,6 @@
         cout << "Syntax Error on Line " << "some line" << endl;
         cerr << s << ", line " << yylineno << endl;
         exit(1);
-    }
-
-    struct Token{
-        std::string token;
-        std::string lexeme;
-
-        Token(std::string token, std::string lexeme) : token(token), lexeme(lexeme){};
-    };
-
-    struct Node {
-        Token token = Token("NONE", "");
-        vector<Node*>nodes;
-
-        Node(Token token) : token(token){};
     };
 
     typedef struct {
@@ -40,101 +28,7 @@
     } YYSTYPE;
     #define YYSTYPE YYSTYPE
 
-    
-    Node* combineNodes(vector<Node*> nodes, std::string token, std::string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
-
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode->nodes.push_back(nodes[i]);
-        }
-        return newNode;
-    };
-
-    Node* combineNodes(Node *fst, vector<Node*> nodes, std::string token, std::string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
-
-        newNode->nodes.push_back(fst);
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode->nodes.push_back(nodes[i]);
-        }
-        return newNode;
-    };
-
-    vector<Node*> collectNodes(Node *fst){
-        vector<Node*> newNode;
-
-        newNode.push_back(fst);
-
-        return newNode;
-    };
-
-    vector<Node*> collectNodes(vector<Node*> nodes){
-        vector<Node*> newNode;
-
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode.push_back(nodes[i]);
-        }
-
-        return newNode;
-    };
-
-    vector<Node*> collectNodes(Node *fst, vector<Node*> nodes){
-        vector<Node*> newNode;
-
-        newNode.push_back(fst);
-        for (int i = 0; i < nodes.size(); ++i){
-            newNode.push_back(nodes[i]);
-        }
-
-        return newNode;
-    };
-
-    Node* createNode(std::string token, std::string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
-
-        return newNode;
-    };
-
-    Node* createNode(Node *fst, std::string token, std::string lexeme){
-        Node* newNode = new Node(Token(token, lexeme));
-
-        newNode->nodes.push_back(fst);
-
-        return newNode;
-    };
-
-    Node* createNode(Node *fst, Node *snd, string token, string lexeme){
-            Node* newNode = new Node(Token(token, lexeme));
-
-            newNode->nodes.push_back(fst);
-            newNode->nodes.push_back(snd);
-
-            return newNode;
-    };
-
-    Node* createNode(Node *fst, Node *snd, Node *trd, string token, string lexeme){
-            Node* newNode = new Node(Token(token, lexeme));
-
-            newNode->nodes.push_back(fst);
-            newNode->nodes.push_back(snd);
-            newNode->nodes.push_back(trd);
-
-            return newNode;
-    };
-
-    Node* createNode(Node *fst, Node *snd, Node *trd, Node *frth, string token, string lexeme){
-            Node* newNode = new Node(Token(token, lexeme));
-
-            newNode->nodes.push_back(fst);
-            newNode->nodes.push_back(snd);
-            newNode->nodes.push_back(trd);
-            newNode->nodes.push_back(frth);
-
-            return newNode;
-    };
-
     Node* root = new Node(Token("root", "root"));
-
 
 %}
 
@@ -150,13 +44,13 @@
 %token <integer> T_ICONST
 
 //string consts
-%token <string> T_SCONST
+//%token <string> T_SCONST
 
 //real consts
 %token <real> T_RCONST
 
 //logical
-%token <boolean> T_BCONST
+//%token <boolean> T_BCONST
 
 //chars
 %token <string> T_CCONST
@@ -179,7 +73,7 @@ T_COLONEQU // :=
 T_AND // and
 T_OR // or
 T_XOR // xor
-T_NOT // not
+//T_NOT // not
 
 T_ADDOP // +
 T_MULTOP // *
@@ -187,11 +81,9 @@ T_SUBTROP // -
 T_DIVOP // /
 T_MODOP // %
 
-T_TAB
-T_NL // NEW LINE
+//T_TAB
+//T_NL // NEW LINE
 
-T_POINTER //*
-T_REFERENCE //&
 
 T_LPAREN // (
 T_RPAREN // )

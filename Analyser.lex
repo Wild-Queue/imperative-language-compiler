@@ -3,20 +3,7 @@
     #include <string>
     #include <vector>
     #include <typeinfo>
-
-    struct Token{
-        std::string token;
-        std::string lexeme;
-
-        Token(std::string token, std::string lexeme) : token(token), lexeme(lexeme){};
-    };
-
-    struct Node {
-        Token token = Token("NONE", "");
-        std::vector<Node*>nodes;
-
-        Node(Token token) : token(token){};
-    };
+    #include "NodeDecl.h"
 
     typedef struct {
         Node* nodeLink;
@@ -28,6 +15,7 @@
         char character;
         int boolean;
     } YYSTYPE;
+    
     #define YYSTYPE YYSTYPE
     #include "Analyser.tab.h"
     void yyerror(char *s);
@@ -36,19 +24,6 @@
 
 %}
 
-
-ASCII1 [ -[]
-
-ASCII2 []-~]
-
-ASCII3 [ -_]
-
-ASCII4 [a-~]
-
-ASCIIFTPG ({ASCII3}|{ASCII4})
-
-ASCII ({ASCII1}|{ASCII2})
-
 Binary_Digit    [0-1]
 
 Octal_Digit     [0-7]
@@ -56,8 +31,6 @@ Octal_Digit     [0-7]
 Decimal_Digit   [0-9]
 
 Hex_Digit       [0-9A-Fa-f]
-
-
 
 /* Integer literals*/
 
@@ -77,9 +50,10 @@ Decimal_Lit      ((0)|(([1-9])((_)?{Decimal_Digits})?))
 
 Hex_Lit      ((0)(x|X)(_)?{Hex_Digits})
 
-Int_Lit       ((-)?{Binary_Lit}|{Octal_Lit}|{Decimal_Lit}|{Hex_Lit})
+/*В правилах есть какие-то [Sign | NOT] что за not*/
+Int_Lit       (-|"not ")?({Binary_Lit}|{Octal_Lit}|{Decimal_Lit}|{Hex_Lit})
 
-/* floating piont literals*/
+/* Floating piont literals*/
 
 Decimal_Exponent    (e|E)[-+]?{Decimal_Digits}
 
@@ -91,31 +65,9 @@ Hex_Float_Lit   (0)(x|X){Hex_Mantisa}{Hex_Exponent}
 
 Decimal_Float_Lit   ({Decimal_Digits}("."){Decimal_Digits}?{Decimal_Exponent}?)|({Decimal_Digits}{Decimal_Exponent})|(("."){Decimal_Digits}{Decimal_Exponent}?)
 
-Float_Lit       ((-)?({Decimal_Float_Lit}|{Hex_Float_Lit}))
+Float_Lit       (-)?(({Decimal_Float_Lit}|{Hex_Float_Lit}))
 
-/*Rune literals*/
-
-Escaped_Char    (\\)(a|b|f|n|r|t|v|(\\)|(')|(')|(\42))
-
-Big_u_Value     (\\)(U){Hex_Digit}{Hex_Digit}{Hex_Digit}{Hex_Digit}{Hex_Digit}{Hex_Digit}{Hex_Digit}{Hex_Digit}
-
-Littel_u_Value (\\)(u){Hex_Digit}{Hex_Digit}{Hex_Digit}{Hex_Digit}
-
-Hex_Byte_Value  (\\)(x){Hex_Digit}{Hex_Digit}
-
-Octal_Byte_Value (\\){Octal_Digit}{Octal_Digit}{Octal_Digit}
-
-Byte_Value       ({Octal_Byte_Value}|{Hex_Byte_Value})
-
-Unicode_Value   ({ASCII}|{Littel_u_Value}|{Big_u_Value}|{Escaped_Char})
-
-/*String Literal*/
-
-Interpreted_String_Lit  (\")({Unicode_Value}|{Byte_Value})*(\")
-
-Raw_String_Lit          (`)(({ASCIIFTPG}|(\n))*)(`)
-
-String_Lit              ({Raw_String_Lit}|{Interpreted_String_Lit})
+/*Char Literal*/
 
 Char_Lit                (\")([A-Za-z0-9])(\")
 
@@ -152,7 +104,7 @@ D   [0-9]
 
 "and"               {printf("T_AND "); return( T_AND );}
 "xor"               {printf("T_XOR "); return( T_XOR );}
-"not"               {printf("T_NOT "); return( T_NOT );}
+"not"               {printf("T_NOT "); /*return( T_NOT );*/}
 "or"                {printf("T_OR "); return( T_OR );}
 
 ">="    {printf("T_>= "); return( T_GREATOREQU );}
@@ -170,8 +122,8 @@ D   [0-9]
 "+"     {printf("T_+ "); return( T_ADDOP );}
 "/"     {printf("T_/ "); return( T_DIVOP );}
 
-'\n'    {printf("T_NL "); line_no++; return( T_NL );}
-'\t'    {printf("T_TAB "); return( T_TAB ); }
+'\n'    {printf("T_NL "); line_no++; /*return( T_NL );*/}
+'\t'    {printf("T_TAB "); /*return( T_TAB ); */}
 
 
 "("     {printf("T_( "); return( T_LPAREN );}

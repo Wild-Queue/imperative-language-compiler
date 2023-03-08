@@ -32,7 +32,7 @@ void drawTree(Node *root, int depth, bool lastChild[])
     cout << string(depth * 2, ' ');
     if (lastChild[depth])
     {
-        cout << "\\-";
+        cout << "\\- ";
         lastChild[depth] = false;
     }
     else
