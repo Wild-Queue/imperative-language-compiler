@@ -1,0 +1,7 @@
+routine cum(a: integer, b: integer) : integer is
+  var sum is 0
+  for i in a .. b loop
+    sum := sum + i
+  end
+  return (sum) 
+end

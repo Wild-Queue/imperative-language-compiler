@@ -50,11 +50,11 @@ void drawTree(Node *root, int depth, bool lastChild[])
 }
 int main()
 {
-    cout << "\n\n"
-         << inputFile << "\n\n";
-    cout << "Tokenized program:" << endl;
+    cout << "######################################\n";
+    cout << "\nInputfile: "<< inputFile << endl;
+    // cout << "Tokenized program:" << endl;
     Node *root_1 = generateAST(inputFile);
-    cout << "\n\nAST:\n";
+    cout << "\nAST:\n";
     //printAST(root_1, 0);
     bool lastChild[1000] = {false};
     drawTree(root_1, 0, lastChild);

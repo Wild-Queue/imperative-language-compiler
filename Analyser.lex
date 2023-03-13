@@ -76,76 +76,76 @@ D   [0-9]
 
 %%
 
-"reverse"       {printf("T_REVERSE "); return( T_REVERSE );}
-"return"        {printf("T_RETURN "); return( T_RETURN );}
-"print"         {printf("T_PRINT "); return( T_PRINT );}
-"while"         {printf("T_WHILE "); return( T_WHILE );}
-"loop"          {printf("T_LOOP "); return( T_LOOP );}
-"then"          {printf("T_THEN "); return( T_THEN );}
-"else"          {printf("T_ELSE "); return( T_ELSE );}
-"type"          {printf("T_TYPE "); return( T_TYPE );}
-"for"           {printf("T_FOR "); return( T_FOR );}
-"end"           {printf("T_END "); return( T_END );}
-"var"           {printf("T_VAR "); return( T_VAR );}
-"in"            {printf("T_IN "); return( T_IN );}
-"if"            {printf("T_IF "); return( T_IF );}
-"is"            {printf("T_IS "); return( T_IS );}
+"reverse"       {/*printf("T_REVERSE ");*/ return( T_REVERSE );}
+"return"        {/*printf("T_RETURN ");*/ return( T_RETURN );}
+"print"         {/*printf("T_PRINT ");*/ return( T_PRINT );}
+"while"         {/*printf("T_WHILE ");*/ return( T_WHILE );}
+"loop"          {/*printf("T_LOOP ");*/ return( T_LOOP );}
+"then"          {/*printf("T_THEN ");*/ return( T_THEN );}
+"else"          {/*printf("T_ELSE ");*/ return( T_ELSE );}
+"type"          {/*printf("T_TYPE ");*/ return( T_TYPE );}
+"for"           {/*printf("T_FOR ");*/ return( T_FOR );}
+"end"           {/*printf("T_END ");*/ return( T_END );}
+"var"           {/*printf("T_VAR ");*/ return( T_VAR );}
+"in"            {/*printf("T_IN ");*/ return( T_IN );}
+"if"            {/*printf("T_IF ");*/ return( T_IF );}
+"is"            {/*printf("T_IS ");*/ return( T_IS );}
 
-"integer"           {printf("T_INTEGER "); return( T_INTEGER );}
-"boolean"           {printf("T_BOOLEAN "); return( T_BOOLEAN );}
-"routine"           {printf("T_ROUTINE "); return( T_ROUTINE );}
-"record"            {printf("T_RECORD "); return( T_RECORD );}
-"array"             {printf("T_ARRAY "); return( T_ARRAY );}
-"real"              {printf("T_REAL "); return( T_REAL );}
-"char"              {printf("T_CHAR "); return( T_CHAR );}
+"integer"           {/*printf("T_INTEGER ");*/ return( T_INTEGER );}
+"boolean"           {/*printf("T_BOOLEAN ");*/ return( T_BOOLEAN );}
+"routine"           {/*printf("T_ROUTINE ");*/ return( T_ROUTINE );}
+"record"            {/*printf("T_RECORD ");*/ return( T_RECORD );}
+"array"             {/*printf("T_ARRAY ");*/ return( T_ARRAY );}
+"real"              {/*printf("T_REAL ");*/ return( T_REAL );}
+"char"              {/*printf("T_CHAR ");*/ return( T_CHAR );}
 
-"false"             {printf("T_FALSE "); return( T_FALSE );}
-"true"              {printf("T_TRUE "); return( T_TRUE );}
+"false"             {/*printf("T_FALSE ");*/ return( T_FALSE );}
+"true"              {/*printf("T_TRUE ");*/ return( T_TRUE );}
 
-"and"               {printf("T_AND "); return( T_AND );}
-"xor"               {printf("T_XOR "); return( T_XOR );}
-"not"               {printf("T_NOT "); /*return( T_NOT );*/}
-"or"                {printf("T_OR "); return( T_OR );}
+"and"               {/*printf("T_AND ");*/ return( T_AND );}
+"xor"               {/*printf("T_XOR ");*/ return( T_XOR );}
+"not"               {/*printf("T_NOT ");*/ /*return( T_NOT );*/}
+"or"                {/*printf("T_OR ");*/ return( T_OR );}
 
-">="    {printf("T_>= "); return( T_GREATOREQU );}
-"<="    {printf("T_<= "); return( T_LESSOREQU );}
-":="    {printf("T_:= "); return( T_COLONEQU );}
-"/="    {printf("T_/= "); return( T_NOTEQU );}
-">"     {printf("T_> "); return( T_GREAT );}
-"<"     {printf("T_< "); return( T_LESS );}
-"="     {printf("T_= "); return( T_EQU );}
-
-
-"%"     {printf("T_MODOP "); return( T_MODOP );}
-"-"     {printf("T_- "); return( T_SUBTROP );}
-"*"     {printf("T_* "); return( T_MULTOP );}
-"+"     {printf("T_+ "); return( T_ADDOP );}
-"/"     {printf("T_/ "); return( T_DIVOP );}
-
-'\n'    {printf("T_NL "); line_no++; /*return( T_NL );*/}
-'\t'    {printf("T_TAB "); /*return( T_TAB ); */}
+">="    {/*printf("T_>= ");*/ return( T_GREATOREQU );}
+"<="    {/*printf("T_<= ");*/ return( T_LESSOREQU );}
+":="    {/*printf("T_:= ");*/ return( T_COLONEQU );}
+"/="    {/*printf("T_/= ");*/ return( T_NOTEQU );}
+">"     {/*printf("T_> ");*/ return( T_GREAT );}
+"<"     {/*printf("T_< ");*/ return( T_LESS );}
+"="     {/*printf("T_= ");*/ return( T_EQU );}
 
 
-"("     {printf("T_( "); return( T_LPAREN );}
-")"     {printf("T_) "); return( T_RPAREN );}
-"["     {printf("T_[ "); return( T_LBRACK );}
-"]"     {printf("T_] "); return( T_RBRACK );}
+"%"     {/*printf("T_MODOP ");*/ return( T_MODOP );}
+"-"     {/*printf("T_- ");*/ return( T_SUBTROP );}
+"*"     {/*printf("T_* ");*/ return( T_MULTOP );}
+"+"     {/*printf("T_+ ");*/ return( T_ADDOP );}
+"/"     {/*printf("T_/ ");*/ return( T_DIVOP );}
 
-".."    {printf("T_.. "); return( T_DOTDOT );}
-","     {printf("T_, "); return( T_COMMA );}
-":"     {printf("T_: "); return( T_COLON );}
-"."     {printf("T_. "); return( T_DOT );}
+\n      {/*printf("T_NL ");*/ line_no++; /*return( T_NL );*/}
+'\t'    {/*printf("T_TAB ");*/ /*return( T_TAB ); */}
 
-{Int_Lit}           {yylval.integer = atoi(yytext); printf("T_ICONST:%s ", yytext);  return(T_ICONST );}
-{Float_Lit}         {yylval.real = atof(yytext); printf("T_RCONST:%s ", yytext); return( T_RCONST );}
 
-{Char_Lit}                        {yylval.string = std::string(yytext)[1]; printf("T_CCONST:%s ", yytext);   return( T_CCONST );}
-(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* {yylval.string = std::string(yytext); printf("T_ID:%s ", yytext); return( T_ID);} 
+"("     {/*printf("T_( ");*/ return( T_LPAREN );}
+")"     {/*printf("T_) ");*/ return( T_RPAREN );}
+"["     {/*printf("T_[ ");*/ return( T_LBRACK );}
+"]"     {/*printf("T_] ");*/ return( T_RBRACK );}
+
+".."    {/*printf("T_.. ");*/ return( T_DOTDOT );}
+","     {/*printf("T_, ");*/ return( T_COMMA );}
+":"     {/*printf("T_: ");*/ return( T_COLON );}
+"."     {/*printf("T_. ");*/ return( T_DOT );}
+
+{Int_Lit}           {yylval.integer = atoi(yytext); /*printf("T_ICONST:%s ", yytext);*/  return(T_ICONST );}
+{Float_Lit}         {yylval.real = atof(yytext); /*printf("T_RCONST:%s ", yytext);*/ return( T_RCONST );}
+
+{Char_Lit}                        {yylval.string = std::string(yytext)[1]; /*printf("T_CCONST:%s ", yytext);*/   return( T_CCONST );}
+(_)?{L}({L}|{D}|_)*({L}|{D})|{L}* {yylval.string = std::string(yytext); /*printf("T_ID:%s ", yytext);*/ return( T_ID);} 
 
 <<EOF>>     {static int once = 0; return once++ ? 0 : T_EOF ;}
 
 " "         {}
-.           {ECHO; printf (" unexpected character\n");}
+.           {/*ECHO;*/ printf("\nUnexpected character: '%s'\nIn the line::%i\n",yytext, line_no); exit(0);}
 
 %%
 int yywrap (void) {return 1;}

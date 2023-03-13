@@ -2,6 +2,14 @@
 #include <string>
 using namespace std;
 
+
+#ifndef LineNum
+#define LineNum
+
+extern int line_no;
+
+#endif
+
 #ifndef Token_H
 #define Token_H
 

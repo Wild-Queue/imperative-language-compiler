@@ -11,9 +11,9 @@
     int yylex();
     using namespace std;
     void yyerror(std::string s) {
-        cout << "Syntax Error on Line " << "some line" << endl;
-        cerr << s << ", line " << yylineno << endl;
-        exit(1);
+        cout << "Syntax Error in the line " << line_no << endl;
+        //cerr << s << ", line " << yylineno << endl;
+        exit(0);
     };
 
     typedef struct {
@@ -36,6 +36,7 @@
 //keywords
 %token <string> T_FOR T_WHILE T_LOOP T_IN T_REVERSE T_IF T_THEN T_ELSE T_END T_TYPE T_VAR T_IS T_PRINT T_RETURN
 %token <string> T_INTEGER T_REAL T_BOOLEAN T_CHAR T_ROUTINE T_ARRAY T_RECORD T_TRUE T_FALSE
+%token <string> T_LEXERROR
 
 //identifier
 %token<string> T_ID
