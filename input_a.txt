@@ -1,0 +1,3 @@
+routine main(system: integer) is
+    a
+end

@@ -2,7 +2,7 @@
 #include <string>
 #include "Analyser.tab.c"
 using namespace std;
-string inputFile = "input_1.txt";
+string inputFile = "input_a.txt";
 
 void printAST(Node *curNode, int depth = 0)
 {

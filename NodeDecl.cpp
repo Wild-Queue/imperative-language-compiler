@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-Node* combineNodes(vector<Node*> nodes, string token, string lexeme){
+Node* combineNodes(vector<Node*> nodes, yytokentype token, string lexeme){
     Node* newNode = new Node(Token(token, lexeme));
 
     for (int i = 0; i < nodes.size(); ++i){
@@ -12,7 +12,7 @@ Node* combineNodes(vector<Node*> nodes, string token, string lexeme){
     return newNode;
 };
 
-Node* combineNodes(Node *fst, vector<Node*> nodes, string token, string lexeme){
+Node* combineNodes(Node *fst, vector<Node*> nodes, yytokentype token, string lexeme){
     Node* newNode = new Node(Token(token, lexeme));
 
     newNode->nodes.push_back(fst);
@@ -51,13 +51,13 @@ vector<Node*> collectNodes(Node *fst, vector<Node*> nodes){
     return newNode;
 };
 
-Node* createNode(string token, string lexeme){
+Node* createNode(yytokentype token, string lexeme){
     Node* newNode = new Node(Token(token, lexeme));
 
     return newNode;
 };
 
-Node* createNode(Node *fst, string token, string lexeme){
+Node* createNode(Node *fst, yytokentype token, string lexeme){
     Node* newNode = new Node(Token(token, lexeme));
 
     newNode->nodes.push_back(fst);
@@ -65,7 +65,7 @@ Node* createNode(Node *fst, string token, string lexeme){
     return newNode;
 };
 
-Node* createNode(Node *fst, Node *snd, string token, string lexeme){
+Node* createNode(Node *fst, Node *snd, yytokentype token, string lexeme){
         Node* newNode = new Node(Token(token, lexeme));
 
         newNode->nodes.push_back(fst);
@@ -74,7 +74,7 @@ Node* createNode(Node *fst, Node *snd, string token, string lexeme){
         return newNode;
 };
 
-Node* createNode(Node *fst, Node *snd, Node *trd, string token, string lexeme){
+Node* createNode(Node *fst, Node *snd, Node *trd, yytokentype token, string lexeme){
         Node* newNode = new Node(Token(token, lexeme));
 
         newNode->nodes.push_back(fst);
@@ -84,7 +84,7 @@ Node* createNode(Node *fst, Node *snd, Node *trd, string token, string lexeme){
         return newNode;
 };
 
-Node* createNode(Node *fst, Node *snd, Node *trd, Node *frth, string token, string lexeme){
+Node* createNode(Node *fst, Node *snd, Node *trd, Node *frth, yytokentype token, string lexeme){
         Node* newNode = new Node(Token(token, lexeme));
 
         newNode->nodes.push_back(fst);
