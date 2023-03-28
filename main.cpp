@@ -4,25 +4,6 @@
 using namespace std;
 string inputFile = "input_a.txt";
 
-void printAST(Node *curNode, int depth = 0)
-{
-    for (int i = 0; i < depth; ++i)
-        cout << "---";
-
-    if (curNode->nodes.empty())
-        cout << "| ";
-    else
-        cout << "> ";
-
-    // cout << curNode->token.token << " : " << curNode->token.lexeme << endl;
-    cout << curNode->token.lexeme << endl;
-
-    for (Node *nextNode : curNode->nodes)
-    {
-        printAST(nextNode, depth + 1);
-    }
-}
-
 void drawTree(Node *root, int depth, bool lastChild[])
 {
     if (root == nullptr)

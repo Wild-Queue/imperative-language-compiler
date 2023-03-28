@@ -238,7 +238,7 @@ RoutineCall : T_ID                                  {$$ = createNode(T_ID, $1);}
 
 // Zero or more
 Expressions : Expression                            {$$ = collectNodes($1);}
-            | T_COMMA Expression Expressions        {$$ = collectNodes($2, $3);}
+            | Expression T_COMMA Expressions        {$$ = collectNodes($1, $3);}
             ;
 
 WhileLoop : T_WHILE Expression T_LOOP Body T_END    {$$ = createNode($2, $4, T_WHILE, "while");}
