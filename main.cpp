@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include "Analyser.tab.c"
+#include "Visitor.h"
 using namespace std;
-string inputFile = "input_a.txt";
+string inputFile = "input_3.txt";
+
 
 void drawTree(Node *root, int depth, bool lastChild[])
 {
@@ -39,4 +41,7 @@ int main()
     //printAST(root_1, 0);
     bool lastChild[1000] = {false};
     drawTree(root_1, 0, lastChild);
+    Visitor v = Visitor();
+    v.DEBUG = true;
+    v.visitProgram(root_1);
 }

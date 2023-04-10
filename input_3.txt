@@ -6,7 +6,7 @@ routine fib(n: integer, return_variable : int_return) : integer is
     for i in 1 .. n loop
         var temp : integer is a
         a := b
-        b := temp + b 
+        b := temp + b
     end
     return_variable.ans := a
     print(a)

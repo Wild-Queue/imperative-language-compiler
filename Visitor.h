@@ -49,29 +49,30 @@
     T_BRACKS = 298,                /* T_BRACKS  */
     T_IN_REVERSE = 299,            /* T_IN_REVERSE  */
     T_IF_ELSE = 300,               /* T_IF_ELSE  */
-    T_LESS = 301,                  /* T_LESS  */
-    T_GREAT = 302,                 /* T_GREAT  */
-    T_LESSOREQU = 303,             /* T_LESSOREQU  */
-    T_GREATOREQU = 304,            /* T_GREATOREQU  */
-    T_NOTEQU = 305,                /* T_NOTEQU  */
-    T_EQU = 306,                   /* T_EQU  */
-    T_COLONEQU = 307,              /* T_COLONEQU  */
-    T_AND = 308,                   /* T_AND  */
-    T_OR = 309,                    /* T_OR  */
-    T_XOR = 310,                   /* T_XOR  */
-    T_ADDOP = 311,                 /* T_ADDOP  */
-    T_MULTOP = 312,                /* T_MULTOP  */
-    T_SUBTROP = 313,               /* T_SUBTROP  */
-    T_DIVOP = 314,                 /* T_DIVOP  */
-    T_MODOP = 315,                 /* T_MODOP  */
-    T_LPAREN = 316,                /* T_LPAREN  */
-    T_RPAREN = 317,                /* T_RPAREN  */
-    T_LBRACK = 318,                /* T_LBRACK  */
-    T_RBRACK = 319,                /* T_RBRACK  */
-    T_DOTDOT = 320,                /* T_DOTDOT  */
-    T_DOT = 321,                   /* T_DOT  */
-    T_COMMA = 322,                 /* T_COMMA  */
-    T_COLON = 323                  /* T_COLON  */
+    T_PARENT = 301,                /* T_PARENT  */
+    T_LESS = 302,                  /* T_LESS  */
+    T_GREAT = 303,                 /* T_GREAT  */
+    T_LESSOREQU = 304,             /* T_LESSOREQU  */
+    T_GREATOREQU = 305,            /* T_GREATOREQU  */
+    T_NOTEQU = 306,                /* T_NOTEQU  */
+    T_EQU = 307,                   /* T_EQU  */
+    T_COLONEQU = 308,              /* T_COLONEQU  */
+    T_AND = 309,                   /* T_AND  */
+    T_OR = 310,                    /* T_OR  */
+    T_XOR = 311,                   /* T_XOR  */
+    T_ADDOP = 312,                 /* T_ADDOP  */
+    T_MULTOP = 313,                /* T_MULTOP  */
+    T_SUBTROP = 314,               /* T_SUBTROP  */
+    T_DIVOP = 315,                 /* T_DIVOP  */
+    T_MODOP = 316,                 /* T_MODOP  */
+    T_LPAREN = 317,                /* T_LPAREN  */
+    T_RPAREN = 318,                /* T_RPAREN  */
+    T_LBRACK = 319,                /* T_LBRACK  */
+    T_RBRACK = 320,                /* T_RBRACK  */
+    T_DOTDOT = 321,                /* T_DOTDOT  */
+    T_DOT = 322,                   /* T_DOT  */
+    T_COMMA = 323,                 /* T_COMMA  */
+    T_COLON = 324                  /* T_COLON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -107,12 +108,11 @@ enum NONTERMINAL{
     NT_RoutineCall = 25, 
     NT_WhileLoop = 26,
     NT_Range = 27,
-    NT_Statement = 28,
-    NT_Relation = 29,
-    NT_Simple = 30,
-    NT_Boolean = 31,
-    NT_Char = 32,
-    NT_IdentifiersArray = 33
+    NT_Relation = 28,
+    NT_Simple = 29,
+    NT_Boolean = 30,
+    NT_Char = 31,
+    NT_IdentifiersArray = 32
 };
 
 #endif
@@ -121,6 +121,8 @@ enum NONTERMINAL{
 #include "NodeDecl.h"
 #include <string>
 #include <unordered_map>
+#include "TypeClass.h"
+
 
 using namespace std;
 class Visitor {
@@ -130,64 +132,94 @@ class Visitor {
         double value;
     };
     
-    //Не ебу но будет новый declaredVariable
-    unordered_map<string, declaredVariable> state;
+    unordered_map<string, Type*> state; 
     
-    void visitProgram(Node* Program);
-    void visitVarDecl(Node* VarDecl);
-    void visitTypeDecl(Node* TypeDecl);
-    void visitRoutineDecl(Node* RoutineDecl);
-    void visitParametersDecl(Node* ParametersDecl);
-    void visitParameterDecl(Node* ParameterDecl);
-    void visitIdentificator(Node* Identificator);
-    void visitConstInt(Node* ConstInt);
-    void visitConstReal(Node* ConstReal);
-    void visitConstTrue(Node* ConstTrue);
-    void visitConstFalse(Node* ConstFalse);
-    void visitConstChar(Node* ConstChar);
-    void visitRecord(Node* Record);
-    void visitArrayType(Node* ArrayType);
-    void visitStatement(Node* Statement);
-    void visitReturn(Node* Return);
-    void visitAssignment(Node* Assignment);
-    void visitExpression(Node* Expression);
-    void visitForLoop(Node* ForLoop);
-    void visitFactor(Node* Factor);
-    void visitInteger(Node* Integer);
-    void visitReal(Node* Real);
-    void visitIdArray(Node* IdArray);
-    void visitBody(Node* Body);
-    void visitPrint(Node* Print);
-    void visitRoutineCall(Node* RoutineCall);
-    void visitWhileLoop(Node* WhileLoop);
-    void visitRange(Node* Range);
-    void visitStatement(Node* Statement);
-    void visitRelation(Node* Relation);
-    void visitSimple(Node* Simple);
-    void visitBoolean(Node* Boolean);
-    void visitChar(Node* Char);
-    void visitIdentifiersArray(Node* IdentifiersArray);
-    void visitColonEqu(Node *ColonEqu);
-    void visitInReverse(Node *InReverse);
-    void visitDot(Node *Dot);
-    void visitBrackets(Node *Brackets);
-    void visitSubtrOp(Node *SubtrOp);
-    void visitAddOp(Node *AddOp);
-    void visitModOp(Node *ModOp);
-    void visitDivOp(Node *DivOp);
-    void visitMultOp(Node *MultOp);
-    void visitNotEqu(Node *NotEqu);
-    void visitEqu(Node *Equ);
-    void visitGreatOrEqu(Node *GreatOrEqu);
-    void visitGreat(Node *Great);
-    void visitLessOrEqu(Node *LessOrEqu);
-    void visitLess(Node *Less);
-    void visitXor(Node *Xor);
-    void visitOr(Node *Or);
-    void visitAnd(Node *And);
-    void visitIfElse(Node *IfElse);
-    void visitIf(Node *If);
-    void visitIn(Node *In);
+    bool stateInsert(string name, Type* type){
+      if (this->state.count(name) > 0){
+        cout << "Error: variable or function have been already initialized" << endl;
+        exit(1);
+      }
+      this->state[name] = type;
+      return true;
+    }
+
+    unordered_map<string, Type*> cloneContext(){
+      unordered_map<string, Type*> stateCopy;
+      stateCopy.insert(this->state.begin(), this->state.end()); 
+      return stateCopy;
+      //previousContext = this->cloneContext()
+      //this->state = previousContext;
+    }
+
+
+
+  public:
+    bool DEBUG = 0;
+    bool visitProgram(Node* node);
+    bool visitSimpleDeclaration(Node* node);
+    bool visitVariableDeclaration(Node* node);
+    bool visitTypeDeclaration(Node* node);
+    bool visitT_PARENT(Node *node);
+    bool visitRoutineDeclaration(Node* node);
+    bool visitT_VAR_DECL_COLON_IS(Node* node);
+    bool visitT_VAR_DECL_COLON(Node* node);
+    bool visitT_VAR_DECL_IS(Node* node);
+    bool visitT_TYPE_DECL_IS(Node* node);
+    bool visitT_ROUTIN_DECL_TYPE(Node* node);
+    bool visitT_ROUTIN_DECL(Node* node);
+    bool visitParameters(Node* node);
+    bool visitParameterDeclaration(Node* node);
+    bool visitParameterDeclarations(Node* node);
+    bool visitType(Node* node);
+    bool visitPrimitiveType(Node* node);
+    bool visitArrayType(Node* node);
+    bool visitRecordType(Node* node);
+    bool visitT_ID(Node* node);
+    bool visitVariableDeclarations(Node* node);
+    bool visitBody(Node* node);
+    bool visitStatement(Node* node);
+    bool visitT_RETURN(Node* node);
+    bool visitT_PRINT(Node* node);
+    bool visitIfStatement(Node* node);
+    bool visitT_IF_ELSE(Node* node);
+    bool visitT_IF(Node* node);
+    bool visitForLoop(Node* node);
+    bool visitRange(Node* node);
+    bool visitT_IN(Node* node);
+    bool visitT_IN_REVERSE(Node* node);
+    bool visitWhileLoop(Node* node);
+    bool visitRoutineCall(Node* node);
+    bool visitAssignment(Node* node);
+    bool visitExpressions(Node* node);
+    bool visitExpression(Node* node);
+    bool visitT_AND(Node* node);
+    bool visitT_OR(Node* node);
+    bool visitT_XOR(Node* node);
+    bool visitRelation(Node* node);
+    bool visitT_LESS(Node* node);
+    bool visitT_LESSOREQU(Node* node);
+    bool visitT_GREAT(Node* node);
+    bool visitT_GREATOREQU(Node* node);
+    bool visitT_EQU(Node* node);
+    bool visitT_NOTEQU(Node* node);
+    bool visitSimple(Node* node);
+    bool visitT_MULTOP(Node* node);
+    bool visitT_DIVOP(Node* node);
+    bool visitT_MODOP(Node* node);
+    bool visitFactor(Node* node);
+    bool visitT_ADDOP(Node* node);
+    bool visitT_SUBTROP(Node* node);
+    bool visitSummand(Node* node);
+    bool visitPrimary(Node* node);
+    bool visitT_ICONST(Node* node);
+    bool visitT_CCONST(Node* node);
+    bool visitT_RCONST(Node* node);
+    bool visitT_TRUE(Node* node);
+    bool visitT_FALSE(Node* node);
+    bool visitModifiablePrimary(Node* node);
+    bool visitT_DOT(Node* node);
+    bool visitID_ARRAY(Node* node);
+    bool visitT_BRACKS(Node* node);
 };
 
 

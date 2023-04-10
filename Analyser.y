@@ -63,7 +63,7 @@
 //
 %token <string> T_NONE T_ROOT T_VAR_DECL_COLON_IS T_VAR_DECL_COLON T_VAR_DECL_IS
                         T_TYPE_DECL_IS T_ROUTIN_DECL_TYPE T_ROUTIN_DECL T_PARAMETERS T_BODY 
-                                T_ROUTINE_CALL T_BRACKS T_IN_REVERSE T_IF_ELSE
+                                T_ROUTINE_CALL T_BRACKS T_IN_REVERSE T_IF_ELSE T_PARENT
 
 
 //operators
@@ -295,7 +295,7 @@ Factor : Summand                        {$$ = $1;}
         ;
 
 Summand : Primary                       {$$ = $1;}
-        | T_LPAREN Expression T_LPAREN  {$$ = $2;}
+        | T_LPAREN Expression T_RPAREN  {$$ = createNode($2, T_PARENT, "()");}
         ;
 
 Primary : T_ICONST                      {$$ = createNode(T_ICONST, to_string($1));}
