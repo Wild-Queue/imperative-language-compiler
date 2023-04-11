@@ -5,10 +5,40 @@
 
 
 ListType* consListType(Type* x, ListType* xs){
-  xs->insert(xs->begin(), x);
+  xs->types_.push_back(x);
   return xs;
 }
 
+/********************   ReturnType      ********************/
+
+ReturnType::ReturnType(Type *p1){
+  type_ = p1;
+}
+
+ReturnType::ReturnType(const ReturnType & other){
+  type_ = other.type_->clone();
+
+}
+
+ReturnType &ReturnType::operator=(const ReturnType & other){
+  ReturnType tmp(other);
+  swap(tmp);
+  return *this;
+}
+
+void ReturnType::swap(ReturnType & other){
+  std::swap(type_, other.type_);
+
+}
+
+ReturnType::~ReturnType(){
+  delete(type_);
+
+}
+
+ReturnType *ReturnType::clone() const{
+  return new ReturnType(*this);
+}
 
 /********************   TypeFun    ********************/
 TypeFun::TypeFun(ListType *p1, Type *p2){

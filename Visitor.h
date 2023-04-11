@@ -133,6 +133,33 @@ class Visitor {
     };
     
     unordered_map<string, Type*> state; 
+    Type* returnType = nullptr;
+    Type* expectedType = nullptr;
+    ListType* listTypes;
+
+    Type* getReturnType(string functionName){
+      if (this->returnType == nullptr){
+        cout << "Error: no return type in function " << functionName << endl;
+        exit(1);
+      }
+      return this->returnType;
+    };
+
+    Type* getExpectedType(string functionName){
+      if (this->expectedType == nullptr){
+        cout << "Error: no return type in function " << functionName << endl;
+        exit(1);
+      }
+      return this->expectedType;
+    };
+
+    ListType* getListTypes(string functionName){
+      if (this->listTypes == nullptr){
+        cout << "Error: no return type in function " << functionName << endl;
+        exit(1);
+      }
+      return this->listTypes;
+    };
     
     bool stateInsert(string name, Type* type){
       if (this->state.count(name) > 0){
