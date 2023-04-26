@@ -1,3 +1,5 @@
+
+#include <iostream>
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
@@ -118,6 +120,7 @@ enum NONTERMINAL{
 #endif
 #ifndef VISITOR_PATTERN
 #define VISITOR_PATTERN
+
 #include "NodeDecl.h"
 #include <string>
 #include <unordered_map>
@@ -134,8 +137,11 @@ class Visitor {
     
     unordered_map<string, Type*> state; 
     Type* returnType = nullptr;
+    string varName = "";
     Type* expectedType = nullptr;
     ListType* listTypes;
+    string funcionName = "";
+    Type* inType = nullptr;
 
     Type* getReturnType(string functionName){
       if (this->returnType == nullptr){
@@ -147,7 +153,7 @@ class Visitor {
 
     Type* getExpectedType(string functionName){
       if (this->expectedType == nullptr){
-        cout << "Error: no return type in function " << functionName << endl;
+        cout << "Error: no expected type in function " << functionName << endl;
         exit(1);
       }
       return this->expectedType;
@@ -155,7 +161,7 @@ class Visitor {
 
     ListType* getListTypes(string functionName){
       if (this->listTypes == nullptr){
-        cout << "Error: no return type in function " << functionName << endl;
+        cout << "Error: no list type in function " << functionName << endl;
         exit(1);
       }
       return this->listTypes;
@@ -163,7 +169,11 @@ class Visitor {
     
     bool stateInsert(string name, Type* type){
       if (this->state.count(name) > 0){
-        cout << "Error: variable or function have been already initialized" << endl;
+        for(auto iterator : this->state){
+            cout << iterator.first << " " << iterator.second->toString() << endl;
+        }
+        cout << funcionName << endl;
+        cout << "Error: "+name+" variable or function have been already initialized" << endl;
         exit(1);
       }
       this->state[name] = type;
@@ -201,7 +211,6 @@ class Visitor {
     bool visitPrimitiveType(Node* node);
     bool visitArrayType(Node* node);
     bool visitRecordType(Node* node);
-    bool visitT_ID(Node* node);
     bool visitVariableDeclarations(Node* node);
     bool visitBody(Node* node);
     bool visitStatement(Node* node);
@@ -247,6 +256,8 @@ class Visitor {
     bool visitT_DOT(Node* node);
     bool visitID_ARRAY(Node* node);
     bool visitT_BRACKS(Node* node);
+    bool visitT_ID_use(Node *node);
+    bool visitT_ID_define(Node *node);
 };
 
 

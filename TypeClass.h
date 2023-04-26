@@ -19,9 +19,9 @@ class Type{
     std::string name_ = "type";
 public:
     
-    std::string getName(){
-        return this->name_;
-    }
+    // std::string getName(){
+    //     return this->name_;
+    // /}
     virtual std::string getName() = 0;
     virtual Type *clone() const = 0;
     int line_number, char_number;
@@ -38,7 +38,7 @@ public:
         return this->name_;
     }
     std::string toString(){
-        std::string returnString = "[" + this->name_;
+        std::string returnString = "[" + this->name_ + " ";
         if (type_ == nullptr)
             returnString += this->type_->toString() + "]";
         else
@@ -49,6 +49,7 @@ public:
     ReturnType(const ReturnType &);
     ReturnType &operator=(const ReturnType &);
     ReturnType(Type *p1);
+    ~ReturnType();
     void swap(ReturnType &);
     virtual ReturnType *clone() const;
 };
@@ -58,6 +59,10 @@ class ListType : public Type{
 public:
     std::vector<Type *> types_;
 
+
+    std::string getName(){
+        return this->name_;
+    }
     std::string toString(){
         std::string returnString = "[" + this->name_ + " (";
         for (int i = 0; i < this->types_.size(); ++i){
@@ -66,8 +71,12 @@ public:
         returnString += ")]";
         return returnString;
     }
+    ListType(const ListType &);
+    ListType &operator=(const ListType &);
+    ListType(std::vector<Type *> p1);
+    ~ListType();
     void swap(ListType &);
-    virtual ListType *clone() const = 0;
+    virtual ListType *clone() const {};
 };
 
 class TypeFun : public Type{
@@ -111,17 +120,16 @@ public:
             returnString += names[i] + " : ";
             returnString += (this->listtype_->types_[i]->toString() + " ");
         }
-
+        returnString += ")]";
         return returnString;
     }
     
     std::string getName(){
-
         return this->name_;
     }
     TypeRecord(const TypeRecord &);
     TypeRecord &operator=(const TypeRecord &);
-    TypeRecord(ListType *p1);
+    TypeRecord(ListType *p1, std::vector<std::string> p2);
     ~TypeRecord();
     void swap(TypeRecord &);
     virtual TypeRecord *clone() const;
@@ -160,6 +168,8 @@ public:
     std::string getName(){
         return this->name_;
     }
+    TypeInteger(){};
+    void swap(Type &){};
     virtual TypeInteger *clone() const;
 };
 
@@ -174,6 +184,8 @@ public:
     std::string getName(){
         return this->name_;
     }
+    TypeReal(){};
+    void swap(Type &){};
     virtual TypeReal *clone() const;
 };
 
@@ -187,8 +199,10 @@ public:
     std::string getName(){
         return this->name_;
     }
+
+    void swap(Type &){};
     TypeBool(){};
-    virtual TypeBool *clone() const = 0;
+    virtual TypeBool *clone() const {};
 };
 
 
@@ -203,15 +217,8 @@ public:
     std::string getName(){
         return this->name_;
     }
-    virtual TypeChar *clone() const = 0;
+    void swap(Type &){};
+    virtual TypeChar *clone() const{};
 };
-
-bool compareTypes(Type* firstType, Type*  secondType){
-    if(firstType->toString() == secondType->toString()){
-        return true;
-    }else{
-        return false;
-    }
-}
 
 #endif

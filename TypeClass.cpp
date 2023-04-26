@@ -1,12 +1,34 @@
 #include "TypeClass.h"
 #include <algorithm>
-
+using namespace std;
 /********************   ListType    ********************/
+
+ListType::ListType(std::vector<Type *> p1){
+  types_ = p1;
+}
+
+ListType::ListType(const ListType & other){
+  types_ = other.types_;//заебись а клон очевидно идет в пиздуу
+}
+
+ListType &ListType::operator=(const ListType & other){
+  ListType tmp(other);//пошел нахуй пидорас ебанный
+  swap(tmp);
+  return *this;
+}
 
 
 ListType* consListType(Type* x, ListType* xs){
   xs->types_.push_back(x);
   return xs;
+}
+void ListType::swap(ListType & other){
+  std::swap(types_, other.types_);
+
+}
+
+ListType::~ListType(){
+  types_.clear();
 }
 
 /********************   ReturnType      ********************/
@@ -33,7 +55,6 @@ void ReturnType::swap(ReturnType & other){
 
 ReturnType::~ReturnType(){
   delete(type_);
-
 }
 
 ReturnType *ReturnType::clone() const{
@@ -76,9 +97,9 @@ TypeFun *TypeFun::clone() const{
 }
 
 /********************   TypeRecord    ********************/
-TypeRecord::TypeRecord(ListType *p1){
+TypeRecord::TypeRecord(ListType *p1, std::vector<std::string> p2){
   listtype_ = p1;
-
+  names = p2;
 }
 
 TypeRecord::TypeRecord(const TypeRecord & other){

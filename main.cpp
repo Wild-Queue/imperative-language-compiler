@@ -3,7 +3,7 @@
 #include "Analyser.tab.c"
 #include "Visitor.h"
 using namespace std;
-string inputFile = "input_3.txt";
+string inputFile = "input_4.txt";
 
 
 void drawTree(Node *root, int depth, bool lastChild[])

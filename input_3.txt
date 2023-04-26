@@ -1,8 +1,7 @@
 type int_return is record var ans is 0 end
 routine fib(n: integer, return_variable : int_return) : integer is
     var a is 0
-    var b is 1    
-    
+    var b is 1
     for i in 1 .. n loop
         var temp : integer is a
         a := b
