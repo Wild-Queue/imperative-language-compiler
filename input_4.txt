@@ -3,5 +3,6 @@ routine cum(a: integer, b: integer) : integer is
   for i in a .. b loop
     sum := sum + i
   end
-  return (sum) 
+  cum (3, 4)
+  return (sum)
 end

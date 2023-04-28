@@ -879,6 +879,10 @@ bool Visitor::visitRoutineCall(Node *node){
             if (routineType_->getName() == "fun"){
                 routineTypeFun = (TypeFun*) routineType_;
             }
+            else{
+                cout << "Error: visitT_ID_use" << endl;
+                exit(1);
+            }
             
             int j = 0;
             cout << "Type Parameters count" << node->nodes.size() << endl;
@@ -896,6 +900,10 @@ bool Visitor::visitRoutineCall(Node *node){
                 }else{
                     return false;
                 }
+            }
+            if (j < node->nodes.size() - 1){
+                cout << "Error: not enough parameters" << endl;
+                exit(1);
             }
 
             this->returnType = routineTypeFun->type_;
