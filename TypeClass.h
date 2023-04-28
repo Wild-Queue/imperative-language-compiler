@@ -76,7 +76,7 @@ public:
     ListType(std::vector<Type *> p1);
     ~ListType();
     void swap(ListType &);
-    virtual ListType *clone() const {};
+    virtual ListType *clone() const {return nullptr;};
 };
 
 class TypeFun : public Type{
@@ -202,7 +202,7 @@ public:
 
     void swap(Type &){};
     TypeBool(){};
-    virtual TypeBool *clone() const {};
+    virtual TypeBool *clone() const {return nullptr;};
 };
 
 
@@ -218,7 +218,7 @@ public:
         return this->name_;
     }
     void swap(Type &){};
-    virtual TypeChar *clone() const{};
+    virtual TypeChar *clone() const{return nullptr;};
 };
 
 #endif

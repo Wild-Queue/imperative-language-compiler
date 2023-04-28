@@ -5,7 +5,6 @@
 using namespace std;
 
 bool compareTypes(Type* firstType, Type*  secondType){
-    cout << firstType->toString() << ",,, " << secondType->toString() << endl;
     if(firstType->toString() == secondType->toString()){
         return true;
     }
@@ -15,22 +14,21 @@ bool compareTypes(Type* firstType, Type*  secondType){
 }
 
 bool Visitor::visitProgram(Node *node){
-    if (DEBUG)
-        cout << "Enter; Program" << endl; /*DEBUG*/
-
     if (node->token.token == T_ROOT){
+        if (DEBUG)
+            cout << "Enter; Program" << endl; /*DEBUG*/
+            
         bool collector = false;
         for (auto iterator : node->nodes){
             // VariableDeclaration
-            collector = visitSimpleDeclaration(iterator); // 0
+            collector = visitSimpleDeclaration(iterator);
             if (collector)
                 continue;
-            collector = visitRoutineDeclaration(iterator); // 1
-            if (collector == false)
+            collector = visitRoutineDeclaration(iterator);
+
+            // If both of previous function return false
+            if (collector == false) 
                 break;
-        }
-        for (auto iter : this->state){
-            cout << iter.first << " : " << iter.second << endl;
         }
         if (collector == false){
             cout << "T_ROOT Error" << endl;
@@ -94,10 +92,10 @@ bool Visitor::visitRoutineDeclaration(Node *node){
 }
 
 bool Visitor::visitT_VAR_DECL_COLON_IS(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_VAR_DECL_COLON_IS" << endl; /*DEBUG*/
-
     if (node->token.token == T_VAR_DECL_COLON_IS){
+        if (DEBUG)
+            cout << "Enter; T_VAR_DECL_COLON_IS" << endl; /*DEBUG*/
+        
         if (visitT_ID_define(node->nodes[0])){
 
             string varNameC = this->varName;
@@ -132,10 +130,10 @@ bool Visitor::visitT_VAR_DECL_COLON_IS(Node *node){
 }
 
 bool Visitor::visitT_VAR_DECL_COLON(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_VAR_DECL_COLON" << endl; /*DEBUG*/
-
     if (node->token.token == T_VAR_DECL_COLON){
+        if (DEBUG)
+            cout << "Enter; T_VAR_DECL_COLON" << endl; /*DEBUG*/
+
         if (visitT_ID_define(node->nodes[0])){
             string varNameC = this->varName;
                 if (visitType(node->nodes[1])){
@@ -144,6 +142,7 @@ bool Visitor::visitT_VAR_DECL_COLON(Node *node){
                 cout << "visitT_VAR_DECL_COLON" << endl;
                 this->stateInsert(varNameC, expectedType_);
                 
+                this->returnType = expectedType_;
                 if (DEBUG)
                     cout << "return true; T_VAR_DECL_COLON" << endl; /*DEBUG*/
                 return true;
@@ -163,10 +162,10 @@ bool Visitor::visitT_VAR_DECL_COLON(Node *node){
     return false;
 }
 bool Visitor::visitT_VAR_DECL_IS(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_VAR_DECL_IS" << endl; /*DEBUG*/
-
     if (node->token.token == T_VAR_DECL_IS){
+        if (DEBUG)
+            cout << "Enter; T_VAR_DECL_IS" << endl; /*DEBUG*/
+
         if (visitT_ID_define(node->nodes[0])){
 
             string varNameC = this->varName;
@@ -194,20 +193,16 @@ bool Visitor::visitT_VAR_DECL_IS(Node *node){
 };
 
 bool Visitor::visitT_TYPE_DECL_IS(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_TYPE_DECL_IS" << endl; /*DEBUG*/
-
     if (node->token.token == T_TYPE_DECL_IS){
+        if (DEBUG)
+            cout << "Enter; T_TYPE_DECL_IS" << endl; /*DEBUG*/
+
         if (visitT_ID_define(node->nodes[0])){
             string typeName = this->varName;
             if(visitType(node->nodes[1])){
 
                 Type* returnType_ = this->getExpectedType("visitT_TYPE_DECL_IS");
                 
-                cout << "visitT_TYPE_DECL_IS" << endl;
-                for(auto iterator : this->state){
-                    cout << iterator.first << " " << iterator.second->toString() << endl;
-                }
                 this->stateInsert(typeName, returnType_);
 
                 if (DEBUG)
@@ -228,10 +223,10 @@ bool Visitor::visitT_TYPE_DECL_IS(Node *node){
 }
 
 bool Visitor::visitT_ROUTIN_DECL_TYPE(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_ROUTIN_DECL_TYPE" << endl; /*DEBUG*/
-
     if (node->token.token == T_ROUTIN_DECL_TYPE){
+        if (DEBUG)
+            cout << "Enter; T_ROUTIN_DECL_TYPE" << endl; /*DEBUG*/
+
         if (node->nodes.size() > 3){
             if (visitT_ID_define(node->nodes[0])){
 
@@ -339,10 +334,10 @@ bool Visitor::visitT_ROUTIN_DECL(Node *node){
 }
 
 bool Visitor::visitParameters(Node *node){
-    if (DEBUG)
-        cout << "Enter; Parameters" << endl; /*DEBUG*/
-
     if (node->token.token == T_PARAMETERS){
+        if (DEBUG)
+            cout << "Enter; Parameters" << endl; /*DEBUG*/
+
         vector<Type*> Types;
         if (visitParameterDeclaration(node->nodes[0])){
             Type* currentType = this->getExpectedType("visitParameters");
@@ -373,10 +368,10 @@ bool Visitor::visitParameters(Node *node){
     return false;
 }
 bool Visitor::visitParameterDeclaration(Node *node){
-    if (DEBUG)
-        cout << "Enter; ParameterDeclaration" << endl; /*DEBUG*/
-
     if (node->token.token == T_COLON){
+        if (DEBUG)
+            cout << "Enter; ParameterDeclaration" << endl; /*DEBUG*/
+
         if (visitT_ID_define(node->nodes[0])){
             string paramName = this->varName;
             if (visitType(node->nodes[1])){
@@ -436,13 +431,13 @@ bool Visitor::visitType(Node *node){
 }
 
 bool Visitor::visitPrimitiveType(Node *node){
-    if (DEBUG)
-        cout << "Enter; PrimitiveType" << endl; /*DEBUG*/
-
     if (node->token.token == T_INTEGER 
             || node->token.token == T_REAL 
                 || node->token.token == T_BOOLEAN 
                     || node->token.token == T_CHAR){
+        if (DEBUG)
+            cout << "Enter; PrimitiveType" << endl; /*DEBUG*/
+
         switch (node->token.token){
         case T_INTEGER:
             this->expectedType = new TypeInteger();
@@ -469,10 +464,10 @@ bool Visitor::visitPrimitiveType(Node *node){
 }
 
 bool Visitor::visitArrayType(Node *node){
-    if (DEBUG)
-        cout << "Enter; ArrayType" << endl; /*DEBUG*/
-
     if (node->token.token == T_ARRAY){
+        if (DEBUG)
+            cout << "Enter; ArrayType" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0]) && visitType(node->nodes[1])){
             
             Type* expectedType_ = this->getExpectedType("visitArrayType");
@@ -491,10 +486,10 @@ bool Visitor::visitArrayType(Node *node){
 }
 
 bool Visitor::visitRecordType(Node *node){
-    if (DEBUG)
-        cout << "Enter; RecordType" << endl; /*DEBUG*/
-
     if (node->token.token == T_RECORD){
+        if (DEBUG)
+            cout << "Enter; RecordType" << endl; /*DEBUG*/
+
         vector<Type*> Types;
         vector<string> Names;
 
@@ -503,6 +498,8 @@ bool Visitor::visitRecordType(Node *node){
             if (visitVariableDeclaration(iterator)){
                 string currentName = this->varName;
                 Type* currentType = getReturnType("visitRecordType");
+                cout << currentType->toString() << "visitvisitvisit "<< endl;
+                cout << currentName << "visitvisitvisit "<< endl;
                 Names.push_back(currentName);
                 Types.push_back(currentType);
                 continue;
@@ -520,10 +517,10 @@ bool Visitor::visitRecordType(Node *node){
 }
 
 bool Visitor::visitT_ID_define(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_ID " << node->token.lexeme << endl; /*DEBUG*/
-
     if (node->token.token == T_ID){
+        if (DEBUG)
+            cout << "Enter; T_ID " << node->token.lexeme << endl; /*DEBUG*/
+
         this->varName = node->token.lexeme;
         
         if (DEBUG)
@@ -534,10 +531,10 @@ bool Visitor::visitT_ID_define(Node *node){
 }
 
 bool Visitor::visitT_ID_use(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_ID " << node->token.lexeme << endl; /*DEBUG*/
-
     if (node->token.token == T_ID){
+        if (DEBUG)
+            cout << "Enter; T_ID " << node->token.lexeme << endl; /*DEBUG*/
+
         if (this->state.count(node->token.lexeme) == 0){
             cout << "Error: not initialized type or variable" << endl;
             exit(1);
@@ -554,10 +551,10 @@ bool Visitor::visitT_ID_use(Node *node){
 }
 
 bool Visitor::visitBody(Node *node){
-    if (DEBUG)
-        cout << "Enter; Body" << endl; /*DEBUG*/
-
     if (node->token.token == T_BODY){
+        if (DEBUG)
+            cout << "Enter; Body" << endl; /*DEBUG*/
+
         for (auto iterator : node->nodes){
             if (visitSimpleDeclaration(iterator) || visitStatement(iterator))
                 continue;
@@ -588,16 +585,15 @@ bool Visitor::visitStatement(Node *node){
 }
 
 bool Visitor::visitT_RETURN(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_RETURN" << endl; /*DEBUG*/
-
     if (node->token.token == T_RETURN){
+        if (DEBUG)
+            cout << "Enter; T_RETURN" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0])){
             Type* expectedType_ = this->state[this->funcionName];
             TypeFun* expectedTypeFun_ = dynamic_cast<TypeFun*>(expectedType_);
             Type* returnType_ = this->getReturnType("visitT_RETURN");
             ReturnType* expectedTypeFunReturnType = dynamic_cast<ReturnType*>(expectedTypeFun_->type_);
-            cout << expectedTypeFunReturnType->type_->toString() << " | " << returnType_->toString() << endl;
 
             if (compareTypes(returnType_, expectedTypeFunReturnType->type_) == false){
                 cout << "Error: real type and expected type are not the same " << "visitT_RETURN" << endl;
@@ -617,10 +613,10 @@ bool Visitor::visitT_RETURN(Node *node){
 }
 
 bool Visitor::visitT_PRINT(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_PRINT" << endl; /*DEBUG*/
-
     if (node->token.token == T_PRINT){
+        if (DEBUG)
+            cout << "Enter; T_PRINT" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0])){
             Type* returnType_ = this->getReturnType("visitT_RETURN");
 
@@ -657,10 +653,10 @@ bool Visitor::visitIfStatement(Node *node){
 }
 
 bool Visitor::visitT_IF_ELSE(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_IF_ELSE" << endl; /*DEBUG*/
-
     if (node->token.token == T_IF_ELSE){
+        if (DEBUG)
+            cout << "Enter; T_IF_ELSE" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0])){
 
             Type* returnType_ = this->getReturnType("visitT_IF_ELSE");
@@ -688,11 +684,12 @@ bool Visitor::visitT_IF_ELSE(Node *node){
 }
 
 bool Visitor::visitT_IF(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_IF" << endl; /*DEBUG*/
-                                       // Node
+    // Node
     
     if (node->token.token == T_IF){
+        if (DEBUG)
+            cout << "Enter; T_IF" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0])){
 
             Type* returnType_ = this->getReturnType("visitT_IF");
@@ -720,10 +717,10 @@ bool Visitor::visitT_IF(Node *node){
 }
 
 bool Visitor::visitForLoop(Node *node){
-    if (DEBUG)
-        cout << "Enter; ForLoop" << endl; /*DEBUG*/
-
     if (node->token.token == T_FOR){
+        if (DEBUG)
+            cout << "Enter; ForLoop" << endl; /*DEBUG*/
+
         if (visitT_ID_define(node->nodes[0])){
             string indexName = this->varName;
             cout << "visitForLoop" << endl;
@@ -761,10 +758,10 @@ bool Visitor::visitRange(Node *node){
 }
 
 bool Visitor::visitT_IN(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_IN" << endl; /*DEBUG*/
-
     if (node->token.token == T_IN){
+        if (DEBUG)
+            cout << "Enter; T_IN" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0])){
 
             Type* returnType1_ = this->getReturnType("visitT_IF_ELSE");
@@ -799,10 +796,10 @@ bool Visitor::visitT_IN(Node *node){
 }
 
 bool Visitor::visitT_IN_REVERSE(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_IN_REVERSE" << endl; /*DEBUG*/
-
     if (node->token.token == T_IN_REVERSE){
+        if (DEBUG)
+            cout << "Enter; T_IN_REVERSE" << endl; /*DEBUG*/
+
         if (DEBUG)
             cout << "return true; T_IN_REVERSE" << endl; /*DEBUG*/
 
@@ -836,10 +833,10 @@ bool Visitor::visitT_IN_REVERSE(Node *node){
 }
 
 bool Visitor::visitWhileLoop(Node *node){
-    if (DEBUG)
-        cout << "Enter; WhileLoop" << endl; /*DEBUG*/
-
     if (node->token.token == T_WHILE){
+        if (DEBUG)
+            cout << "Enter; WhileLoop" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0])){
             
             Type* returnType_ = this->getReturnType("visitT_IF_ELSE");
@@ -871,27 +868,24 @@ bool Visitor::visitWhileLoop(Node *node){
 }
 
 bool Visitor::visitRoutineCall(Node *node){
-    if (DEBUG)
-        cout << "Enter; RoutineCall" << endl; /*DEBUG*/
-
     // Node
     if (node->token.token == T_ROUTINE_CALL){
+        if (DEBUG)
+            cout << "Enter; RoutineCall" << endl; /*DEBUG*/
+
         if (visitT_ID_use(node->nodes[0])){
             Type* routineType_ = this->returnType;
             TypeFun* routineTypeFun = nullptr;
             if (routineType_->getName() == "fun"){
                 routineTypeFun = (TypeFun*) routineType_;
             }
-
-            if (DEBUG)
-                cout << "return true; RoutineCall" << endl; /*DEBUG*/
             
             int j = 0;
             cout << "Type Parameters count" << node->nodes.size() << endl;
             for (auto iterator : vector<Node *>(node->nodes.begin() + 1, node->nodes.end())){
                 if (visitExpression(iterator)){
                     Type* returnParamType = this->getReturnType("visitRoutineCall");
-                    cout << "Type Parameters" << routineTypeFun->listtype_->types_[j]->toString() << " " << returnParamType->toString() << endl;
+                    
                     if (compareTypes(routineTypeFun->listtype_->types_[j], returnParamType) == false){
                         cout << "Error: incorrect passing parameters visitRoutineCall" << endl;
                         exit(1);
@@ -905,12 +899,17 @@ bool Visitor::visitRoutineCall(Node *node){
             }
 
             this->returnType = routineTypeFun->type_;
+
+            if (DEBUG)
+                cout << "return true; RoutineCall" << endl; /*DEBUG*/
             return true;
         }
         return false;
     }
     if (node->token.token == T_ID){
-        cout << "T_ID";
+        if (DEBUG)
+            cout << "Enter; RoutineCall" << endl; /*DEBUG*/
+        
         if (DEBUG)
             cout << "return true; RoutineCall" << endl; /*DEBUG*/
         return true;
@@ -919,17 +918,16 @@ bool Visitor::visitRoutineCall(Node *node){
 }
 
 bool Visitor::visitAssignment(Node *node){
-    if (DEBUG)
-        cout << "Enter; Assignment" << endl; /*DEBUG*/
-
     if (node->token.token == T_COLONEQU){
+        if (DEBUG)
+            cout << "Enter; Assignment" << endl; /*DEBUG*/
+
         if (visitModifiablePrimary(node->nodes[0])){
 
             Type* modifiableType_ = this->getReturnType("visitAssignment");
             if (visitExpression(node->nodes[1])){
                 Type* exprType_ = this->getReturnType("visitAssignment");
 
-                cout << modifiableType_->toString() << " " << exprType_->toString() << endl;
                 if (compareTypes(modifiableType_, exprType_) == false){
                     cout << "Error: incorrect type of equation" << endl;
                     exit(1);
@@ -968,10 +966,10 @@ bool Visitor::visitExpression(Node *node){
 }
 
 bool Visitor::visitT_AND(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_AND" << endl; /*DEBUG*/
-
     if (node->token.token == T_AND){
+        if (DEBUG)
+            cout << "Enter; T_AND" << endl; /*DEBUG*/
+
         if (visitRelation(node->nodes[0])){
 
             Type* relationType_ = this->getReturnType("visitT_AND");
@@ -1006,10 +1004,10 @@ bool Visitor::visitT_AND(Node *node){
 }
 
 bool Visitor::visitT_OR(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_OR" << endl; /*DEBUG*/
-
     if (node->token.token == T_OR){
+        if (DEBUG)
+            cout << "Enter; T_OR" << endl; /*DEBUG*/
+
         if (visitRelation(node->nodes[0])){
 
             Type* relationType_ = this->getReturnType("visitT_OR");
@@ -1044,10 +1042,10 @@ bool Visitor::visitT_OR(Node *node){
 }
 
 bool Visitor::visitT_XOR(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_XOR" << endl; /*DEBUG*/
-
     if (node->token.token == T_XOR){
+        if (DEBUG)
+            cout << "Enter; T_XOR" << endl; /*DEBUG*/
+
         if (visitRelation(node->nodes[0])){
 
             Type* relationType_ = this->getReturnType("visitT_XOR");
@@ -1100,10 +1098,10 @@ bool Visitor::visitRelation(Node *node){
 }
 
 bool Visitor::visitT_LESS(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_LESS" << endl; /*DEBUG*/
-
     if (node->token.token == T_LESS){
+        if (DEBUG)
+            cout << "Enter; T_LESS" << endl; /*DEBUG*/
+
         if (visitSimple(node->nodes[0])){
 
             Type* simpleType_1 = this->getReturnType("visitT_LESS");
@@ -1133,10 +1131,10 @@ bool Visitor::visitT_LESS(Node *node){
     return false;
 }
 bool Visitor::visitT_LESSOREQU(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_LESSOREQU" << endl; /*DEBUG*/
-
     if (node->token.token == T_LESSOREQU){
+        if (DEBUG)
+            cout << "Enter; T_LESSOREQU" << endl; /*DEBUG*/
+
         if (visitSimple(node->nodes[0])){
 
             Type* simpleType_1 = this->getReturnType("visitT_LESSOREQU");
@@ -1166,10 +1164,10 @@ bool Visitor::visitT_LESSOREQU(Node *node){
     return false;
 }
 bool Visitor::visitT_GREAT(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_GREAT" << endl; /*DEBUG*/
-
     if (node->token.token == T_GREAT){
+        if (DEBUG)
+            cout << "Enter; T_GREAT" << endl; /*DEBUG*/
+
         if (visitSimple(node->nodes[0])){
 
             Type* simpleType_1 = this->getReturnType("visitT_GREAT");
@@ -1199,10 +1197,10 @@ bool Visitor::visitT_GREAT(Node *node){
     return false;
 }
 bool Visitor::visitT_GREATOREQU(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_GREATOREQU" << endl; /*DEBUG*/
-
     if (node->token.token == T_GREATOREQU){
+        if (DEBUG)
+            cout << "Enter; T_GREATOREQU" << endl; /*DEBUG*/
+
         if (visitSimple(node->nodes[0])){
 
             Type* simpleType_1 = this->getReturnType("visitT_GREATOREQU");
@@ -1233,12 +1231,15 @@ bool Visitor::visitT_GREATOREQU(Node *node){
 }
 
 bool Visitor::visitT_EQU(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_EQU" << endl; /*DEBUG*/
     if (node->token.token == T_EQU){
+        if (DEBUG)
+            cout << "Enter; T_EQU" << endl; /*DEBUG*/
+        
+        cout << node->nodes[0]->token.lexeme << "lexeme" << endl;
         if (visitSimple(node->nodes[0])){
 
             Type* simpleType_1 = this->getReturnType("visitT_EQU");
+            cout << simpleType_1->toString() << "aaabbb" << endl;
             if (visitSimple(node->nodes[1])){
                 Type* simpleType_2 = this->getReturnType("visitT_EQU");
 
@@ -1264,10 +1265,10 @@ bool Visitor::visitT_EQU(Node *node){
     return false;
 }
 bool Visitor::visitT_NOTEQU(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_NOTEQU" << endl; /*DEBUG*/
-
     if (node->token.token == T_NOTEQU){
+        if (DEBUG)
+            cout << "Enter; T_NOTEQU" << endl; /*DEBUG*/
+
         if (visitSimple(node->nodes[0])){
 
             Type* simpleType_1 = this->getReturnType("visitT_NOTEQU");
@@ -1312,10 +1313,10 @@ bool Visitor::visitSimple(Node *node){
 }
 
 bool Visitor::visitT_MULTOP(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_MULTOP" << endl; /*DEBUG*/
-
     if (node->token.token == T_MULTOP){
+        if (DEBUG)
+            cout << "Enter; T_MULTOP" << endl; /*DEBUG*/
+
         if (visitFactor(node->nodes[0])){
 
             Type* factorType_1 = this->getReturnType("visitT_MULTOP");
@@ -1341,10 +1342,10 @@ bool Visitor::visitT_MULTOP(Node *node){
     return false;
 }
 bool Visitor::visitT_DIVOP(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_DIVOP" << endl; /*DEBUG*/
-
     if (node->token.token == T_DIVOP){
+        if (DEBUG)
+            cout << "Enter; T_DIVOP" << endl; /*DEBUG*/
+
         if (visitFactor(node->nodes[0])){
 
             Type* factorType_1 = this->getReturnType("visitT_MULTOP");
@@ -1374,10 +1375,10 @@ bool Visitor::visitT_DIVOP(Node *node){
     return false;
 }
 bool Visitor::visitT_MODOP(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_MODOP" << endl; /*DEBUG*/
-
     if (node->token.token == T_MODOP){
+        if (DEBUG)
+            cout << "Enter; T_MODOP" << endl; /*DEBUG*/
+
         if (visitFactor(node->nodes[0])){
 
             Type* factorType_1 = this->getReturnType("visitT_MODOP");
@@ -1422,10 +1423,10 @@ bool Visitor::visitFactor(Node *node){
     }
 }
 bool Visitor::visitT_ADDOP(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_ADDOP" << endl; /*DEBUG*/
-
     if (node->token.token == T_ADDOP){
+        if (DEBUG)
+            cout << "Enter; T_ADDOP" << endl; /*DEBUG*/
+
         if (visitSummand(node->nodes[0])){
 
             Type* summandType_ = this->getReturnType("visitT_ADDOP");
@@ -1456,10 +1457,10 @@ bool Visitor::visitT_ADDOP(Node *node){
 }
 
 bool Visitor::visitT_SUBTROP(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_SUBTROP" << endl; /*DEBUG*/
-
     if (node->token.token == T_SUBTROP){
+        if (DEBUG)
+            cout << "Enter; T_SUBTROP" << endl; /*DEBUG*/
+
         if (visitSummand(node->nodes[0])){
 
             Type* summandType_ = this->getReturnType("visitT_SUBTROP");
@@ -1504,10 +1505,10 @@ bool Visitor::visitSummand(Node *node){
     }
 }
 bool Visitor::visitT_PARENT(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_PARENT" << endl; /*DEBUG*/
-
     if (node->token.token == T_PARENT){
+        if (DEBUG)
+            cout << "Enter; T_PARENT" << endl; /*DEBUG*/
+
         if (visitExpression(node->nodes[0])){
             if (DEBUG)
                 cout << "return true; T_PARENT" << endl; /*DEBUG*/
@@ -1539,10 +1540,10 @@ bool Visitor::visitPrimary(Node *node){
     }
 }
 bool Visitor::visitT_ICONST(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_ICONST" << endl; /*DEBUG*/
-
     if (node->token.token == T_ICONST){
+        if (DEBUG)
+            cout << "Enter; T_ICONST" << endl; /*DEBUG*/
+
         this->returnType = new TypeInteger();
         if (DEBUG)
             cout << "return true; T_ICONST" << endl; /*DEBUG*/
@@ -1563,10 +1564,10 @@ bool Visitor::visitT_CCONST(Node *node){
     return false;
 }
 bool Visitor::visitT_RCONST(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_RCONST" << endl; /*DEBUG*/
-
     if (node->token.token == T_RCONST){
+        if (DEBUG)
+            cout << "Enter; T_RCONST" << endl; /*DEBUG*/
+
         this->returnType = new TypeReal();
         if (DEBUG)
             cout << "return true; T_RCONST" << endl; /*DEBUG*/
@@ -1575,10 +1576,10 @@ bool Visitor::visitT_RCONST(Node *node){
     return false;
 }
 bool Visitor::visitT_TRUE(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_TRUE" << endl; /*DEBUG*/
-
     if (node->token.token == T_TRUE){
+        if (DEBUG)
+            cout << "Enter; T_TRUE" << endl; /*DEBUG*/
+
         this->returnType = new TypeBool();
         if (DEBUG)
             cout << "return true; T_TRUE" << endl; /*DEBUG*/
@@ -1587,10 +1588,10 @@ bool Visitor::visitT_TRUE(Node *node){
     return false;
 }
 bool Visitor::visitT_FALSE(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_FALSE" << endl; /*DEBUG*/
-
     if (node->token.token == T_FALSE){
+        if (DEBUG)
+            cout << "Enter; T_FALSE" << endl; /*DEBUG*/
+
         this->returnType = new TypeBool();
         if (DEBUG)
             cout << "return true; T_FALSE" << endl; /*DEBUG*/
@@ -1615,10 +1616,10 @@ bool Visitor::visitT_FALSE(Node *node){
 // }
 
 // bool Visitor::visitT_DOT(Node *node){
-//     if (DEBUG)
-//         cout << "Enter; T_DOT" << endl; /*DEBUG*/
-
 //     if (node->token.token == T_DOT){
+//         if (DEBUG)
+//             cout << "Enter; T_DOT" << endl; /*DEBUG*/
+
 
 //         if (visitID_ARRAY(node->nodes[0])){
 //             Type* id_arrayType;
@@ -1664,168 +1665,310 @@ bool Visitor::visitT_FALSE(Node *node){
 //     return false;
 // }
 
+/// @brief ///
+/// @param node 
+/// @return 
+// AAA
+// // bool Visitor::visitModifiablePrimary(Node *node){
+// //     if (DEBUG)
+// //         cout << "Enter; ModifiablePrimary" << endl; /*DEBUG*/
+
+// //     if (visitID_ARRAY(node) || visitT_DOT(node)){
+// //         this->inType = nullptr;
+// //         if (DEBUG)
+// //             cout << "return true; ModifiablePrimary" << endl; /*DEBUG*/
+// //         return true;
+// //     }else{
+// //         // cout << "ModifiablePrimary Error " << endl;
+// //         // exit(1);
+// //         return false;
+// //     }
+// // }
+
+// // bool Visitor::visitT_DOT(Node *node){
+// //     if (node->token.token == T_DOT){
+// //         if (DEBUG)
+// //             cout << "Enter; T_DOT" << endl; /*DEBUG*/
+        
+// //         cout << node->token.lexeme << " : " << node->token.token << endl;
+
+// //         if (visitID_ARRAY(node->nodes[0])){
+
+// //             if (node->nodes.size() == 1){
+// //                 return true;
+// //             }
+// //             if (node->nodes.size() > 1 && visitModifiablePrimary(node->nodes[1])){
+
+// //                 if (DEBUG)
+// //                     cout << "return true; T_DOT" << endl; /*DEBUG*/
+// //                 return true;
+// //             }else{
+// //                 cout << "T_DOT Error1" << endl;
+// //                 exit(1);
+// //                 return false;
+// //             }
+// //         }else{
+// //             cout << "T_DOT Error" << endl;
+// //             exit(1);
+// //             return false;
+// //         }
+// //     }
+// //     return false;
+// // }
+
+// // bool Visitor::visitID_ARRAY(Node *node){
+// //     if (DEBUG)
+// //         cout << "Enter; ID_ARRAY" << endl; /*DEBUG*/
+
+// //     if (visitT_ID_define(node)){
+
+// //         string idName = this->varName;
+// //         if (this->inType == nullptr){
+// //             visitT_ID_use(node);
+// //             Type* idType = this->getReturnType("visitID_ARRAY");
+// //             this->inType = idType;
+// //         }
+// //         else{
+// //             Type* inType = this->inType; // c.a.b <- c.a type OR c.a.b <- c type
+            
+// //             TypeRecord* inRecordType;
+// //             if (inType->getName() == "record"){
+// //                 inRecordType = (TypeRecord *)inType;
+// //             }
+// //             else{
+// //                 cout << inType->toString() << endl;
+// //                 cout << "Error: expected record type, but get somth else" << endl;
+// //                 exit(1);
+// //             }
+// //             for (int i = 0; i < inRecordType->names.size(); i++){
+// //                 if (inRecordType->names[i] == idName){
+// //                     this->returnType = inRecordType->listtype_->types_[i];
+// //                     this->inType = this->returnType;
+// //                     break;
+// //                 }
+// //             }
+// //         }
+
+// //         if (DEBUG)
+// //             cout << "return true; ID_ARRAY" << endl; /*DEBUG*/
+// //         return true;
+// //     }
+// //     // OR
+// //     if (visitT_BRACKS(node)){
+
+// //         if (DEBUG)
+// //             cout << "return true; ID_ARRAY" << endl; /*DEBUG*/
+// //         return true;
+// //     }else{
+// //         // cout << "visitSimple " << endl;
+// //         // exit(1);
+// //         return false;
+// //     }
+// // }
+
+// // bool Visitor::visitT_BRACKS(Node *node){
+// //     if (node->token.token == T_BRACKS){
+// //         cout << node->token.lexeme << " : " << node->token.token << endl;
+// //         if (DEBUG)
+// //             cout << "Enter; T_BRACKS" << endl; /*DEBUG*/
+
+
+// //         if (node->nodes.size() == 2 && visitT_ID_define(node->nodes[0])){
+            
+// //             if (visitExpression(node->nodes[1])){
+// //                 Type * exprType = this->getReturnType("visitT_BRACKS");
+
+// //                 if (compareTypes(exprType, new TypeInteger) == false){
+// //                     cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
+// //                     exit(1);  
+// //                 } 
+// //             }
+
+// //             if (DEBUG)
+// //                 cout << "return true; T_BRACKS" << endl; /*DEBUG*/
+// //             return true;
+// //         }else if (node->nodes.size() == 3 && visitT_ID_define(node->nodes[0])){
+            
+// //             if (visitExpression(node->nodes[1])){
+// //                 Type * exprType = this->getReturnType("visitT_BRACKS");
+
+// //                 if (compareTypes(exprType, new TypeInteger) == false){
+// //                     cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
+// //                     exit(1);  
+// //                 } 
+// //                 if (visitT_BRACKS(node->nodes[2])){
+                
+// //                 }
+// //             }
+
+// //             if (DEBUG)
+// //                 cout << "return true; T_BRACKS" << endl; /*DEBUG*/
+// //             return true;
+// //         }else if (node->nodes.size() == 1 && visitExpression(node->nodes[0])){
+// //             Type * exprType = this->getReturnType("visitT_BRACKS");
+
+// //             if (compareTypes(exprType, new TypeInteger) == false){
+// //                 cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
+// //                 exit(1);  
+// //             } 
+// //             if (DEBUG)
+// //                 cout << "return true; T_BRACKS" << endl; /*DEBUG*/
+// //             return true;
+// //         }else if (node->nodes.size() == 2 && visitExpression(node->nodes[0])){
+// //             Type * exprType = this->getReturnType("visitT_BRACKS");
+
+// //             if (compareTypes(exprType, new TypeInteger) == false){
+// //                 cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
+// //                 exit(1);  
+// //             } 
+// //             if (visitT_BRACKS(node->nodes[1])){
+
+// //             }
+// //             if (DEBUG)
+// //                 cout << "return true; T_BRACKS" << endl; /*DEBUG*/
+// //             return true;
+// //         }
+// //         return false;
+// //     }
+// //     return false;
+// // }
+
+
 bool Visitor::visitModifiablePrimary(Node *node){
     if (DEBUG)
         cout << "Enter; ModifiablePrimary" << endl; /*DEBUG*/
-
-    if (visitID_ARRAY(node) || visitT_DOT(node)){
-        this->inType = nullptr;
-        if (DEBUG)
-            cout << "return true; ModifiablePrimary" << endl; /*DEBUG*/
-        return true;
-    }else{
-        // cout << "ModifiablePrimary Error " << endl;
-        // exit(1);
-        return false;
-    }
-}
-
-bool Visitor::visitT_DOT(Node *node){
-    if (DEBUG)
-        cout << "Enter; T_DOT" << endl; /*DEBUG*/
     
-    if (node->token.token == T_DOT){
+    // Actualy parsing dots
+    // a[0].b[1].c => [a[0] , b[1] , c]
+    
+    vector<Node*> dot_nodes;
 
-        if (visitID_ARRAY(node->nodes[0])){
-
-            if (node->nodes.size() == 1){
-                return true;
-            }
-            if (node->nodes.size() > 1 && visitModifiablePrimary(node->nodes[1])){
-
-                if (DEBUG)
-                    cout << "return true; T_DOT" << endl; /*DEBUG*/
-                return true;
-            }else{
-                cout << "T_DOT Error1" << endl;
-                exit(1);
-                return false;
-            }
-        }else{
-            cout << "T_DOT Error" << endl;
-            exit(1);
-            return false;
-        }
-    }
-    return false;
-}
-
-bool Visitor::visitID_ARRAY(Node *node){
-    if (DEBUG)
-        cout << "Enter; ID_ARRAY" << endl; /*DEBUG*/
-
-    cout << node->token.lexeme << "()()()()()()(           )()()()()()()" << endl;
-    if (visitT_ID_define(node)){
-        string idName = this->varName;
-        if (this->inType == nullptr){
-            visitT_ID_use(node);
-            Type* idType = this->getReturnType("visitID_ARRAY");
-            this->inType = idType;
-            cout << idName << endl;
-            cout << this->state[idName]->toString() << endl;
-            cout << inType->toString() << "<><><><><><><><><><"<< endl;
+    Node* deviding = node;
+    cout << node->token.lexeme << " : " << node->token.token << endl;
+    
+    while (deviding->token.token == T_DOT){
+        if (deviding->nodes.size() > 1){
+            dot_nodes.push_back(deviding->nodes[0]);
+            deviding = deviding->nodes[1];
         }
         else{
-            Type* inType = this->inType; // c.a.b <- c.a type OR c.a.b <- c type
-            
-            TypeRecord* inRecordType;
-            if (inType->getName() == "record"){
-                inRecordType = (TypeRecord *)inType;
-            }
-            else{
-                cout << inType->toString() << endl;
-                cout << "Error: expected record type, but get somth else" << endl;
+            cout << "Error: not enough parameters" << endl;
+            exit(1);
+        }
+    }
+    dot_nodes.push_back(deviding);
+
+    Type* returnType;
+    if (dot_nodes[0]->token.token == T_BRACKS){
+        returnType = this->state[dot_nodes[0]->nodes[0]->token.lexeme]; // a[0][1] -> a
+        int nestedNum = 0;
+
+        Node* arrayThrough = dot_nodes[0];
+        while (arrayThrough->token.token == T_BRACKS){
+            TypeArray* returnTypeArray = (TypeArray*) returnType; // casting
+            if (returnType->getName() != "array"){
+                cout << "Error: expected array, but got: " << returnType->getName() << endl;
                 exit(1);
             }
-            for (int i = 0; i < inRecordType->names.size(); i++){
-                if (inRecordType->names[i] == idName){
-                    this->returnType = inRecordType->listtype_->types_[i];
-                    this->inType = this->returnType;
-                    break;
+
+            if (arrayThrough->nodes.size() > 0){
+                returnType = returnTypeArray->type_;
+
+                if (arrayThrough->nodes.size() > 2){
+                    arrayThrough = arrayThrough->nodes[2];
+                }
+                else if (arrayThrough->nodes.size() > 1){
+                    arrayThrough = arrayThrough->nodes[1];
+                } 
+                else{
+                    arrayThrough = arrayThrough->nodes[0];
                 }
             }
+            else{
+                cout << "Error: not enough parameters" << endl;
+                exit(1);
+            }
         }
-
-
-        if (DEBUG)
-            cout << "return true; ID_ARRAY" << endl; /*DEBUG*/
-        return true;
     }
-    // OR
-    if (visitT_BRACKS(node)){
-
-        if (DEBUG)
-            cout << "return true; ID_ARRAY" << endl; /*DEBUG*/
-        return true;
-    }else{
-        // cout << "visitSimple " << endl;
-        // exit(1);
+    else if (dot_nodes[0]->token.token == T_ID){
+        if (this->state.count(dot_nodes[0]->token.lexeme) == 0){
+            cout << "Error: unknown identifier:" << dot_nodes[0]->token.lexeme << endl;
+            exit(1);
+        }
+        returnType = this->state[dot_nodes[0]->token.lexeme];
+    }
+    else{
         return false;
     }
-}
 
-bool Visitor::visitT_BRACKS(Node *node){
+    ///
+    for (int i = 1; i < dot_nodes.size(); i++){
+        if (returnType->getName() != "record"){
+            cout << "Error: expected record, but got: " << returnType->getName() << endl;
+            exit(1);
+        }
+        TypeRecord* returnTypeRecord = (TypeRecord*) returnType;
+
+        string fieldName;
+        if (dot_nodes[i]->token.token == T_BRACKS){
+            fieldName = dot_nodes[i]->nodes[0]->token.lexeme;
+        }
+        else if (dot_nodes[i]->token.token == T_ID){
+            fieldName = dot_nodes[i]->token.lexeme;
+        }
+        else{
+            cout << "Error: expected ID but got" << dot_nodes[i]->token.lexeme << endl;
+            exit(1);
+        }
+
+        bool found = false;
+        for (int j = 0; j < returnTypeRecord->names.size(); j++){
+            if (fieldName == returnTypeRecord->names[j]){
+                returnType = returnTypeRecord->listtype_->types_[j]; // a[0][1] -> a
+                found = true;
+            }
+        }
+        if (found == false){
+            cout << "Error: not found field" << dot_nodes[i]->token.lexeme << endl;
+            exit(1);
+        }
+
+        cout << "T_BRACKS" << endl;
+        if (dot_nodes[i]->token.token == T_BRACKS){
+            int nestedNum = 0;
+
+            Node* arrayThrough = dot_nodes[i];
+            while (arrayThrough->token.token == T_BRACKS){
+                TypeArray* returnTypeArray = (TypeArray*) returnType; // casting
+                if (returnType->getName() != "array"){
+                    cout << "Error: expected array, but got: " << returnType->getName() << endl;
+                    exit(1);
+                }
+
+                if (arrayThrough->nodes.size() > 0){
+                    returnType = returnTypeArray->type_;
+
+                    if (arrayThrough->nodes.size() > 2){
+                        arrayThrough = arrayThrough->nodes[2];
+                    }
+                    else if (arrayThrough->nodes.size() > 1){
+                        arrayThrough = arrayThrough->nodes[1];
+                    } 
+                    else{
+                        arrayThrough = arrayThrough->nodes[0];
+                    }
+                }
+                else{
+                    cout << "Error: not enough parameters" << endl;
+                    exit(1);
+                }
+            }
+
+        }
+    }
+
     if (DEBUG)
-        cout << "Enter; T_BRACKS" << endl; /*DEBUG*/
-
-    if (node->token.token == T_BRACKS){
-
-        if (node->nodes.size() == 2 && visitT_ID_define(node->nodes[0])){
-            
-            if (visitExpression(node->nodes[1])){
-                Type * exprType = this->getReturnType("visitT_BRACKS");
-
-                if (compareTypes(exprType, new TypeInteger) == false){
-                    cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
-                    exit(1);  
-                } 
-            }
-
-            if (DEBUG)
-                cout << "return true; T_BRACKS" << endl; /*DEBUG*/
-            return true;
-        }else if (node->nodes.size() == 3 && visitT_ID_define(node->nodes[0])){
-            
-            if (visitExpression(node->nodes[1])){
-                Type * exprType = this->getReturnType("visitT_BRACKS");
-
-                if (compareTypes(exprType, new TypeInteger) == false){
-                    cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
-                    exit(1);  
-                } 
-                if (visitT_BRACKS(node->nodes[2])){
-                
-                }
-            }
-
-            if (DEBUG)
-                cout << "return true; T_BRACKS" << endl; /*DEBUG*/
-            return true;
-        }else if (node->nodes.size() == 1 && visitExpression(node->nodes[0])){
-            Type * exprType = this->getReturnType("visitT_BRACKS");
-
-            if (compareTypes(exprType, new TypeInteger) == false){
-                cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
-                exit(1);  
-            } 
-            if (DEBUG)
-                cout << "return true; T_BRACKS" << endl; /*DEBUG*/
-            return true;
-        }else if (node->nodes.size() == 2 && visitExpression(node->nodes[0])){
-            Type * exprType = this->getReturnType("visitT_BRACKS");
-
-            if (compareTypes(exprType, new TypeInteger) == false){
-                cout << "Error: incorrect factor types " << "visitT_SUBTROP" << endl;
-                exit(1);  
-            } 
-            if (visitT_BRACKS(node->nodes[1])){
-
-            }
-            if (DEBUG)
-                cout << "return true; T_BRACKS" << endl; /*DEBUG*/
-            return true;
-        }
-        return false;
-    }
-    return false;
+        cout << "return true; ModifiablePrimary" << endl; /*DEBUG*/
+    this->returnType = returnType;
+    return true;
 }
