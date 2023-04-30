@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "Analyser.tab.c"
 #include "Visitor.h"
@@ -31,10 +32,21 @@ void drawTree(Node *root, int depth, bool lastChild[])
         drawTree(root->nodes[i], depth + 1, lastChild);
     }
 }
-int main()
+int main(int argc, char *argv[])
 {
-    cout << "######################################\n";
+    cout << "#####################################\n";
+    if (argc > 1) {
+        inputFile = argv[1];
+    }
     cout << "\nInputfile: "<< inputFile << endl;
+
+    // Check if input file exists
+    ifstream input(inputFile);
+    if (!input.good()) {
+        cerr << "Error: input file \"" << inputFile << "\" does not exist or cannot be opened.\n";
+        return 1;
+    }
+    input.close();
     // cout << "Tokenized program:" << endl;
     Node *root_1 = generateAST(inputFile);
     cout << "\nAST:\n";
