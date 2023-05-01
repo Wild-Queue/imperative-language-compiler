@@ -1,0 +1,15 @@
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.csproj.AssemblyReference.cache
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.GeneratedMSBuildEditorConfig.editorconfig
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.AssemblyInfoInputs.cache
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.AssemblyInfo.cs
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.csproj.CoreCompileInputs.cache
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/bin/Debug/net6.0/Result
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/bin/Debug/net6.0/Result.deps.json
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/bin/Debug/net6.0/Result.runtimeconfig.json
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/bin/Debug/net6.0/Result.dll
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/bin/Debug/net6.0/Result.pdb
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.dll
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/refint/Result.dll
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.pdb
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/Result.genruntimeconfig.cache
+/home/egor/InnoSubjects/S23/Compilers/Gitrepo/imperative_language_compiler/Result/obj/Debug/net6.0/ref/Result.dll

@@ -133,7 +133,7 @@ class CodeGenerator {
     int structNum = 0;
   public:
     std::string header = "using System;";
-    std::string main_call = "main();";
+    std::string main_call = "main(1);";
     std::string struct_decls = "";
     std::string program_decls = "";
 
@@ -162,6 +162,17 @@ class CodeGenerator {
       cout << this->program_decls << endl;
       cout << this->struct_decls << endl;
     };
+
+    void safeCSFile(){
+      freopen("Result/Program.cs", "wt", stdout);
+      
+      cout << this->header << endl;
+      cout << this->main_call << endl;
+      cout << this->program_decls << endl;
+      cout << this->struct_decls << endl;
+
+      fclose(stdout);
+    }
 
     bool DEBUG = 0;
     bool visitProgram(Node* node);

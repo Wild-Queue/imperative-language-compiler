@@ -14,5 +14,4 @@ routine main(system: integer) is
             countFurry := countFurry + 1
         end
     end
-    
 end

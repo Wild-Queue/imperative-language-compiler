@@ -332,6 +332,11 @@ bool CodeGenerator::visitT_ROUTIN_DECL(Node *node){
             return false;
         }
         string params = this->getReturnString();
+        
+        if (id_def == "main" && params != "int system"){
+            cout << "Error: incorrect input parameters in the main function" << endl;
+            exit(1);
+        }
 
         if(visitBody(node->nodes[2]) == false){
             cout << "T_ROUTIN_DECL Error" << endl;

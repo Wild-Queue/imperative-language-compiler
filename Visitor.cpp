@@ -506,7 +506,7 @@ bool Visitor::visitRecordType(Node *node){
 
         unordered_map<string, Type*> stateCopy = this->state;
         for (auto iterator : node->nodes){
-            if (iterator->token.token == 291){
+            if (iterator->token.token == 291 || iterator->token.token == 289){
                 cout << "Error: such declaration is not allowded in the record decl" << endl;
                 exit(1);
             }

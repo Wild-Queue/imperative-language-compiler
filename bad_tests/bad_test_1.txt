@@ -1,0 +1,8 @@
+routine main(system: integer) is
+    var countFurry is 0
+    var students : array[2] array[1] integer
+    students[1][1] := 1
+    students[1][0] := 1
+    students[4][0] := 1
+    print(students[1][0])
+end

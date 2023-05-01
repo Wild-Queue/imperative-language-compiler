@@ -64,4 +64,5 @@ int main(int argc, char *argv[])
     v2.DEBUG = false;
     v2.visitProgram(root_1);
     v2.printAll();
+    v2.safeCSFile();
 }

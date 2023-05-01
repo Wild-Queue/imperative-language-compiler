@@ -11,10 +11,3 @@ routine fib(n: integer, return_variable : int_return) : integer is
     print(a)
     return(a)
 end
-
-routine main(system: integer) is
-    var b : int_return
-    b.ans := 2
-    var c is 0
-    fib(c, b)
-end
