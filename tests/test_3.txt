@@ -1,4 +1,4 @@
-type int_return is record var ans is 0 end
+type int_return is record var ans : integer end
 routine fib(n: integer, return_variable : int_return) : integer is
     var a is 0
     var b is 1

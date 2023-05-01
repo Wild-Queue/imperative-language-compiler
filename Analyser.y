@@ -13,7 +13,7 @@
     void yyerror(std::string s) {
         cout << "Syntax Error in the line " << line_no << endl;
         //cerr << s << ", line " << yylineno << endl;
-        exit(0);
+        exit(1);
     };
 
     typedef struct {

@@ -118,8 +118,8 @@ enum NONTERMINAL{
 };
 
 #endif
-#ifndef VISITOR_PATTERN
-#define VISITOR_PATTERN
+#ifndef CODEGENERATOR_PATTERN
+#define CODEGENERATOR_PATTERN
 
 #include "../NodeDecl.h"
 #include <string>
@@ -129,8 +129,40 @@ enum NONTERMINAL{
 
 using namespace std;
 class CodeGenerator {
-
+    std::string returnString = "";
+    int structNum = 0;
   public:
+    std::string header = "using System;";
+    std::string main_call = "main();";
+    std::string struct_decls = "";
+    std::string program_decls = "";
+
+    void addHeader(std::string header){
+      this->header += header;
+    };
+    void addStructDecls(std::string struct_decls){
+      this->struct_decls += struct_decls;
+    };
+    void addProgramDecls(std::string program_decls){
+      this->program_decls += program_decls;
+    };
+    void setReturnString(std::string returnString){
+      this->returnString = returnString;
+      // cout << returnString << endl;
+    };
+    std::string getReturnString(){
+      string copy = this->returnString;
+      this->returnString = "";
+      return copy;
+    };
+
+    void printAll(){
+      cout << this->header << endl;
+      cout << this->main_call << endl;
+      cout << this->program_decls << endl;
+      cout << this->struct_decls << endl;
+    };
+
     bool DEBUG = 0;
     bool visitProgram(Node* node);
     bool visitSimpleDeclaration(Node* node);

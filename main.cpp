@@ -3,10 +3,11 @@
 #include <string>
 #include "Analyser.tab.c"
 #include "Visitor.h"
+#include "CodeGeneration/CodeGenerator.h"
 using namespace std;
-string inputFile = "input_1.txt";
+string inputFile = "tests/test_0.txt";
 
-
+ 
 void drawTree(Node *root, int depth, bool lastChild[])
 {
     if (root == nullptr)
@@ -56,4 +57,11 @@ int main(int argc, char *argv[])
     Visitor v = Visitor();
     v.DEBUG = true;
     v.visitProgram(root_1);
+
+    cout << "Typecheck ends;" << endl << endl << endl;
+    cout << "Code Generation starts;" << endl;
+    CodeGenerator v2 = CodeGenerator();
+    v2.DEBUG = false;
+    v2.visitProgram(root_1);
+    v2.printAll();
 }

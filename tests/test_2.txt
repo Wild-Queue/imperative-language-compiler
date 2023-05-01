@@ -1,6 +1,6 @@
 routine main(system: integer) is
     var countFurry is 0
-    type students is array[2] record
+    var students : array[2] record
         var furry: boolean
         var age: integer
     end

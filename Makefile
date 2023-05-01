@@ -1,12 +1,12 @@
 all: Analyser
 
-Analyser: lex.yy.c NodeDecl.cpp Visitor.cpp TypeClass.cpp main.cpp
-	c++ lex.yy.c NodeDecl.cpp Visitor.cpp TypeClass.cpp main.cpp -o Analyser
+Analyser: lex.yy.c NodeDecl.cpp Visitor.cpp TypeClass.cpp main.cpp Analyser.tab.cpp Analyser.tab.h CodeGeneration/CodeGenerator.h CodeGeneration/CodeGenerator.cpp
+	c++ lex.yy.c NodeDecl.cpp Visitor.cpp CodeGeneration/CodeGenerator.cpp TypeClass.cpp main.cpp -o Analyser
 
 lex.yy.c: Analyser.lex
 	lex Analyser.lex
 
-Analyser.tab.cpp Analyser.tab.hpp: Analyser.y
+Analyser.tab.cpp Analyser.tab.h: Analyser.y
 	bison -d Analyser.y
 
 clean:

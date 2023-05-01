@@ -322,7 +322,17 @@ bool Visitor::visitT_ROUTIN_DECL(Node *node){
                         cout << "return true; T_ROUTIN_DECL" << endl; /*DEBUG*/
                     return true;
                 }
+                else{
+                    cout << "T_ROUTIN_DECL Error" << endl;
+                    exit(1);
+                    return false;
+                }
                 this->state = stateCopy;
+            }
+            else{
+                cout << "T_ROUTIN_DECL Error" << endl;
+                exit(1);
+                return false;
             }
         }else{
             cout << "T_ROUTIN_DECL Error" << endl;
@@ -453,6 +463,7 @@ bool Visitor::visitPrimitiveType(Node *node){
             break;
         default:
             cout << "Default type" << endl;
+            exit(1);
             break;
         }
 
@@ -495,6 +506,10 @@ bool Visitor::visitRecordType(Node *node){
 
         unordered_map<string, Type*> stateCopy = this->state;
         for (auto iterator : node->nodes){
+            if (iterator->token.token == 291){
+                cout << "Error: such declaration is not allowded in the record decl" << endl;
+                exit(1);
+            }
             if (visitVariableDeclaration(iterator)){
                 string currentName = this->varName;
                 Type* currentType = getReturnType("visitRecordType");
