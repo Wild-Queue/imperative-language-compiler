@@ -124,6 +124,7 @@ enum NONTERMINAL{
 #include "NodeDecl.h"
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include "TypeClass.h"
 
 
@@ -136,6 +137,7 @@ class Visitor {
     };
     
     unordered_map<string, Type*> state; 
+    unordered_set<string> typeNames;
     Type* returnType = nullptr;
     string varName = "";
     Type* expectedType = nullptr;

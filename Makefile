@@ -38,9 +38,11 @@ test: Analyser
 
 run: Analyser
 ifeq ($(file),)
+	cd Result/ && dotnet new console --force
 	./Analyser
 	cd Result/ && dotnet run
 else
+	cd Result/ && dotnet new console --force
 	./Analyser $(file)
 	cd Result/ && dotnet run
 endif

@@ -112,7 +112,7 @@ bool CodeGenerator::visitT_VAR_DECL_COLON_IS(Node *node){
         string expr = this->getReturnString();
 
         /*Convert to C# code*/
-        this->setReturnString(type + " " + id_def + " = " + expr + ";");
+        this->setReturnString(type + " " + id_def + " = " + expr + ";\n");
         /*Example of C# code*/
         // int a = 1;
         // string b = "hello";
@@ -155,10 +155,10 @@ bool CodeGenerator::visitT_VAR_DECL_COLON(Node *node){
                     type.find("char") != std::string::npos ||
                         type.find("bool") != std::string::npos) && 
                             type.find("[") == std::string::npos){
-            return_str = type + " " + id_def + ";";
+            return_str = type + " " + id_def + ";\n";
         }
         else{
-            return_str = "var " + id_def + " = new " + type + ";";
+            return_str = "var " + id_def + " = new " + type + ";\n";
         }
 
         /*Convert to C# code*/
@@ -196,7 +196,7 @@ bool CodeGenerator::visitT_VAR_DECL_IS(Node *node){
         }
         string expr = this->getReturnString();
 
-        this->setReturnString("var " + id_def + " = " + expr + ";");
+        this->setReturnString("var " + id_def + " = " + expr + ";\n");
         
         if (DEBUG)
             cout << "return true; T_VAR_DECL_IS" << endl; /*DEBUG*/
@@ -228,7 +228,7 @@ bool CodeGenerator::visitT_TYPE_DECL_IS(Node *node){
         /*C# type declaration example*/
         // using MyAlias = List<Tuple<int, string, int>>
 
-        this->addHeader("using " + id_def + " = " + type + ";");
+        this->addHeader("using " + id_def + " = " + type + ";\n");
 
         if (DEBUG)
             cout << "return true; T_TYPE_DECL_IS" << endl; /*DEBUG*/
@@ -300,7 +300,7 @@ bool CodeGenerator::visitT_ROUTIN_DECL_TYPE(Node *node){
             }
             string ret_type = this->getReturnString();
 
-            this->setReturnString(ret_type + " " + id_def + "(" + params + "){};");
+            this->setReturnString(ret_type + " " + id_def + "(" + params + "){};\n");
             /*void main(int a, int b){}*/
 
             if (DEBUG)
@@ -520,7 +520,7 @@ bool CodeGenerator::visitRecordType(Node *node){
         string recurd_name = "__unnamed_struct_number_" + to_string(this->structNum) + "__";
         this->structNum++;
 
-        this->addStructDecls("struct " + recurd_name + "{" + str_fields + "};");
+        this->addStructDecls("struct " + recurd_name + "{" + str_fields + "};\n");
         this->setReturnString(recurd_name);
 
         if (DEBUG)
@@ -616,7 +616,7 @@ bool CodeGenerator::visitT_RETURN(Node *node){
         
         string expr = this->getReturnString();
 
-        this->setReturnString("return " + expr + ";");
+        this->setReturnString("return " + expr + ";\n");
         
         if (DEBUG)
             cout << "return true; T_RETURN" << endl; /*DEBUG*/
@@ -638,7 +638,7 @@ bool CodeGenerator::visitT_PRINT(Node *node){
 
         string expr = this->getReturnString();
 
-        this->setReturnString("Console.WriteLine(" + expr + ");");
+        this->setReturnString("Console.WriteLine(" + expr + ");\n");
         
         if (DEBUG)
             cout << "return true; T_PRINT" << endl; /*DEBUG*/
@@ -671,7 +671,7 @@ bool CodeGenerator::visitT_IF_ELSE(Node *node){
         }
         string expr = this->getReturnString();
         
-        if ( visitBody(node->nodes[1]) == false){
+        if (visitBody(node->nodes[1]) == false){
             cout << "T_IF_ELSE Error" << endl;
             exit(1);
             return false;
@@ -685,7 +685,7 @@ bool CodeGenerator::visitT_IF_ELSE(Node *node){
         }
         string body_else = this->getReturnString();
 
-        this->setReturnString("if (" + expr + "){ " + body_if + "} else { " + body_else + "};");
+        this->setReturnString("if (" + expr + "){ " + body_if + "} else { " + body_else + "};\n");
         if (DEBUG)
             cout << "return true; T_IF_ELSE" << endl; /*DEBUG*/
         return true;
@@ -713,7 +713,7 @@ bool CodeGenerator::visitT_IF(Node *node){
         }
         string body = this->getReturnString();
 
-        this->setReturnString("if (" + expr + "){ " + body + "};");
+        this->setReturnString("if (" + expr + "){ " + body + "};\n");
 
         if (DEBUG)
             cout << "return true; T_IF" << endl; /*DEBUG*/
@@ -771,7 +771,7 @@ bool CodeGenerator::visitForLoop(Node *node){
 
         string for_condition = "(int " + id_def + "=" + first + "; " + id_def + " < " + last + "; " + id_def + modifier + ")";
 
-        this->setReturnString("for " + for_condition + "{" + body + "};");
+        this->setReturnString("for " + for_condition + "{" + body + "};\n");
 
         if (DEBUG)
             cout << "return true; ForLoop" << endl; /*DEBUG*/
@@ -869,7 +869,7 @@ bool CodeGenerator::visitWhileLoop(Node *node){
         }
         string body = this->getReturnString();
 
-        this->setReturnString("while (" + expr + "){ " + body + "};");
+        this->setReturnString("while (" + expr + "){ " + body + "};\n");
         if (DEBUG)
             cout << "return true; WhileLoop" << endl; /*DEBUG*/
         return true;
@@ -908,7 +908,7 @@ bool CodeGenerator::visitRoutineCall(Node *node){
                 args += (", " + expressions[i]);
         }
         
-        this->setReturnString(id_use + "(" + args + ");");
+        this->setReturnString(id_use + "(" + args + ");\n");
         
         if (DEBUG)
             cout << "return true; RoutineCall" << endl; /*DEBUG*/
@@ -944,7 +944,7 @@ bool CodeGenerator::visitAssignment(Node *node){
         }
         string expression = this->getReturnString();
 
-        this->setReturnString(modifiable_primary + "=" + expression + ";");
+        this->setReturnString(modifiable_primary + "=" + expression + ";\n");
 
         if (DEBUG)
             cout << "return true; Assignment" << endl; /*DEBUG*/
@@ -1520,56 +1520,11 @@ bool CodeGenerator::visitT_FALSE(Node *node){
     return false;
 }
 
-// bool CodeGenerator::visitModifiablePrimary(Node *node){
-//     if (DEBUG)
-//         cout << "Enter; ModifiablePrimary" << endl; /*DEBUG*/
-
-//     if (visitID_ARRAY(node) || visitT_DOT(node)){
-
-//         if (DEBUG)
-//             cout << "return true; ModifiablePrimary" << endl; /*DEBUG*/
-//         return true;
-//     }else{
-//         // cout << "ModifiablePrimary Error " << endl;
-//         // exit(1);
-//         return false;
-//     }
-// }
-
-// bool CodeGenerator::visitT_DOT(Node *node){
-//     if (DEBUG)
-//         cout << "Enter; T_DOT" << endl; /*DEBUG*/
-
-//     if (node->token.token == T_DOT){
-
-//         if (visitID_ARRAY(node->nodes[0])){
-//             if (visitModifiablePrimary(node->nodes[1])){
-
-
-//                 if (DEBUG)
-//                     cout << "return true; T_DOT" << endl; /*DEBUG*/
-//                 return true;
-//             }else{
-//                 cout << "T_DOT Error" << endl;
-//                 exit(1);
-//                 return false;
-//             }
-//         }else{
-//             cout << "T_DOT Error" << endl;
-//             exit(1);
-//             return false;
-//         }
-//     }
-//     return false;
-// }
-
-
 bool CodeGenerator::visitModifiablePrimary(Node *node){
     if (DEBUG)
         cout << "Enter; ModifiablePrimary" << endl; /*DEBUG*/
 
     if (visitID_ARRAY(node) || visitT_DOT(node)){
-
 
         if (DEBUG)
             cout << "return true; ModifiablePrimary" << endl; /*DEBUG*/

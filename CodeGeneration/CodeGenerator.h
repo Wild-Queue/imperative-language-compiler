@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
@@ -164,14 +165,15 @@ class CodeGenerator {
     };
 
     void safeCSFile(){
-      freopen("Result/Program.cs", "wt", stdout);
+      ofstream myfile;
+      myfile.open ("Result/Program.cs");
       
-      cout << this->header << endl;
-      cout << this->main_call << endl;
-      cout << this->program_decls << endl;
-      cout << this->struct_decls << endl;
+      myfile << this->header << endl;
+      myfile << this->main_call << endl;
+      myfile << this->program_decls << endl;
+      myfile << this->struct_decls << endl;
 
-      fclose(stdout);
+      myfile.close();
     }
 
     bool DEBUG = 0;
