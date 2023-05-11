@@ -1,7 +1,7 @@
 all: Analyser
 
-Analyser: lex.yy.c NodeDecl.cpp Visitor.cpp TypeClass.cpp main.cpp Analyser.tab.cpp Analyser.tab.h CodeGeneration/CodeGenerator.h CodeGeneration/CodeGenerator.cpp
-	c++ lex.yy.c NodeDecl.cpp Visitor.cpp CodeGeneration/CodeGenerator.cpp TypeClass.cpp main.cpp -o Analyser
+Analyser: lex.yy.c NodeDecl.cpp Visitor.cpp TypeClass.cpp main.cpp Analyser.tab.cpp Analyser.tab.h CodeGeneration/CodeGenerator.h CodeGeneration/CodeGenerator.cpp REALCodeGeneration/CodeGenerator.h REALCodeGeneration/CodeGenerator.cpp
+	c++ lex.yy.c NodeDecl.cpp Visitor.cpp CodeGeneration/CodeGenerator.cpp REALCodeGeneration/CodeGenerator.cpp TypeClass.cpp main.cpp -o Analyser
 
 lex.yy.c: Analyser.lex
 	lex Analyser.lex
@@ -46,3 +46,15 @@ else
 	./Analyser $(file)
 	cd Result/ && dotnet run
 endif
+
+run-cil: Analyser
+ifeq ($(file),)
+	cd Result/ && dotnet new console --force
+	./Analyser
+else
+	cd Result/ && dotnet new console --force
+	./Analyser $(file)
+endif
+	ilasm Result/Program.il /output=Result/program.exe
+	chmod 755 Result/program.exe
+	./Result/program.exe

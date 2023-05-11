@@ -1,20 +1,9 @@
-using System;using int_return = __unnamed_struct_number_0__;
-
+using System;
 main(1);
-int fib(int n,int_return return_variable){var a = 0;
-var b = 1;
-for (int i=1; i < n; i++){int temp = a;
-a=b;
-b=temp + b;
-};
-return_variable.ans=a;
-Console.WriteLine(a);
-return a;
-}void main(int system){int_return b;
-b.ans=2;
-var c = 0;
-fib(c, b);
+void main(int system){var x = 6;
+int y = 100;
+int z;
+z=y / x;
+Console.WriteLine(z);
 }
-struct __unnamed_struct_number_0__{public int ans;
-};
 

@@ -4,6 +4,7 @@
 #include "Analyser.tab.c"
 #include "Visitor.h"
 #include "CodeGeneration/CodeGenerator.h"
+#include "REALCodeGeneration/CodeGenerator.h"
 using namespace std;
 string inputFile = "tests/test_0.txt";
 
@@ -71,4 +72,11 @@ int main(int argc, char *argv[]){
 
     v2.safeCSFile();
     cout << "Result of the running:" << endl;
+
+    REALCodeGenerator v3 = REALCodeGenerator();
+    v3.DEBUG = false;
+    v3.visitProgram(root_1);
+    v3.printAll();
+    v3.safeCSFile();
+    cout << "End:" << endl;
 }

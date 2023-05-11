@@ -1,0 +1,8 @@
+routine main(system: integer) is
+    var x is 6
+    var y :integer is 100
+    
+    var z : integer
+    z := y / x
+    print(z)
+end
