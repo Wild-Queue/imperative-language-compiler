@@ -4,17 +4,138 @@
 #include <string>
 using namespace std;
 
-bool CodeGenerator::visitProgram(Node *node)
+string convertType(string type)
+{
+    if (type.find("int") != std::string::npos)
+    {
+        return "int32";
+    }
+    if (type.find("double") != std::string::npos)
+    {
+        return "float32";
+    }
+    if (type.find("char") != std::string::npos)
+    {
+        return "char";
+    }
+    if (type.find("bool") != std::string::npos)
+    {
+        return "bool";
+    }
+    return "float32";
+}
+
+string convertValueToType(string value)
+{
+    if (value == "true" || value == "false")
+    {
+        return "bool";
+    }
+
+    if (value.find(".") != std::string::npos)
+    {
+        if (value.size() == 1)
+        {
+            return "char";
+        }
+        else
+        {
+            bool checker = false;
+            for (int i = 0; i < value.size(); i++)
+            {
+                if (!(int('0') <= int(value[i]) && int(value[i]) <= int('9')))
+                {
+                    checker = true;
+                }
+            }
+            if (checker)
+            {
+                cout << "Error: type of constant can not be identified" << endl;
+                exit(1);
+            }
+            else
+            {
+                if (int('0') <= int(value[0]) && int(value[0]) <= int('9') && int('0') <= int(value[value.size() - 1]) && int(value[value.size() - 1]) <= int('9'))
+                {
+                    return "float32";
+                }
+                else
+                {
+                    cout << "Error: type of constant can not be identified" << endl;
+                    exit(1);
+                }
+            }
+        }
+    }
+    else
+    {
+        if (value.size() == 1)
+        {
+            if ((int('0') <= int(value[0]) && int(value[0]) <= int('9')))
+            {
+                return "int32";
+            }
+            else
+            {
+                return "char";
+            }
+        }
+        else
+        {
+            bool checker = false;
+            for (int i = 0; i < value.size(); i++)
+            {
+                if (!(int('0') <= int(value[i]) && int(value[i]) <= int('9')))
+                {
+                    checker = true;
+                }
+            }
+            if (checker)
+            {
+                cout << "Error: type of constant can not be identified" << endl;
+                exit(1);
+            }
+            else
+            {
+                if ('0' != value[0])
+                {
+                    return "int32";
+                }
+                else
+                {
+                    cout << "Error: type of constant can not be identified" << endl;
+                    exit(1);
+                }
+            }
+        }
+    }
+    cout << "Error: type of constant can not be identified" << endl;
+    exit(1);
+}
+
+string convertTypeToStackLoad(string type)
+{
+    if (type == "int32")
+        return ".i4 ";
+    if (type == "float32")
+        return ".r4 ";
+    if (type == "bool")
+        return ".i4 ";
+    if (type == "char")
+        return ".i2 ";
+    return ".r4 ";
+}
+
+bool CILCodeGenerator::visitProgram(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Program" << endl;  
+        cout << "Enter; Program" << endl;
 
     if (node->token.token == T_ROOT)
     {
         bool collector = false;
         for (auto iterator : node->nodes)
         {
-            // VariableDeclaration
             collector = visitSimpleDeclaration(iterator); // 0
             if (collector)
                 continue;
@@ -23,7 +144,7 @@ bool CodeGenerator::visitProgram(Node *node)
                 break;
 
             string declaraion = this->getReturnString();
-            this->addProgramDecls(declaraion);
+            this->main_body += declaraion;
         }
         if (collector == false)
         {
@@ -32,73 +153,73 @@ bool CodeGenerator::visitProgram(Node *node)
             return false;
         }
         if (DEBUG)
-            cout << "return true; Program" << endl;  
+            cout << "return true; Program" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitSimpleDeclaration(Node *node)
+bool CILCodeGenerator::visitSimpleDeclaration(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; SimpleDeclaration" << endl;  
+        cout << "Enter; SimpleDeclaration" << endl;
 
     if (visitVariableDeclaration(node) || visitTypeDeclaration(node))
     {
         if (DEBUG)
-            cout << "return true; SimpleDeclaration" << endl;  
+            cout << "return true; SimpleDeclaration" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitVariableDeclaration(Node *node)
+bool CILCodeGenerator::visitVariableDeclaration(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; VariableDeclaration" << endl;  
+        cout << "Enter; VariableDeclaration" << endl;
     if (visitT_VAR_DECL_COLON_IS(node) || visitT_VAR_DECL_COLON(node) || visitT_VAR_DECL_IS(node))
     {
         if (DEBUG)
-            cout << "return true; VariableDeclaration" << endl;  
+            cout << "return true; VariableDeclaration" << endl;
         return true;
     }
     else
         return false;
 }
-bool CodeGenerator::visitTypeDeclaration(Node *node)
+bool CILCodeGenerator::visitTypeDeclaration(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; TypeDeclaration" << endl;  
+        cout << "Enter; TypeDeclaration" << endl;
 
     if (visitT_TYPE_DECL_IS(node))
     {
         if (DEBUG)
-            cout << "return true; TypeDeclaration" << endl;  
+            cout << "return true; TypeDeclaration" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitRoutineDeclaration(Node *node)
+bool CILCodeGenerator::visitRoutineDeclaration(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; RoutineDeclaration" << endl;  
+        cout << "Enter; RoutineDeclaration" << endl;
 
     if (visitT_ROUTIN_DECL_TYPE(node) || visitT_ROUTIN_DECL(node))
     {
         if (DEBUG)
-            cout << "return true; RoutineDeclaration" << endl;  
+            cout << "return true; RoutineDeclaration" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitT_VAR_DECL_COLON_IS(Node *node)
+bool CILCodeGenerator::visitT_VAR_DECL_COLON_IS(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_VAR_DECL_COLON_IS" << endl;  
+        cout << "Enter; T_VAR_DECL_COLON_IS" << endl;
 
     if (node->token.token == T_VAR_DECL_COLON_IS)
     {
@@ -125,19 +246,28 @@ bool CodeGenerator::visitT_VAR_DECL_COLON_IS(Node *node)
             return false;
         }
         string expr = this->getReturnString();
-        this->setReturnString(type + " " + id_def + " = " + expr + ";\n");
+
+        this->var_to_num[id_def] = to_string(this->new_var_num);
+        this->new_var_num++;
+
+        string il_type = convertType(type);
+        string init_locals = ".locals init ([" + this->var_to_num[id_def] + "] " + il_type + " " + id_def + ")" + "\n";
+        string load_to_var = "ldc" + convertTypeToStackLoad(il_type) + expr + "\n";
+        load_to_var += "stloc." + this->var_to_num[id_def] + "\n";
+        this->setReturnString(init_locals + load_to_var + "\n");
+        this->state[id_def] = il_type;
 
         if (DEBUG)
-            cout << "return true; T_VAR_DECL_COLON_IS" << endl;  
+            cout << "return true; T_VAR_DECL_COLON_IS" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_VAR_DECL_COLON(Node *node)
+bool CILCodeGenerator::visitT_VAR_DECL_COLON(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_VAR_DECL_COLON" << endl;  
+        cout << "Enter; T_VAR_DECL_COLON" << endl;
 
     if (node->token.token == T_VAR_DECL_COLON)
     {
@@ -157,38 +287,30 @@ bool CodeGenerator::visitT_VAR_DECL_COLON(Node *node)
         }
         string type = this->getReturnString();
 
-        string return_str = "";
-        if ((type.find("int") != std::string::npos ||
-             type.find("double") != std::string::npos ||
-             type.find("char") != std::string::npos ||
-             type.find("bool") != std::string::npos) &&
-            type.find("[") == std::string::npos)
-        {
-            return_str = type + " " + id_def + ";\n";
-        }
-        else
-        {
-            return_str = "var " + id_def + " = new " + type + ";\n";
-        }
+        this->var_to_num[id_def] = to_string(this->new_var_num);
+        this->new_var_num++;
 
-        this->setReturnString(return_str);
+        string il_type = convertType(type);
+        string init_locals = ".locals init ([" + this->var_to_num[id_def] + "] " + il_type + " " + id_def + ")" + "\n";
+        this->state[id_def] = il_type;
+        this->setReturnString(init_locals + "\n");
 
         if (DEBUG)
-            cout << "return true; T_VAR_DECL_COLON" << endl;  
+            cout << "return true; T_VAR_DECL_COLON" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_VAR_DECL_IS(Node *node)
+bool CILCodeGenerator::visitT_VAR_DECL_IS(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_VAR_DECL_IS" << endl;  
+        cout << "Enter; T_VAR_DECL_IS" << endl;
 
     if (node->token.token == T_VAR_DECL_IS)
     {
         if (visitT_ID_define(node->nodes[0]) == false)
         {
-            cout << "T_VAR_DECL_IS Error" << endl;
+            cout << "Variable declaration name error" << endl;
             exit(1);
             return false;
         }
@@ -196,26 +318,34 @@ bool CodeGenerator::visitT_VAR_DECL_IS(Node *node)
 
         if (visitExpression(node->nodes[1]) == false)
         {
-            cout << "T_VAR_DECL_IS Error" << endl;
+            cout << "Variable declaration expression error" << endl;
             exit(1);
             return false;
         }
         string expr = this->getReturnString();
 
-        this->setReturnString("var " + id_def + " = " + expr + ";\n");
+        this->var_to_num[id_def] = to_string(this->new_var_num);
+        this->new_var_num++;
+
+        string il_type = convertValueToType(expr);
+        string init_locals = ".locals init ([" + this->var_to_num[id_def] + "] " + il_type + " " + id_def + ")" + "\n";
+        string load_to_var = "ldc" + convertTypeToStackLoad(il_type) + expr + "\n";
+        load_to_var += "stloc." + this->var_to_num[id_def] + "\n";
+        this->state[id_def] = il_type;
+        this->setReturnString(init_locals + load_to_var + "\n");
 
         if (DEBUG)
-            cout << "return true; T_VAR_DECL_IS" << endl;  
+            cout << "return true; T_VAR_DECL_IS" << endl;
         return true;
     }
 
     return false;
 };
 
-bool CodeGenerator::visitT_TYPE_DECL_IS(Node *node)
+bool CILCodeGenerator::visitT_TYPE_DECL_IS(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_TYPE_DECL_IS" << endl;  
+        cout << "Enter; T_TYPE_DECL_IS" << endl;
 
     if (node->token.token == T_TYPE_DECL_IS)
     {
@@ -235,22 +365,17 @@ bool CodeGenerator::visitT_TYPE_DECL_IS(Node *node)
         }
         string type = this->getReturnString();
 
-        /*C# type declaration example*/
-        // using MyAlias = List<Tuple<int, string, int>>
-
-        this->addHeader("using " + id_def + " = " + type + ";\n");
-
         if (DEBUG)
-            cout << "return true; T_TYPE_DECL_IS" << endl;  
+            cout << "return true; T_TYPE_DECL_IS" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_ROUTIN_DECL_TYPE(Node *node)
+bool CILCodeGenerator::visitT_ROUTIN_DECL_TYPE(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_ROUTIN_DECL_TYPE" << endl;  
+        cout << "Enter; T_ROUTIN_DECL_TYPE" << endl;
 
     if (node->token.token == T_ROUTIN_DECL_TYPE)
     {
@@ -289,10 +414,9 @@ bool CodeGenerator::visitT_ROUTIN_DECL_TYPE(Node *node)
             string body = this->getReturnString();
 
             this->setReturnString(ret_type + " " + id_def + "(" + params + "){" + body + "}");
-            /*void main(int a, int b){ Console.WriteLine(a + b);}*/
 
             if (DEBUG)
-                cout << "return true; T_ROUTIN_DECL_TYPE" << endl;  
+                cout << "return true; T_ROUTIN_DECL_TYPE" << endl;
             return true;
         }
         else
@@ -322,25 +446,22 @@ bool CodeGenerator::visitT_ROUTIN_DECL_TYPE(Node *node)
             string ret_type = this->getReturnString();
 
             this->setReturnString(ret_type + " " + id_def + "(" + params + "){};\n");
-            /*void main(int a, int b){}*/
 
             if (DEBUG)
-                cout << "return true; T_ROUTIN_DECL_TYPE" << endl;  
+                cout << "return true; T_ROUTIN_DECL_TYPE" << endl;
             return true;
         }
     }
     return false;
-    // if (exist Body)
-    //     Body
 }
 
-bool CodeGenerator::visitT_ROUTIN_DECL(Node *node)
+bool CILCodeGenerator::visitT_ROUTIN_DECL(Node *node)
 {
 
     if (node->token.token == T_ROUTIN_DECL)
     {
         if (DEBUG)
-            cout << "Enter; T_ROUTIN_DECL" << endl;  
+            cout << "Enter; T_ROUTIN_DECL" << endl;
 
         if (visitT_ID_define(node->nodes[0]) == false)
         {
@@ -372,18 +493,18 @@ bool CodeGenerator::visitT_ROUTIN_DECL(Node *node)
         }
         string body = this->getReturnString();
 
-        this->setReturnString("void " + id_def + "(" + params + "){" + body + "}"); // dynamic - for any type
+        this->setReturnString(body);
         if (DEBUG)
-            cout << "return true; T_ROUTIN_DECL" << endl;  
+            cout << "return true; T_ROUTIN_DECL" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitParameters(Node *node)
+bool CILCodeGenerator::visitParameters(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Parameters" << endl;  
+        cout << "Enter; Parameters" << endl;
 
     if (node->token.token == T_PARAMETERS)
     {
@@ -419,15 +540,15 @@ bool CodeGenerator::visitParameters(Node *node)
         this->setReturnString(param);
 
         if (DEBUG)
-            cout << "return true; Parameters" << endl;  
+            cout << "return true; Parameters" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitParameterDeclaration(Node *node)
+bool CILCodeGenerator::visitParameterDeclaration(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; ParameterDeclaration" << endl;  
+        cout << "Enter; ParameterDeclaration" << endl;
 
     if (node->token.token == T_COLON)
     {
@@ -450,31 +571,31 @@ bool CodeGenerator::visitParameterDeclaration(Node *node)
         this->setReturnString(type + " " + id_def);
 
         if (DEBUG)
-            cout << "return true; ParameterDeclaration" << endl;  
+            cout << "return true; ParameterDeclaration" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitType(Node *node)
+bool CILCodeGenerator::visitType(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Type" << endl;  
+        cout << "Enter; Type" << endl;
 
     if (visitPrimitiveType(node) || visitArrayType(node) || visitRecordType(node) || visitT_ID_use(node))
     {
         if (DEBUG)
-            cout << "return true; Type" << endl;  
+            cout << "return true; Type" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitPrimitiveType(Node *node)
+bool CILCodeGenerator::visitPrimitiveType(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; PrimitiveType" << endl;  
+        cout << "Enter; PrimitiveType" << endl;
 
     if (node->token.token == T_INTEGER || node->token.token == T_REAL || node->token.token == T_BOOLEAN || node->token.token == T_CHAR)
     {
@@ -499,17 +620,17 @@ bool CodeGenerator::visitPrimitiveType(Node *node)
         }
 
         if (DEBUG)
-            cout << "return true; PrimitiveType" << endl;  
+            cout << "return true; PrimitiveType" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitArrayType(Node *node)
+bool CILCodeGenerator::visitArrayType(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; ArrayType" << endl;  
+        cout << "Enter; ArrayType" << endl;
 
     if (node->token.token == T_ARRAY)
     {
@@ -531,16 +652,16 @@ bool CodeGenerator::visitArrayType(Node *node)
 
         this->setReturnString(type + "[" + expr + "+1]");
         if (DEBUG)
-            cout << "return true; ArrayType" << endl;  
+            cout << "return true; ArrayType" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitRecordType(Node *node)
+bool CILCodeGenerator::visitRecordType(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; RecordType" << endl;  
+        cout << "Enter; RecordType" << endl;
 
     if (node->token.token == T_RECORD)
     {
@@ -564,52 +685,52 @@ bool CodeGenerator::visitRecordType(Node *node)
         string recurd_name = "__unnamed_struct_number_" + to_string(this->structNum) + "__";
         this->structNum++;
 
-        this->addStructDecls("struct " + recurd_name + "{" + str_fields + "};\n");
+        // this->addStructDecls("struct " + recurd_name + "{" + str_fields + "};\n");
         this->setReturnString(recurd_name);
 
         if (DEBUG)
-            cout << "return true; RecordType" << endl;  
+            cout << "return true; RecordType" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_ID_define(Node *node)
+bool CILCodeGenerator::visitT_ID_define(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_ID " << node->token.lexeme << endl;  
+        cout << "Enter; T_ID " << node->token.lexeme << endl;
 
     if (node->token.token == T_ID)
     {
         this->setReturnString(node->token.lexeme);
 
         if (DEBUG)
-            cout << "return true; T_ID" << endl;  
+            cout << "return true; T_ID" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_ID_use(Node *node)
+bool CILCodeGenerator::visitT_ID_use(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_ID " << node->token.lexeme << endl;  
+        cout << "Enter; T_ID " << node->token.lexeme << endl;
 
     if (node->token.token == T_ID)
     {
         this->setReturnString(node->token.lexeme);
 
         if (DEBUG)
-            cout << "return true; T_ID" << endl;  
+            cout << "return true; T_ID" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitBody(Node *node)
+bool CILCodeGenerator::visitBody(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Body" << endl;  
+        cout << "Enter; Body" << endl;
 
     if (node->token.token == T_BODY)
     {
@@ -638,31 +759,31 @@ bool CodeGenerator::visitBody(Node *node)
         this->setReturnString(str_statements);
 
         if (DEBUG)
-            cout << "return true; Body" << endl;  
+            cout << "return true; Body" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitStatement(Node *node)
+bool CILCodeGenerator::visitStatement(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Statement" << endl;  
+        cout << "Enter; Statement" << endl;
 
     if (visitAssignment(node) || visitRoutineCall(node) || visitWhileLoop(node) || visitForLoop(node) || visitIfStatement(node) || visitT_RETURN(node) || visitT_PRINT(node))
     {
         if (DEBUG)
-            cout << "return true; Statement" << endl;  
+            cout << "return true; Statement" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitT_RETURN(Node *node)
+bool CILCodeGenerator::visitT_RETURN(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_RETURN" << endl;  
+        cout << "Enter; T_RETURN" << endl;
 
     if (node->token.token == T_RETURN)
     {
@@ -678,16 +799,16 @@ bool CodeGenerator::visitT_RETURN(Node *node)
         this->setReturnString("return " + expr + ";\n");
 
         if (DEBUG)
-            cout << "return true; T_RETURN" << endl;  
+            cout << "return true; T_RETURN" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_PRINT(Node *node)
+bool CILCodeGenerator::visitT_PRINT(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_PRINT" << endl;  
+        cout << "Enter; T_PRINT" << endl;
 
     if (node->token.token == T_PRINT)
     {
@@ -699,35 +820,35 @@ bool CodeGenerator::visitT_PRINT(Node *node)
         }
 
         string expr = this->getReturnString();
-
-        this->setReturnString("Console.WriteLine(" + expr + ");\n");
+        string first_num = this->var_to_num[expr];
+        this->setReturnString("ldloc." + first_num + "\ncall void [mscorlib]System.Console::WriteLine(" + this->state[expr] + ")\n");
 
         if (DEBUG)
-            cout << "return true; T_PRINT" << endl;  
+            cout << "return true; T_PRINT" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitIfStatement(Node *node)
+bool CILCodeGenerator::visitIfStatement(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; IfStatement" << endl;  
+        cout << "Enter; IfStatement" << endl;
 
     if (visitT_IF_ELSE(node) || visitT_IF(node))
     {
         if (DEBUG)
-            cout << "return true; IfStatement" << endl;  
+            cout << "return true; IfStatement" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitT_IF_ELSE(Node *node)
+bool CILCodeGenerator::visitT_IF_ELSE(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_IF_ELSE" << endl;  
+        cout << "Enter; T_IF_ELSE" << endl;
 
     if (node->token.token == T_IF_ELSE)
     {
@@ -757,17 +878,16 @@ bool CodeGenerator::visitT_IF_ELSE(Node *node)
 
         this->setReturnString("if (" + expr + "){ " + body_if + "} else { " + body_else + "};\n");
         if (DEBUG)
-            cout << "return true; T_IF_ELSE" << endl;  
+            cout << "return true; T_IF_ELSE" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_IF(Node *node)
+bool CILCodeGenerator::visitT_IF(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_IF" << endl;  
-                                       // Node
+        cout << "Enter; T_IF" << endl;
 
     if (node->token.token == T_IF)
     {
@@ -790,33 +910,37 @@ bool CodeGenerator::visitT_IF(Node *node)
         this->setReturnString("if (" + expr + "){ " + body + "};\n");
 
         if (DEBUG)
-            cout << "return true; T_IF" << endl;  
+            cout << "return true; T_IF" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitForLoop(Node *node)
+bool CILCodeGenerator::visitForLoop(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; ForLoop" << endl;  
+        cout << "Enter; ForLoop" << endl;
 
-    if (node->token.token == T_FOR){
-        if (visitT_ID_define(node->nodes[0]) == false){
+    if (node->token.token == T_FOR)
+    {
+        if (visitT_ID_define(node->nodes[0]) == false)
+        {
             cout << "T_FOR Error" << endl;
             exit(1);
             return false;
         }
         string id_def = this->getReturnString();
 
-        if (visitRange(node->nodes[1]) == false){
+        if (visitRange(node->nodes[1]) == false)
+        {
             cout << "T_FOR Error" << endl;
             exit(1);
             return false;
         }
         string range = this->getReturnString();
 
-        if (visitBody(node->nodes[2]) == false){
+        if (visitBody(node->nodes[2]) == false)
+        {
             cout << "T_FOR Error" << endl;
             exit(1);
             return false;
@@ -827,15 +951,19 @@ bool CodeGenerator::visitForLoop(Node *node)
         string last = "";
         string modifier = "";
         int i = 0;
-        for (; i < range.size(); i++){
-            if (range[i] == '|'){
+        for (; i < range.size(); i++)
+        {
+            if (range[i] == '|')
+            {
                 i++;
                 break;
             }
             first += range[i];
         }
-        for (; i < range.size(); i++){
-            if (range[i] == '|'){
+        for (; i < range.size(); i++)
+        {
+            if (range[i] == '|')
+            {
                 i++;
                 break;
             }
@@ -849,30 +977,30 @@ bool CodeGenerator::visitForLoop(Node *node)
         this->setReturnString("for " + for_condition + "{" + body + "};\n");
 
         if (DEBUG)
-            cout << "return true; ForLoop" << endl;  
+            cout << "return true; ForLoop" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitRange(Node *node)
+bool CILCodeGenerator::visitRange(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Range" << endl;  
+        cout << "Enter; Range" << endl;
 
     if (visitT_IN(node) || visitT_IN_REVERSE(node))
     {
         if (DEBUG)
-            cout << "return true; Range" << endl;  
+            cout << "return true; Range" << endl;
         return true;
     }
     else
         return false;
 }
 
-bool CodeGenerator::visitT_IN(Node *node)
+bool CILCodeGenerator::visitT_IN(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_IN" << endl;  
+        cout << "Enter; T_IN" << endl;
 
     if (node->token.token == T_IN)
     {
@@ -895,21 +1023,21 @@ bool CodeGenerator::visitT_IN(Node *node)
         this->setReturnString(expr_1 + "|" + expr_2 + "|" + "++");
 
         if (DEBUG)
-            cout << "return true; T_IN" << endl;  
+            cout << "return true; T_IN" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_IN_REVERSE(Node *node)
+bool CILCodeGenerator::visitT_IN_REVERSE(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_IN_REVERSE" << endl;  
+        cout << "Enter; T_IN_REVERSE" << endl;
 
     if (node->token.token == T_IN_REVERSE)
     {
         if (DEBUG)
-            cout << "return true; T_IN_REVERSE" << endl;  
+            cout << "return true; T_IN_REVERSE" << endl;
 
         if (visitExpression(node->nodes[0]))
         {
@@ -930,16 +1058,16 @@ bool CodeGenerator::visitT_IN_REVERSE(Node *node)
         this->setReturnString(expr_1 + "|" + expr_2 + "|" + "--");
 
         if (DEBUG)
-            cout << "return true; T_IN_REVERSE" << endl;  
+            cout << "return true; T_IN_REVERSE" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitWhileLoop(Node *node)
+bool CILCodeGenerator::visitWhileLoop(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; WhileLoop" << endl;  
+        cout << "Enter; WhileLoop" << endl;
 
     if (node->token.token == T_WHILE)
     {
@@ -961,32 +1089,33 @@ bool CodeGenerator::visitWhileLoop(Node *node)
 
         this->setReturnString("while (" + expr + "){ " + body + "};\n");
         if (DEBUG)
-            cout << "return true; WhileLoop" << endl;  
+            cout << "return true; WhileLoop" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitRoutineCall(Node *node)
+bool CILCodeGenerator::visitRoutineCall(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; RoutineCall" << endl;  
+        cout << "Enter; RoutineCall" << endl;
 
-    // Node
     if (node->token.token == T_ROUTINE_CALL)
     {
-        if (visitT_ID_use(node->nodes[0]) == false){
-            cout << "routine call function name error" << endl;
+        if (visitT_ID_use(node->nodes[0]) == false)
+        {
+            cout << "T_ROUTINE_CALL 1" << endl;
             exit(1);
             return false;
         }
         string id_use = this->getReturnString();
 
         vector<string> expressions;
-        for (auto iterator : vector<Node *>(node->nodes.begin() + 1, node->nodes.end())){
+        for (auto iterator : vector<Node *>(node->nodes.begin() + 1, node->nodes.end()))
+        {
             if (visitExpression(iterator) == false)
             {
-                cout << "routine call parameters error" << endl;
+                cout << "T_ROUTINE_CALL" << endl;
                 exit(1);
                 return false;
             }
@@ -994,7 +1123,8 @@ bool CodeGenerator::visitRoutineCall(Node *node)
             expressions.push_back(expr);
         }
         string args = "";
-        if (expressions.size() > 0){
+        if (expressions.size() > 0)
+        {
             args += expressions[0];
 
             for (int i = 1; i < expressions.size(); i++)
@@ -1004,7 +1134,7 @@ bool CodeGenerator::visitRoutineCall(Node *node)
         this->setReturnString(id_use + "(" + args + ");\n");
 
         if (DEBUG)
-            cout << "return true; RoutineCall" << endl;  
+            cout << "return true; RoutineCall" << endl;
         return true;
     }
 
@@ -1013,64 +1143,64 @@ bool CodeGenerator::visitRoutineCall(Node *node)
         this->setReturnString(node->token.lexeme);
 
         if (DEBUG)
-            cout << "return true; RoutineCall" << endl;  
+            cout << "return true; RoutineCall" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitAssignment(Node *node)
+bool CILCodeGenerator::visitAssignment(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Assignment" << endl;  
+        cout << "Enter; Assignment" << endl;
 
-    if (node->token.token == T_COLONEQU){
-        if (visitModifiablePrimary(node->nodes[0]) == false){
-            cout << "Assignment left value error" << endl;
+    if (node->token.token == T_COLONEQU)
+    {
+        if (visitModifiablePrimary(node->nodes[0]) == false)
+        {
+            cout << "Assignment Error" << endl;
             exit(1);
             return false;
         }
         string modifiable_primary = this->getReturnString();
 
-        if (visitExpression(node->nodes[1]) == false){
-            cout << "Assignment right value error" << endl;
+        if (visitExpression(node->nodes[1]) == false)
+        {
+            cout << "Assignment Error" << endl;
             exit(1);
             return false;
         }
         string expression = this->getReturnString();
 
-        this->setReturnString(modifiable_primary + "=" + expression + ";\n");
+        string num = this->var_to_num[modifiable_primary];
+        this->setReturnString(expression + "stloc." + num + "\n\n");
 
         if (DEBUG)
-            cout << "return true; Assignment" << endl;  
+            cout << "return true; Assignment" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitExpression(Node *node)
+bool CILCodeGenerator::visitExpression(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Expression" << endl;  
+        cout << "Enter; Expression" << endl;
 
     if (visitRelation(node) || visitT_AND(node) || visitT_OR(node) || visitT_XOR(node))
     {
         if (DEBUG)
-            cout << "return true; Expression" << endl;  
+            cout << "return true; Expression" << endl;
         return true;
     }
     else
-    {
-        // cout << "visitExpression " << endl;
-        // exit(1);
         return false;
-    }
 }
 
-bool CodeGenerator::visitT_AND(Node *node)
+bool CILCodeGenerator::visitT_AND(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_AND" << endl;  
+        cout << "Enter; T_AND" << endl;
 
     if (node->token.token == T_AND)
     {
@@ -1093,16 +1223,16 @@ bool CodeGenerator::visitT_AND(Node *node)
         this->setReturnString(expr_1 + " & " + expr_2);
 
         if (DEBUG)
-            cout << "return true; T_AND" << endl;  
+            cout << "return true; T_AND" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_OR(Node *node)
+bool CILCodeGenerator::visitT_OR(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_OR" << endl;  
+        cout << "Enter; T_OR" << endl;
 
     if (node->token.token == T_OR)
     {
@@ -1124,16 +1254,16 @@ bool CodeGenerator::visitT_OR(Node *node)
 
         this->setReturnString(expr_1 + " | " + expr_2);
         if (DEBUG)
-            cout << "return true; T_OR" << endl;  
+            cout << "return true; T_OR" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_XOR(Node *node)
+bool CILCodeGenerator::visitT_XOR(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_XOR" << endl;  
+        cout << "Enter; T_XOR" << endl;
 
     if (node->token.token == T_XOR)
     {
@@ -1155,35 +1285,31 @@ bool CodeGenerator::visitT_XOR(Node *node)
 
         this->setReturnString(expr_1 + " ^ " + expr_2);
         if (DEBUG)
-            cout << "return true; T_XOR" << endl;  
+            cout << "return true; T_XOR" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitRelation(Node *node)
+bool CILCodeGenerator::visitRelation(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Relation" << endl;  
+        cout << "Enter; Relation" << endl;
 
     if (visitSimple(node) || visitT_LESS(node) || visitT_LESSOREQU(node) || visitT_GREAT(node) || visitT_GREATOREQU(node) || visitT_EQU(node) || visitT_NOTEQU(node))
     {
         if (DEBUG)
-            cout << "return true; Relation" << endl;  
+            cout << "return true; Relation" << endl;
         return true;
     }
     else
-    {
-        // cout << "visitRelation " << endl;
-        // exit(1);
         return false;
-    }
 }
 
-bool CodeGenerator::visitT_LESS(Node *node)
+bool CILCodeGenerator::visitT_LESS(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_LESS" << endl;  
+        cout << "Enter; T_LESS" << endl;
 
     if (node->token.token == T_LESS)
     {
@@ -1206,15 +1332,15 @@ bool CodeGenerator::visitT_LESS(Node *node)
         this->setReturnString(simple_1 + "<" + simple_2);
 
         if (DEBUG)
-            cout << "return true; T_LESS" << endl;  
+            cout << "return true; T_LESS" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_LESSOREQU(Node *node)
+bool CILCodeGenerator::visitT_LESSOREQU(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_LESSOREQU" << endl;  
+        cout << "Enter; T_LESSOREQU" << endl;
 
     if (node->token.token == T_LESSOREQU)
     {
@@ -1237,15 +1363,15 @@ bool CodeGenerator::visitT_LESSOREQU(Node *node)
         this->setReturnString(simple_1 + "<=" + simple_2);
 
         if (DEBUG)
-            cout << "return true; T_LESSOREQU" << endl;  
+            cout << "return true; T_LESSOREQU" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_GREAT(Node *node)
+bool CILCodeGenerator::visitT_GREAT(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_GREAT" << endl;  
+        cout << "Enter; T_GREAT" << endl;
 
     if (node->token.token == T_GREAT)
     {
@@ -1268,15 +1394,15 @@ bool CodeGenerator::visitT_GREAT(Node *node)
         this->setReturnString(simple_1 + ">" + simple_2);
 
         if (DEBUG)
-            cout << "return true; T_GREAT" << endl;  
+            cout << "return true; T_GREAT" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_GREATOREQU(Node *node)
+bool CILCodeGenerator::visitT_GREATOREQU(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_GREATOREQU" << endl;  
+        cout << "Enter; T_GREATOREQU" << endl;
 
     if (node->token.token == T_GREATOREQU)
     {
@@ -1300,16 +1426,16 @@ bool CodeGenerator::visitT_GREATOREQU(Node *node)
         this->setReturnString(simple_1 + ">=" + simple_2);
 
         if (DEBUG)
-            cout << "return true; T_GREATOREQU" << endl;  
+            cout << "return true; T_GREATOREQU" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_EQU(Node *node)
+bool CILCodeGenerator::visitT_EQU(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_EQU" << endl;  
+        cout << "Enter; T_EQU" << endl;
     if (node->token.token == T_EQU)
     {
 
@@ -1332,15 +1458,15 @@ bool CodeGenerator::visitT_EQU(Node *node)
         this->setReturnString(simple_1 + "==" + simple_2);
 
         if (DEBUG)
-            cout << "return true; T_EQU" << endl;  
+            cout << "return true; T_EQU" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_NOTEQU(Node *node)
+bool CILCodeGenerator::visitT_NOTEQU(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_NOTEQU" << endl;  
+        cout << "Enter; T_NOTEQU" << endl;
 
     if (node->token.token == T_NOTEQU)
     {
@@ -1363,35 +1489,31 @@ bool CodeGenerator::visitT_NOTEQU(Node *node)
         this->setReturnString(simple_1 + "!=" + simple_2);
 
         if (DEBUG)
-            cout << "return true; T_NOTEQU" << endl;  
+            cout << "return true; T_NOTEQU" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitSimple(Node *node)
+bool CILCodeGenerator::visitSimple(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Simple" << endl;  
+        cout << "Enter; Simple" << endl;
 
     if (visitFactor(node) || visitT_MULTOP(node) || visitT_DIVOP(node) || visitT_MODOP(node))
     {
         if (DEBUG)
-            cout << "return true; Simple" << endl;  
+            cout << "return true; Simple" << endl;
         return true;
     }
     else
-    {
-        // cout << "visitSimple Error" << endl;
-        // exit(1);
         return false;
-    }
 }
 
-bool CodeGenerator::visitT_MULTOP(Node *node)
+bool CILCodeGenerator::visitT_MULTOP(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_MULTOP" << endl;  
+        cout << "Enter; T_MULTOP" << endl;
 
     if (node->token.token == T_MULTOP)
     {
@@ -1410,19 +1532,20 @@ bool CodeGenerator::visitT_MULTOP(Node *node)
             return false;
         }
         string simple = this->getReturnString();
-
-        this->setReturnString(factor + " * " + simple);
+        string first_num = this->var_to_num[factor];
+        string second_num = this->var_to_num[simple];
+        this->setReturnString("ldloc." + first_num + "\nldloc." + second_num + "\nmul\n");
 
         if (DEBUG)
-            cout << "return true; T_MULTOP" << endl;  
+            cout << "return true; T_MULTOP" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_DIVOP(Node *node)
+bool CILCodeGenerator::visitT_DIVOP(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_DIVOP" << endl;  
+        cout << "Enter; T_DIVOP" << endl;
 
     if (node->token.token == T_DIVOP)
     {
@@ -1441,19 +1564,20 @@ bool CodeGenerator::visitT_DIVOP(Node *node)
             return false;
         }
         string simple = this->getReturnString();
-
-        this->setReturnString(factor + " / " + simple);
+        string first_num = this->var_to_num[factor];
+        string second_num = this->var_to_num[simple];
+        this->setReturnString("ldloc." + first_num + "\nldloc." + second_num + "\ndiv\n");
 
         if (DEBUG)
-            cout << "return true; T_DIVOP" << endl;  
+            cout << "return true; T_DIVOP" << endl;
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_MODOP(Node *node)
+bool CILCodeGenerator::visitT_MODOP(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_MODOP" << endl;  
+        cout << "Enter; T_MODOP" << endl;
 
     if (node->token.token == T_MODOP)
     {
@@ -1476,66 +1600,61 @@ bool CodeGenerator::visitT_MODOP(Node *node)
         this->setReturnString(factor + " % " + simple);
 
         if (DEBUG)
-            cout << "return true; T_MODOP" << endl;  
+            cout << "return true; T_MODOP" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitFactor(Node *node)
+bool CILCodeGenerator::visitFactor(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Factor" << endl;  
+        cout << "Enter; Factor" << endl;
 
     if (visitSummand(node) || visitT_ADDOP(node) || visitT_SUBTROP(node))
     {
         if (DEBUG)
-            cout << "return true; Factor" << endl;  
+            cout << "return true; Factor" << endl;
         return true;
     }
     else
-    {
-        // cout << "Factor Error" << endl;
-        // exit(1);
         return false;
-    }
 }
-bool CodeGenerator::visitT_ADDOP(Node *node)
+bool CILCodeGenerator::visitT_ADDOP(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_ADDOP" << endl;  
+        cout << "Enter; T_ADDOP" << endl;
 
     if (node->token.token == T_ADDOP)
     {
-        if (visitSummand(node->nodes[0]) == false)
-        {
-            cout << "T_ADDOP Error" << endl;
+        if (visitSummand(node->nodes[0]) == false){
+            cout << "Sum left part error" << endl;
             exit(1);
             return false;
         }
         string summand = this->getReturnString();
 
-        if (visitFactor(node->nodes[1]) == false)
-        {
-            cout << "T_ADDOP Error" << endl;
+        if (visitFactor(node->nodes[1]) == false){
+            cout << "Sum right part error" << endl;
             exit(1);
             return false;
         }
         string factor = this->getReturnString();
-
-        this->setReturnString(summand + " + " + factor);
+        string first_num = this->var_to_num[summand];
+        string second_num = this->var_to_num[factor];
+        this->setReturnString("ldloc." + first_num + "\nldloc." + second_num + "\nadd\n");
 
         if (DEBUG)
-            cout << "return true; T_ADDOP" << endl;  
+            cout << "return true; T_ADDOP" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitT_SUBTROP(Node *node)
+bool CILCodeGenerator::visitT_SUBTROP(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_SUBTROP" << endl;  
+        cout << "Enter; T_SUBTROP" << endl;
 
     if (node->token.token == T_SUBTROP)
     {
@@ -1555,37 +1674,35 @@ bool CodeGenerator::visitT_SUBTROP(Node *node)
         }
         string factor = this->getReturnString();
 
-        this->setReturnString(summand + " - " + factor);
+        string first_num = this->var_to_num[summand];
+        string second_num = this->var_to_num[factor];
+        this->setReturnString("ldloc." + first_num + "\nldloc." + second_num + "\nsub\n");
 
         if (DEBUG)
-            cout << "return true; T_SUBTROP" << endl;  
+            cout << "return true; T_SUBTROP" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitSummand(Node *node)
+bool CILCodeGenerator::visitSummand(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Summand" << endl;  
+        cout << "Enter; Summand" << endl;
 
     if (visitPrimary(node) || visitT_PARENT(node))
     {
         if (DEBUG)
-            cout << "return true; Summand" << endl;  
+            cout << "return true; Summand" << endl;
         return true;
     }
     else
-    {
-        // cout << "Summand Error" << endl;
-        // exit(1);
         return false;
-    }
 }
-bool CodeGenerator::visitT_PARENT(Node *node)
+bool CILCodeGenerator::visitT_PARENT(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_PARENT" << endl;  
+        cout << "Enter; T_PARENT" << endl;
 
     if (node->token.token == T_PARENT)
     {
@@ -1599,107 +1716,99 @@ bool CodeGenerator::visitT_PARENT(Node *node)
         this->setReturnString("(" + expression + ")");
 
         if (DEBUG)
-            cout << "return true; T_PARENT" << endl;  
+            cout << "return true; T_PARENT" << endl;
         return true;
     }
     else
-    {
-        // cout << "T_PARENT Error" << endl;
-        // exit(1);
         return false;
-    }
 }
 
-bool CodeGenerator::visitPrimary(Node *node)
+bool CILCodeGenerator::visitPrimary(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; Primary" << endl;  
+        cout << "Enter; Primary" << endl;
 
     if (visitT_ICONST(node) || visitT_CCONST(node) || visitT_RCONST(node) || visitT_TRUE(node) || visitT_FALSE(node) || visitModifiablePrimary(node))
     {
         if (DEBUG)
-            cout << "return true; Primary" << endl;  
+            cout << "return true; Primary" << endl;
         return true;
     }
     else
-    {
-        // cout << "Primary Error" << endl;
-        // exit(1);
         return false;
-    }
 }
-bool CodeGenerator::visitT_ICONST(Node *node)
+bool CILCodeGenerator::visitT_ICONST(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_ICONST" << endl;  
+        cout << "Enter; T_ICONST" << endl;
 
     if (node->token.token == T_ICONST)
     {
 
         if (DEBUG)
-            cout << "return true; T_ICONST" << endl;  
+            cout << "return true; T_ICONST" << endl;
         this->setReturnString(node->token.lexeme);
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_CCONST(Node *node)
+bool CILCodeGenerator::visitT_CCONST(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_CCONST" << endl;  
+        cout << "Enter; T_CCONST" << endl;
 
     if (node->token.token == T_CCONST)
     {
 
         if (DEBUG)
-            cout << "return true; T_CCONST" << endl;  
+            cout << "return true; T_CCONST" << endl;
 
         this->setReturnString("'" + node->token.lexeme + "'");
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_RCONST(Node *node)
+bool CILCodeGenerator::visitT_RCONST(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_RCONST" << endl;  
+        cout << "Enter; T_RCONST" << endl;
 
     if (node->token.token == T_RCONST)
     {
 
         if (DEBUG)
-            cout << "return true; T_RCONST" << endl;  
+            cout << "return true; T_RCONST" << endl;
         this->setReturnString(node->token.lexeme);
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_TRUE(Node *node)
+bool CILCodeGenerator::visitT_TRUE(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_TRUE" << endl;  
+        cout << "Enter; T_TRUE" << endl;
 
     if (node->token.token == T_TRUE)
     {
 
         if (DEBUG)
-            cout << "return true; T_TRUE" << endl;  
+            cout << "return true; T_TRUE" << endl;
 
         this->setReturnString("true");
         return true;
     }
     return false;
 }
-bool CodeGenerator::visitT_FALSE(Node *node)
+bool CILCodeGenerator::visitT_FALSE(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_FALSE" << endl;  
+        cout << "Enter; T_FALSE" << endl;
 
     if (node->token.token == T_FALSE)
     {
 
         if (DEBUG)
-            cout << "return true; T_FALSE" << endl;  
+            cout << "return true; T_FALSE" << endl;
 
         this->setReturnString("false");
         return true;
@@ -1707,30 +1816,26 @@ bool CodeGenerator::visitT_FALSE(Node *node)
     return false;
 }
 
-bool CodeGenerator::visitModifiablePrimary(Node *node)
+bool CILCodeGenerator::visitModifiablePrimary(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; ModifiablePrimary" << endl;  
+        cout << "Enter; ModifiablePrimary" << endl;
 
     if (visitID_ARRAY(node) || visitT_DOT(node))
     {
 
         if (DEBUG)
-            cout << "return true; ModifiablePrimary" << endl;  
+            cout << "return true; ModifiablePrimary" << endl;
         return true;
     }
     else
-    {
-        // cout << "ModifiablePrimary Error " << endl;
-        // exit(1);
         return false;
-    }
 }
 
-bool CodeGenerator::visitT_DOT(Node *node)
+bool CILCodeGenerator::visitT_DOT(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_DOT" << endl;  
+        cout << "Enter; T_DOT" << endl;
 
     if (node->token.token == T_DOT)
     {
@@ -1759,44 +1864,39 @@ bool CodeGenerator::visitT_DOT(Node *node)
         this->setReturnString(id_array);
 
         if (DEBUG)
-            cout << "return true; T_DOT" << endl;  
+            cout << "return true; T_DOT" << endl;
         return true;
     }
     return false;
 }
 
-bool CodeGenerator::visitID_ARRAY(Node *node)
+bool CILCodeGenerator::visitID_ARRAY(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; ID_ARRAY" << endl;  
+        cout << "Enter; ID_ARRAY" << endl;
 
     if (visitT_ID_define(node))
     {
 
         if (DEBUG)
-            cout << "return true; ID_ARRAY" << endl;  
+            cout << "return true; ID_ARRAY" << endl;
         return true;
     }
-    // OR
     if (visitT_BRACKS(node))
     {
 
         if (DEBUG)
-            cout << "return true; ID_ARRAY" << endl;  
+            cout << "return true; ID_ARRAY" << endl;
         return true;
     }
     else
-    {
-        // cout << "visitSimple " << endl;
-        // exit(1);
         return false;
-    }
 }
 
-bool CodeGenerator::visitT_BRACKS(Node *node)
+bool CILCodeGenerator::visitT_BRACKS(Node *node)
 {
     if (DEBUG)
-        cout << "Enter; T_BRACKS" << endl;  
+        cout << "Enter; T_BRACKS" << endl;
 
     if (node->token.token == T_BRACKS)
     {
@@ -1816,7 +1916,7 @@ bool CodeGenerator::visitT_BRACKS(Node *node)
             this->setReturnString(id_def + "[" + expr + "]");
 
             if (DEBUG)
-                cout << "return true; T_BRACKS" << endl;  
+                cout << "return true; T_BRACKS" << endl;
             return true;
         }
         else if (node->nodes.size() == 3 && visitT_ID_define(node->nodes[0]))
@@ -1842,7 +1942,7 @@ bool CodeGenerator::visitT_BRACKS(Node *node)
             this->setReturnString(id_def + "[" + expr + "]" + bracks);
 
             if (DEBUG)
-                cout << "return true; T_BRACKS" << endl;  
+                cout << "return true; T_BRACKS" << endl;
             return true;
         }
         else if (node->nodes.size() == 1 && visitExpression(node->nodes[0]))
@@ -1852,7 +1952,7 @@ bool CodeGenerator::visitT_BRACKS(Node *node)
             this->setReturnString("[" + expr + "]");
 
             if (DEBUG)
-                cout << "return true; T_BRACKS" << endl;  
+                cout << "return true; T_BRACKS" << endl;
             return true;
         }
         else if (node->nodes.size() == 2 && visitExpression(node->nodes[0]))
@@ -1870,7 +1970,7 @@ bool CodeGenerator::visitT_BRACKS(Node *node)
             this->setReturnString("[" + expr + "]" + bracks);
 
             if (DEBUG)
-                cout << "return true; T_BRACKS" << endl;  
+                cout << "return true; T_BRACKS" << endl;
             return true;
         }
         return false;

@@ -723,10 +723,9 @@ char *yytext;
 
 #line 725 "lex.yy.c"
 /* Integer literals*/
-/*В правилах есть какие-то [Sign | NOT] что за not*/
 /* Floating piont literals*/
 /*Char Literal*/
-#line 730 "lex.yy.c"
+#line 729 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -943,10 +942,10 @@ YY_DECL
 		}
 
 	{
-#line 77 "Analyser.lex"
+#line 76 "Analyser.lex"
 
 
-#line 950 "lex.yy.c"
+#line 949 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1005,290 +1004,290 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 79 "Analyser.lex"
-{/*printf("T_REVERSE ");*/ return( T_REVERSE );}
+#line 78 "Analyser.lex"
+{return( T_REVERSE );}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 80 "Analyser.lex"
-{/*printf("T_RETURN ");*/ return( T_RETURN );}
+#line 79 "Analyser.lex"
+{return( T_RETURN );}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 81 "Analyser.lex"
-{/*printf("T_PRINT ");*/ return( T_PRINT );}
+#line 80 "Analyser.lex"
+{return( T_PRINT );}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 82 "Analyser.lex"
-{/*printf("T_WHILE ");*/ return( T_WHILE );}
+#line 81 "Analyser.lex"
+{return( T_WHILE );}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 83 "Analyser.lex"
-{/*printf("T_LOOP ");*/ return( T_LOOP );}
+#line 82 "Analyser.lex"
+{return( T_LOOP );}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 84 "Analyser.lex"
-{/*printf("T_THEN ");*/ return( T_THEN );}
+#line 83 "Analyser.lex"
+{return( T_THEN );}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 85 "Analyser.lex"
-{/*printf("T_ELSE ");*/ return( T_ELSE );}
+#line 84 "Analyser.lex"
+{return( T_ELSE );}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 86 "Analyser.lex"
-{/*printf("T_TYPE ");*/ return( T_TYPE );}
+#line 85 "Analyser.lex"
+{return( T_TYPE );}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 87 "Analyser.lex"
-{/*printf("T_FOR ");*/ return( T_FOR );}
+#line 86 "Analyser.lex"
+{return( T_FOR );}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 88 "Analyser.lex"
-{/*printf("T_END ");*/ return( T_END );}
+#line 87 "Analyser.lex"
+{return( T_END );}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 89 "Analyser.lex"
-{/*printf("T_VAR ");*/ return( T_VAR );}
+#line 88 "Analyser.lex"
+{return( T_VAR );}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 90 "Analyser.lex"
-{/*printf("T_IN ");*/ return( T_IN );}
+#line 89 "Analyser.lex"
+{return( T_IN );}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 91 "Analyser.lex"
-{/*printf("T_IF ");*/ return( T_IF );}
+#line 90 "Analyser.lex"
+{return( T_IF );}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 92 "Analyser.lex"
-{/*printf("T_IS ");*/ return( T_IS );}
+#line 91 "Analyser.lex"
+{return( T_IS );}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 94 "Analyser.lex"
-{/*printf("T_INTEGER ");*/ return( T_INTEGER );}
+#line 93 "Analyser.lex"
+{return( T_INTEGER );}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 95 "Analyser.lex"
-{/*printf("T_BOOLEAN ");*/ return( T_BOOLEAN );}
+#line 94 "Analyser.lex"
+{return( T_BOOLEAN );}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 96 "Analyser.lex"
-{/*printf("T_ROUTINE ");*/ return( T_ROUTINE );}
+#line 95 "Analyser.lex"
+{return( T_ROUTINE );}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 97 "Analyser.lex"
-{/*printf("T_RECORD ");*/ return( T_RECORD );}
+#line 96 "Analyser.lex"
+{return( T_RECORD );}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 98 "Analyser.lex"
-{/*printf("T_ARRAY ");*/ return( T_ARRAY );}
+#line 97 "Analyser.lex"
+{return( T_ARRAY );}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 99 "Analyser.lex"
-{/*printf("T_REAL ");*/ return( T_REAL );}
+#line 98 "Analyser.lex"
+{return( T_REAL );}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 100 "Analyser.lex"
-{/*printf("T_CHAR ");*/ return( T_CHAR );}
+#line 99 "Analyser.lex"
+{return( T_CHAR );}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 102 "Analyser.lex"
-{/*printf("T_FALSE ");*/ return( T_FALSE );}
+#line 101 "Analyser.lex"
+{return( T_FALSE );}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 103 "Analyser.lex"
-{/*printf("T_TRUE ");*/ return( T_TRUE );}
+#line 102 "Analyser.lex"
+{return( T_TRUE );}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 105 "Analyser.lex"
-{/*printf("T_AND ");*/ return( T_AND );}
+#line 104 "Analyser.lex"
+{return( T_AND );}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 106 "Analyser.lex"
-{/*printf("T_XOR ");*/ return( T_XOR );}
+#line 105 "Analyser.lex"
+{return( T_XOR );}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 107 "Analyser.lex"
-{/*printf("T_NOT ");*/ /*return( T_NOT );*/}
+#line 106 "Analyser.lex"
+{/*return( T_NOT );*/}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 108 "Analyser.lex"
-{/*printf("T_OR ");*/ return( T_OR );}
+#line 107 "Analyser.lex"
+{return( T_OR );}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 110 "Analyser.lex"
-{/*printf("T_>= ");*/ return( T_GREATOREQU );}
+#line 109 "Analyser.lex"
+{return( T_GREATOREQU );}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 111 "Analyser.lex"
-{/*printf("T_<= ");*/ return( T_LESSOREQU );}
+#line 110 "Analyser.lex"
+{return( T_LESSOREQU );}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 112 "Analyser.lex"
-{/*printf("T_:= ");*/ return( T_COLONEQU );}
+#line 111 "Analyser.lex"
+{return( T_COLONEQU );}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 113 "Analyser.lex"
-{/*printf("T_/= ");*/ return( T_NOTEQU );}
+#line 112 "Analyser.lex"
+{return( T_NOTEQU );}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 114 "Analyser.lex"
-{/*printf("T_> ");*/ return( T_GREAT );}
+#line 113 "Analyser.lex"
+{return( T_GREAT );}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 115 "Analyser.lex"
-{/*printf("T_< ");*/ return( T_LESS );}
+#line 114 "Analyser.lex"
+{return( T_LESS );}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 116 "Analyser.lex"
-{/*printf("T_= ");*/ return( T_EQU );}
+#line 115 "Analyser.lex"
+{return( T_EQU );}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 119 "Analyser.lex"
-{/*printf("T_MODOP ");*/ return( T_MODOP );}
+#line 118 "Analyser.lex"
+{return( T_MODOP );}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 120 "Analyser.lex"
-{/*printf("T_- ");*/ return( T_SUBTROP );}
+#line 119 "Analyser.lex"
+{return( T_SUBTROP );}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 121 "Analyser.lex"
-{/*printf("T_* ");*/ return( T_MULTOP );}
+#line 120 "Analyser.lex"
+{return( T_MULTOP );}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 122 "Analyser.lex"
-{/*printf("T_+ ");*/ return( T_ADDOP );}
+#line 121 "Analyser.lex"
+{return( T_ADDOP );}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 123 "Analyser.lex"
-{/*printf("T_/ ");*/ return( T_DIVOP );}
+#line 122 "Analyser.lex"
+{return( T_DIVOP );}
 	YY_BREAK
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
-#line 125 "Analyser.lex"
-{/*printf("T_NL ");*/ line_no++; /*return( T_NL );*/}
+#line 124 "Analyser.lex"
+{line_no++;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 126 "Analyser.lex"
-{/*printf("T_TAB ");*/ /*return( T_TAB ); */}
+#line 125 "Analyser.lex"
+{}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 129 "Analyser.lex"
-{/*printf("T_( ");*/ return( T_LPAREN );}
+#line 128 "Analyser.lex"
+{return( T_LPAREN );}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 130 "Analyser.lex"
-{/*printf("T_) ");*/ return( T_RPAREN );}
+#line 129 "Analyser.lex"
+{return( T_RPAREN );}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 131 "Analyser.lex"
-{/*printf("T_[ ");*/ return( T_LBRACK );}
+#line 130 "Analyser.lex"
+{return( T_LBRACK );}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 132 "Analyser.lex"
-{/*printf("T_] ");*/ return( T_RBRACK );}
+#line 131 "Analyser.lex"
+{return( T_RBRACK );}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 134 "Analyser.lex"
-{/*printf("T_.. ");*/ return( T_DOTDOT );}
+#line 133 "Analyser.lex"
+{return( T_DOTDOT );}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 135 "Analyser.lex"
-{/*printf("T_, ");*/ return( T_COMMA );}
+#line 134 "Analyser.lex"
+{return( T_COMMA );}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 136 "Analyser.lex"
-{/*printf("T_: ");*/ return( T_COLON );}
+#line 135 "Analyser.lex"
+{return( T_COLON );}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 137 "Analyser.lex"
-{/*printf("T_. ");*/ return( T_DOT );}
+#line 136 "Analyser.lex"
+{return( T_DOT );}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 139 "Analyser.lex"
-{yylval.integer = atoi(yytext); /*printf("T_ICONST:%s ", yytext);*/  return(T_ICONST );}
+#line 138 "Analyser.lex"
+{yylval.integer = atoi(yytext);return(T_ICONST );}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 140 "Analyser.lex"
-{yylval.real = atof(yytext); /*printf("T_RCONST:%s ", yytext);*/ return( T_RCONST );}
+#line 139 "Analyser.lex"
+{yylval.real = atof(yytext); return( T_RCONST );}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 142 "Analyser.lex"
-{yylval.string = std::string(yytext)[1]; /*printf("T_CCONST:%s ", yytext);*/   return( T_CCONST );}
+#line 141 "Analyser.lex"
+{yylval.string = std::string(yytext)[1]; return( T_CCONST );}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 143 "Analyser.lex"
-{yylval.string = std::string(yytext); /*printf("T_ID:%s ", yytext);*/ return( T_ID);} 
+#line 142 "Analyser.lex"
+{yylval.string = std::string(yytext); return( T_ID);} 
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 145 "Analyser.lex"
+#line 144 "Analyser.lex"
 {static int once = 0; return once++ ? 0 : T_EOF ;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 147 "Analyser.lex"
+#line 146 "Analyser.lex"
 {}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 148 "Analyser.lex"
-{/*ECHO;*/ printf("\nUnexpected character: '%s'\nIn the line::%i\n",yytext, line_no); exit(0);}
+#line 147 "Analyser.lex"
+{printf("\nUnexpected character: '%s'\nIn the line::%i\n",yytext, line_no); exit(0);}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 150 "Analyser.lex"
+#line 149 "Analyser.lex"
 ECHO;
 	YY_BREAK
-#line 1292 "lex.yy.c"
+#line 1291 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2291,6 +2290,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 150 "Analyser.lex"
+#line 149 "Analyser.lex"
 
 int yywrap (void) {return 1;}

@@ -1,7 +1,7 @@
 all: Analyser
 
-Analyser: lex.yy.c NodeDecl.cpp Visitor.cpp TypeClass.cpp main.cpp Analyser.tab.cpp Analyser.tab.h CodeGeneration/CodeGenerator.h CodeGeneration/CodeGenerator.cpp REALCodeGeneration/CodeGenerator.h REALCodeGeneration/CodeGenerator.cpp
-	c++ lex.yy.c NodeDecl.cpp Visitor.cpp CodeGeneration/CodeGenerator.cpp REALCodeGeneration/CodeGenerator.cpp TypeClass.cpp main.cpp -o Analyser
+Analyser: lex.yy.c NodeDecl.cpp Visitor.cpp TypeClass.cpp main.cpp Analyser.tab.cpp Analyser.tab.h CodeGeneration/CodeGenerator.h CodeGeneration/CodeGenerator.cpp CILCodeGeneration/CodeGenerator.h CILCodeGeneration/CodeGenerator.cpp
+	c++ lex.yy.c NodeDecl.cpp Visitor.cpp CodeGeneration/CodeGenerator.cpp CILCodeGeneration/CodeGenerator.cpp TypeClass.cpp main.cpp -o Analyser
 
 lex.yy.c: Analyser.lex
 	lex Analyser.lex

@@ -3,176 +3,186 @@
 using namespace std;
 /********************   ListType    ********************/
 
-ListType::ListType(std::vector<Type *> p1){
+ListType::ListType(std::vector<Type *> p1)
+{
   types_ = p1;
 }
 
-ListType::ListType(const ListType & other){
-  types_ = other.types_;//заебись а клон очевидно идет в пиздуу
+ListType::ListType(const ListType &other)
+{
+  types_ = other.types_;
 }
 
-ListType &ListType::operator=(const ListType & other){
-  ListType tmp(other);//пошел нахуй пидорас ебанный
+ListType &ListType::operator=(const ListType &other)
+{
+  ListType tmp(other);
   swap(tmp);
   return *this;
 }
 
-
-ListType* consListType(Type* x, ListType* xs){
+ListType *consListType(Type *x, ListType *xs)
+{
   xs->types_.push_back(x);
   return xs;
 }
-void ListType::swap(ListType & other){
+void ListType::swap(ListType &other)
+{
   std::swap(types_, other.types_);
-
 }
 
-ListType::~ListType(){
+ListType::~ListType()
+{
   types_.clear();
 }
 
 /********************   ReturnType      ********************/
 
-ReturnType::ReturnType(Type *p1){
+ReturnType::ReturnType(Type *p1)
+{
   type_ = p1;
 }
 
-ReturnType::ReturnType(const ReturnType & other){
+ReturnType::ReturnType(const ReturnType &other)
+{
   type_ = other.type_->clone();
-
 }
 
-ReturnType &ReturnType::operator=(const ReturnType & other){
+ReturnType &ReturnType::operator=(const ReturnType &other)
+{
   ReturnType tmp(other);
   swap(tmp);
   return *this;
 }
 
-void ReturnType::swap(ReturnType & other){
+void ReturnType::swap(ReturnType &other)
+{
   std::swap(type_, other.type_);
-
 }
 
-ReturnType::~ReturnType(){
-  delete(type_);
+ReturnType::~ReturnType()
+{
+  delete (type_);
 }
 
-ReturnType *ReturnType::clone() const{
+ReturnType *ReturnType::clone() const
+{
   return new ReturnType(*this);
 }
 
 /********************   TypeFun    ********************/
-TypeFun::TypeFun(ListType *p1, Type *p2){
+TypeFun::TypeFun(ListType *p1, Type *p2)
+{
   listtype_ = p1;
   type_ = p2;
-
 }
 
-TypeFun::TypeFun(const TypeFun & other){
+TypeFun::TypeFun(const TypeFun &other)
+{
   listtype_ = other.listtype_->clone();
   type_ = other.type_->clone();
-
 }
 
-TypeFun &TypeFun::operator=(const TypeFun & other){
+TypeFun &TypeFun::operator=(const TypeFun &other)
+{
   TypeFun tmp(other);
   swap(tmp);
   return *this;
 }
 
-void TypeFun::swap(TypeFun & other){
+void TypeFun::swap(TypeFun &other)
+{
   std::swap(listtype_, other.listtype_);
   std::swap(type_, other.type_);
-
 }
 
-TypeFun::~TypeFun(){
-  delete(listtype_);
-  delete(type_);
-
+TypeFun::~TypeFun()
+{
+  delete (listtype_);
+  delete (type_);
 }
 
-TypeFun *TypeFun::clone() const{
+TypeFun *TypeFun::clone() const
+{
   return new TypeFun(*this);
 }
 
 /********************   TypeRecord    ********************/
-TypeRecord::TypeRecord(ListType *p1, std::vector<std::string> p2){
+TypeRecord::TypeRecord(ListType *p1, std::vector<std::string> p2)
+{
   listtype_ = p1;
   names = p2;
 }
 
-TypeRecord::TypeRecord(const TypeRecord & other){
+TypeRecord::TypeRecord(const TypeRecord &other)
+{
   listtype_ = other.listtype_->clone();
-
 }
 
-TypeRecord &TypeRecord::operator=(const TypeRecord & other){
+TypeRecord &TypeRecord::operator=(const TypeRecord &other)
+{
   TypeRecord tmp(other);
   swap(tmp);
   return *this;
 }
 
-void TypeRecord::swap(TypeRecord & other){
+void TypeRecord::swap(TypeRecord &other)
+{
   std::swap(listtype_, other.listtype_);
-
 }
 
-TypeRecord::~TypeRecord(){
-  delete(listtype_);
-
+TypeRecord::~TypeRecord()
+{
+  delete (listtype_);
 }
 
-TypeRecord *TypeRecord::clone() const{
+TypeRecord *TypeRecord::clone() const
+{
   return new TypeRecord(*this);
 }
 
-
-
-
 /********************   TypeArray    ********************/
-TypeArray::TypeArray(Type  *p1){
+TypeArray::TypeArray(Type *p1)
+{
   type_ = p1;
 }
 
-TypeArray::TypeArray(const TypeArray & other){
+TypeArray::TypeArray(const TypeArray &other)
+{
   type_ = other.type_->clone();
-
 }
 
-TypeArray &TypeArray::operator=(const TypeArray & other){
+TypeArray &TypeArray::operator=(const TypeArray &other)
+{
   TypeArray tmp(other);
   swap(tmp);
   return *this;
 }
 
-void TypeArray::swap(TypeArray & other){
+void TypeArray::swap(TypeArray &other)
+{
   std::swap(type_, other.type_);
-
 }
 
-TypeArray::~TypeArray(){
-  delete(type_);
-
+TypeArray::~TypeArray()
+{
+  delete (type_);
 }
 
-TypeArray *TypeArray::clone() const{
+TypeArray *TypeArray::clone() const
+{
   return new TypeArray(*this);
 }
 
-
 /********************   TypeInteger    ********************/
 
-
-TypeInteger *TypeInteger::clone() const{
+TypeInteger *TypeInteger::clone() const
+{
   return new TypeInteger(*this);
 }
 
-
-
 /********************   TypeReal    ********************/
 
-
-TypeReal *TypeReal::clone() const{
+TypeReal *TypeReal::clone() const
+{
   return new TypeReal(*this);
 }

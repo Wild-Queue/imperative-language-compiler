@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #ifndef YYTOKENTYPE
 #define YYTOKENTYPE
 enum yytokentype
@@ -119,88 +120,57 @@ enum NONTERMINAL
 };
 
 #endif
-#ifndef VISITOR_PATTERN
-#define VISITOR_PATTERN
+#ifndef CILCODEGENERATOR_PATTERN
+#define CILCODEGENERATOR_PATTERN
 
-#include "NodeDecl.h"
+#include "../NodeDecl.h"
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
-#include "TypeClass.h"
+#include "../TypeClass.h"
 
 using namespace std;
-class Visitor
+class CILCodeGenerator
 {
-  class declaredVariable
-  {
-    std::string name;
-    yytokentype type;
-    double value;
-  };
-
-  unordered_map<string, Type *> state;
-  unordered_set<string> typeNames;
-  Type *returnType = nullptr;
-  string varName = "";
-  Type *expectedType = nullptr;
-  ListType *listTypes;
-  string funcionName = "";
-  Type *inType = nullptr;
-
-  Type *getReturnType(string functionName)
-  {
-    if (this->returnType == nullptr)
-    {
-      cout << "Error: no return type in function " << functionName << endl;
-      exit(1);
-    }
-    return this->returnType;
-  };
-
-  Type *getExpectedType(string functionName)
-  {
-    if (this->expectedType == nullptr)
-    {
-      cout << "Error: no expected type in function " << functionName << endl;
-      exit(1);
-    }
-    return this->expectedType;
-  };
-
-  ListType *getListTypes(string functionName)
-  {
-    if (this->listTypes == nullptr)
-    {
-      cout << "Error: no list type in function " << functionName << endl;
-      exit(1);
-    }
-    return this->listTypes;
-  };
-
-  bool stateInsert(string name, Type *type)
-  {
-    if (this->state.count(name) > 0)
-    {
-      for (auto iterator : this->state)
-      {
-        cout << iterator.first << " " << iterator.second->toString() << endl;
-      }
-      cout << funcionName << endl;
-      cout << "Error: " + name + " variable or function have been already initialized" << endl;
-      exit(1);
-    }
-    this->state[name] = type;
-    return true;
-  }
-
-  unordered_map<string, Type *> cloneContext()
-  {
-    unordered_map<string, Type *> stateCopy;
-    stateCopy.insert(this->state.begin(), this->state.end());
-    return stateCopy;
-  }
+  std::string returnString = "";
+  int structNum = 0;
 
 public:
+  string header = ".assembly GoodProgram {}\n";
+  string main_body = ".method static public void main() il managed {\n.entrypoint\n.maxstack 8\n\n";
+  unordered_map<string, string> var_to_num;
+  unordered_map<string, string> state;
+  string main_end = "ret\n}";
+  int new_var_num = 0;
+
+  void setReturnString(std::string returnString)
+  {
+    this->returnString = returnString;
+  };
+  std::string getReturnString()
+  {
+    string copy = this->returnString;
+    this->returnString = "";
+    return copy;
+  };
+
+  void printAll()
+  {
+    cout << this->header << endl;
+    cout << this->main_body << endl;
+    cout << this->main_end << endl;
+  };
+
+  void safeCSFile()
+  {
+    ofstream myfile;
+    myfile.open("Result/Program.il");
+
+    myfile << this->header << endl;
+    myfile << this->main_body << endl;
+    myfile << this->main_end << endl;
+    myfile.close();
+  }
+
   bool DEBUG = 0;
   bool visitProgram(Node *node);
   bool visitSimpleDeclaration(Node *node);

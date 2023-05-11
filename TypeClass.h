@@ -15,13 +15,11 @@ class TypeBool;
 class TypeChar;
 class ReturnType;
 
-class Type{
+class Type
+{
     std::string name_ = "type";
+
 public:
-    
-    // std::string getName(){
-    //     return this->name_;
-    // /}
     virtual std::string getName() = 0;
     virtual Type *clone() const = 0;
     int line_number, char_number;
@@ -29,15 +27,19 @@ public:
     virtual std::string toString() = 0;
 };
 
-class ReturnType : public Type{
+class ReturnType : public Type
+{
     std::string name_ = "return_type";
+
 public:
     Type *type_;
-    
-    std::string getName(){
+
+    std::string getName()
+    {
         return this->name_;
     }
-    std::string toString(){
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + " ";
         if (type_ == nullptr)
             returnString += this->type_->toString() + "]";
@@ -54,18 +56,22 @@ public:
     virtual ReturnType *clone() const;
 };
 
-class ListType : public Type{
+class ListType : public Type
+{
     std::string name_ = "list";
+
 public:
     std::vector<Type *> types_;
 
-
-    std::string getName(){
+    std::string getName()
+    {
         return this->name_;
     }
-    std::string toString(){
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + " (";
-        for (int i = 0; i < this->types_.size(); ++i){
+        for (int i = 0; i < this->types_.size(); ++i)
+        {
             returnString += (this->types_[i]->toString() + " ");
         }
         returnString += ")]";
@@ -76,21 +82,26 @@ public:
     ListType(std::vector<Type *> p1);
     ~ListType();
     void swap(ListType &);
-    virtual ListType *clone() const {return nullptr;};
+    virtual ListType *clone() const { return nullptr; };
 };
 
-class TypeFun : public Type{
+class TypeFun : public Type
+{
     std::string name_ = "fun";
+
 public:
     ListType *listtype_;
     Type *type_;
 
-    std::string getName(){
+    std::string getName()
+    {
         return this->name_;
     }
-    std::string toString(){
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + " (";
-        for (int i = 0; i < this->listtype_->types_.size(); ++i){
+        for (int i = 0; i < this->listtype_->types_.size(); ++i)
+        {
             returnString += (this->listtype_->types_[i]->toString() + " ");
         }
         if (this->type_ != nullptr)
@@ -108,23 +119,28 @@ public:
     virtual TypeFun *clone() const;
 };
 
-class TypeRecord : public Type{
+class TypeRecord : public Type
+{
     std::string name_ = "record";
+
 public:
     ListType *listtype_;
     std::vector<std::string> names;
 
-    std::string toString(){
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + " (";
-        for (int i = 0; i < this->listtype_->types_.size(); ++i){
+        for (int i = 0; i < this->listtype_->types_.size(); ++i)
+        {
             returnString += names[i] + " : ";
             returnString += (this->listtype_->types_[i]->toString() + " ");
         }
         returnString += ")]";
         return returnString;
     }
-    
-    std::string getName(){
+
+    std::string getName()
+    {
         return this->name_;
     }
     TypeRecord(const TypeRecord &);
@@ -135,18 +151,22 @@ public:
     virtual TypeRecord *clone() const;
 };
 
-class TypeArray : public Type{
+class TypeArray : public Type
+{
     std::string name_ = "array";
+
 public:
     Type *type_;
-    
-    std::string toString(){
-        std::string returnString = "[" + this->name_ + 
-                        " " + this->type_->toString() + "]";
+
+    std::string toString()
+    {
+        std::string returnString = "[" + this->name_ +
+                                   " " + this->type_->toString() + "]";
         return returnString;
     }
 
-    std::string getName(){
+    std::string getName()
+    {
         return this->name_;
     }
     TypeArray(const TypeArray &);
@@ -157,15 +177,18 @@ public:
     virtual TypeArray *clone() const;
 };
 
-class TypeInteger : public Type{
+class TypeInteger : public Type
+{
     std::string name_ = "integer";
-public:
 
-    std::string toString(){
+public:
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + "]";
         return returnString;
     }
-    std::string getName(){
+    std::string getName()
+    {
         return this->name_;
     }
     TypeInteger(){};
@@ -173,15 +196,18 @@ public:
     virtual TypeInteger *clone() const;
 };
 
-class TypeReal : public Type{
+class TypeReal : public Type
+{
     std::string name_ = "real";
+
 public:
-    
-    std::string toString(){
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + "]";
         return returnString;
     }
-    std::string getName(){
+    std::string getName()
+    {
         return this->name_;
     }
     TypeReal(){};
@@ -189,36 +215,43 @@ public:
     virtual TypeReal *clone() const;
 };
 
-class TypeBool : public Type{
+class TypeBool : public Type
+{
     std::string name_ = "bool";
+
 public:
-    std::string toString(){
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + "]";
         return returnString;
     }
-    std::string getName(){
+    std::string getName()
+    {
         return this->name_;
     }
 
     void swap(Type &){};
     TypeBool(){};
-    virtual TypeBool *clone() const {return nullptr;};
+    virtual TypeBool *clone() const { return nullptr; };
 };
 
-
-class TypeChar : public Type{
+class TypeChar : public Type
+{
     std::string name_ = "char";
+
 public:
-    std::string toString(){
+    std::string toString()
+    {
         std::string returnString = "[" + this->name_ + "]";
         return returnString;
     }
     TypeChar(){};
-    std::string getName(){
+    std::string getName()
+    {
         return this->name_;
     }
     void swap(Type &){};
-    virtual TypeChar *clone() const{return nullptr;};
+    virtual TypeChar *clone() const { return nullptr; };
 };
 
 #endif
